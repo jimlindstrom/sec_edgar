@@ -15,11 +15,7 @@ module SecEdgar
       @cash_flow_stmt.normalize unless @cash_flow_stmt == nil
     end
   
-    def parse_edgar_10k(filename)
-      return parse_edgar_10q(filename)
-    end
-
-    def parse_edgar_10q(filename) # this can also load an annual report
+    def parse(filename)
   
       fh = File.open(filename, "r")
       doc = Hpricot(fh)

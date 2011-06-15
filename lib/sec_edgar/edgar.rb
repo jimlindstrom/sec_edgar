@@ -95,7 +95,7 @@ module SecEdgar
       return nil if files.nil?
       files.each do |cur_file|
         cur_ten_q = QuarterlyReport.new
-        cur_ten_q.parse_edgar_10q(cur_file)
+        cur_ten_q.parse(cur_file)
         cur_ten_q.normalize
 
         reports.push cur_ten_q
@@ -109,8 +109,8 @@ module SecEdgar
       files = download_10k_reports(ticker, save_folder)
       return nil if files.nil?
       files.each do |cur_file|
-        cur_ten_k = QuarterlyReport.new
-        cur_ten_k.parse_edgar_10k(cur_file)
+        cur_ten_k = AnnualReport.new
+        cur_ten_k.parse(cur_file)
         cur_ten_k.normalize
 
         reports.push cur_ten_k

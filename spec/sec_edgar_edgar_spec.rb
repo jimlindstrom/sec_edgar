@@ -43,11 +43,12 @@ describe SecEdgar::Edgar do
     it "returns nil if given a bad ticker" do
       @edgar.download_10q_reports(@bad_ticker, @download_path).should == nil
     end
-    it "returns a list of files it downloaded (at least one per URL)" do
+    it "returns a list of reports it downloaded (at least one per URL)" do
       list_of_URLs = @edgar.get_reports_urls(@good_ticker, @report_type)
       list_of_files = @edgar.download_10q_reports(@good_ticker, @download_path)
       list_of_files.length.should >= list_of_URLs.length
-    end
+	  list_of_files[0].class.should == String
+	  end
   end
 
   describe "#download_10k_reports" do
@@ -58,6 +59,7 @@ describe SecEdgar::Edgar do
       list_of_URLs = @edgar.get_reports_urls(@good_ticker, @report_type)
       list_of_files = @edgar.download_10k_reports(@good_ticker, @download_path)
       list_of_files.length.should >= list_of_URLs.length
+      list_of_files[0].class.should == String
     end
   end
 
@@ -67,8 +69,9 @@ describe SecEdgar::Edgar do
     end
     it "returns a list of 10_q's it downloaded (at least one per URL)" do
       list_of_URLs = @edgar.get_reports_urls(@good_ticker, @report_type)
-      list_of_files = @edgar.get_10q_reports(@good_ticker, @download_path)
-      list_of_files.length.should >= list_of_URLs.length
+      list_of_reports = @edgar.get_10q_reports(@good_ticker, @download_path)
+      list_of_reports.length.should >= list_of_URLs.length
+      list_of_reports[0].class.should == SecEdgar::QuarterlyReport
     end
   end
 
@@ -78,8 +81,9 @@ describe SecEdgar::Edgar do
     end
     it "returns a list of 10_k's it downloaded (at least one per URL)" do
       list_of_URLs = @edgar.get_reports_urls(@good_ticker, @report_type)
-      list_of_files = @edgar.get_10k_reports(@good_ticker, @download_path)
-      list_of_files.length.should >= list_of_URLs.length
+      list_of_reports = @edgar.get_10k_reports(@good_ticker, @download_path)
+      list_of_reports.length.should >= list_of_URLs.length
+      list_of_reports[0].class.should == SecEdgar::AnnualReport
     end
   end
     
