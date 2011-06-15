@@ -8,7 +8,7 @@ module SecEdgar
       @name = ""
     end
   
-    def parse_edgar_fin_stmt(edgar_fin_stmt)
+    def parse(edgar_fin_stmt)
       edgar_fin_stmt.children.each do |row| 
         cells = []
         if row.is_a? Hpricot::Elem
@@ -34,6 +34,8 @@ module SecEdgar
           end
         end
       end
+
+      return true
     end
   
     def normalize

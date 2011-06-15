@@ -17,9 +17,13 @@ module SecEdgar
   
     def parse(filename)
   
-      fh = File.open(filename, "r")
-      doc = Hpricot(fh)
-      fh.close
+      begin
+        fh = File.open(filename, "r")
+        doc = Hpricot(fh)
+        fh.close
+      rescue
+        return false
+      end
       
       elems = doc.children[0].children[1].children[1].children[1].children[1].children[1].children[1].children[2].children
       
@@ -30,7 +34,8 @@ module SecEdgar
             search_idx = elem_idx + elem_offset
             if elems[search_idx].pathname == "table" then
               @bal_sheet = BalanceSheet.new
-              @bal_sheet.parse_edgar_fin_stmt(elems[search_idx])
+              ret = @bal_sheet.parse(elems[search_idx])
+              return false if ret == false
             end
           end
         elsif elems[elem_idx].to_html =~ /CONSOLIDATED[ \n\r]STATEMENTS[ \n\r]OF[ \n\r]INCOME/ then
@@ -38,7 +43,8 @@ module SecEdgar
             search_idx = elem_idx + elem_offset
             if elems[search_idx].pathname == "table" then
               @inc_stmt = IncomeStatement.new
-              @inc_stmt.parse_edgar_fin_stmt(elems[search_idx])
+              ret = @inc_stmt.parse(elems[search_idx])
+              return false if ret == false
             end
           end
         elsif elems[elem_idx].to_html =~ /CONSOLIDATED[ \n\r]STATEMENTS[ \n\r]OF[ \n\r]CASH[ \n\r]FLOWS/ then
@@ -46,15 +52,17 @@ module SecEdgar
             search_idx = elem_idx + elem_offset
             if elems[search_idx].pathname == "table" then
               @cash_flow_stmt = CashFlowStatement.new
-              @cash_flow_stmt.parse_edgar_fin_stmt(elems[search_idx])
+              ret = @cash_flow_stmt.parse(elems[search_idx])
+              return false if ret == false
             end
           end
         end
       end
   
-      puts "WARNING: failed to parse balance sheet" if @bal_sheet == nil
-      puts "WARNING: failed to parse income statement" if @inc_stmt == nil
-      puts "WARNING: failed to parse cash flow statement" if @cash_flow_stmt == nil
+      return false if @bal_sheet == nil
+      return false if @inc_stmt == nil
+      return false if @cash_flow_stmt == nil
+      return true
     end
   end
   

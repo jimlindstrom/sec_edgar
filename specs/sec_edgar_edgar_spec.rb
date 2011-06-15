@@ -1,6 +1,6 @@
 # sec_edgar_edgar_spec.rb
 
-require 'rubygems'
+$LOAD_PATH << './lib'
 require 'sec_edgar'
 
 describe SecEdgar::Edgar do

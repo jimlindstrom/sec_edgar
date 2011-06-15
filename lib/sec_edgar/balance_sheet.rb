@@ -9,8 +9,9 @@ module SecEdgar
       super()
       @name = "Balance Sheet"
     end
-    def parse_edgar_fin_stmt(edgar_fin_stmt)
-      super(edgar_fin_stmt)
+    def parse(edgar_fin_stmt)
+      ret = super(edgar_fin_stmt)
+      return false if ret == false
   
       # parse the common stock line
       @rows.each_with_index do |row, idx|
@@ -77,6 +78,8 @@ module SecEdgar
           @rows[index+1] = allowances_row
         end
       end
+
+      return true
   
     end
   end

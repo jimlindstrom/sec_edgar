@@ -5,7 +5,7 @@ module SecEdgar
       super()
       @name = "Income Statement"
     end
-    def parse_edgar_fin_stmt(edgar_fin_stmt)
+    def parse(edgar_fin_stmt)
       super(edgar_fin_stmt)
   
       # pull out the date ranges
