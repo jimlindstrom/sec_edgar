@@ -15,6 +15,10 @@ module SecEdgar
       @cash_flow_stmt.normalize unless @cash_flow_stmt == nil
     end
   
+    def parse_edgar_10k(filename)
+      return parse_edgar_10q(filename)
+    end
+
     def parse_edgar_10q(filename) # this can also load an annual report
   
       fh = File.open(filename, "r")
@@ -29,7 +33,7 @@ module SecEdgar
           (1..8).each do |elem_offset|
             search_idx = elem_idx + elem_offset
             if elems[search_idx].pathname == "table" then
-              @bal_sheet = BalSheet.new
+              @bal_sheet = BalanceSheet.new
               @bal_sheet.parse_edgar_fin_stmt(elems[search_idx])
             end
           end
@@ -37,7 +41,7 @@ module SecEdgar
           (1..8).each do |elem_offset|
             search_idx = elem_idx + elem_offset
             if elems[search_idx].pathname == "table" then
-              @inc_stmt = IncStmt.new
+              @inc_stmt = IncomeStatement.new
               @inc_stmt.parse_edgar_fin_stmt(elems[search_idx])
             end
           end
@@ -45,7 +49,7 @@ module SecEdgar
           (1..8).each do |elem_offset|
             search_idx = elem_idx + elem_offset
             if elems[search_idx].pathname == "table" then
-              @cash_flow_stmt = CashFlowStmt.new
+              @cash_flow_stmt = CashFlowStatement.new
               @cash_flow_stmt.parse_edgar_fin_stmt(elems[search_idx])
             end
           end
