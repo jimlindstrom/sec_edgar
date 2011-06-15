@@ -5,17 +5,16 @@ shared_examples_for 'SecEdgar::FinancialStatement' do
   before(:each) do
     create_fin_stmt
   end
-   
-  describe "#parse" do
-    it "returns false if the file doesn't exist or doesn't contain an SEC financial statement" do
-      @fin_stmt.parse(@bogus_filename).should == false
+    
+  describe "#write_to_csv" do
+    it "writes itself to a given CSV file" do
+      #FIXME
     end
-    it "returns true if the file exists and contains an SEC financial statement" do
-      @fin_stmt.parse(@filename).should == true
-    end
-    it "creates rows attribute containing the financial statement" do
-      @fin_stmt.parse(@filename)
-      @fin_stmt.rows.class.should == Array #????
+  end
+
+  describe "#merge" do
+    it "merges a second financial statement into itself" do
+      #FIXME
     end
   end
 
