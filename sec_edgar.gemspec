@@ -21,4 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rspec-core'
   s.add_dependency 'rspec-mocks'
   s.add_dependency 'rspec-expectations'
+  s.add_dependency 'mechanize'
+  s.add_dependency 'logger'
+  s.add_dependency 'hpricot'
 end
