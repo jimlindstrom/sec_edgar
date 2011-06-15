@@ -40,7 +40,8 @@ module SecEdgar
   
     def normalize
       # first figure out how many cols wide the table is at its widest
-      max_cols = @rows.sort{|x,y| y.length <=> x.length}[0].length
+      #max_cols = @rows.sort{|x,y| y.length <=> x.length}[0].length
+      max_cols = @rows.collect{ |x| x.length }.max
   
       # now make rows the same width, padding them with empty strings
       @rows.collect!{|r| [r, (r.length..(max_cols-1)).collect{''}].flatten }
@@ -63,29 +64,23 @@ module SecEdgar
     end
   
     def merge(stmt2)
-      # print 1st statment to a file
-      f = File.open("/tmp/merge.1", "w")
-      @rows.each do |row|
-        f.puts(row[0])
+      # print each statement to a file
+      [ [ @rows,      "/tmp/merge.1" ],
+        [ stmt2.rows, "/tmp/merge.2" ] ].each do | cur_rows, cur_file |
+        f = File.open(cur_file, "w")
+        cur_rows.each { |row| f.puts(row[0]) }
+        f.close
       end
-      f.close
-  
-      # print 2nd statment to a file
-      f = File.open("/tmp/merge.2", "w")
-      stmt2.rows.each do |row|
-        f.puts(row[0])
-      end
-      f.close
   
       # run an sdiff on it
-      $diffs = []
+      @diffs = []
       IO.popen("sdiff -w1 /tmp/merge.1 /tmp/merge.2") do |f|
-        f.each { |line| $diffs.push(line.chomp) }
+        f.each { |line| @diffs.push(line.chomp) }
       end
       system("rm /tmp/merge.1 /tmp/merge.2")
       
       # paralellize the arrays, by inserting blank rows
-      $diffs.each_with_index do |cur_diff,idx|
+      @diffs.each_with_index do |cur_diff,idx|
         if cur_diff == "<"
           stmt2.rows.insert(idx,[@rows[idx][0]])
         elsif cur_diff == ">"
