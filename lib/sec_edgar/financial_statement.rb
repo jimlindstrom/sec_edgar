@@ -8,29 +8,38 @@ module SecEdgar
       @name = ""
     end
   
+    def parse_cell(cell)
+      cleaned_str = String(cell.to_plain_text)
+      cleaned_str = cleaned_str.gsub(/[\r\n]/,' ')
+
+      return nil if cleaned_str.length == 0
+
+      # If there are any alphabetic characters, return it as a string
+      alpha_str = cleaned_str.gsub(/[^A-Za-z]/,'')
+      if alpha_str.length > 2
+        return cleaned_str
+      end
+
+      # Otherwise, try converting it to a Float or Integer
+      numer_str = cleaned_str.gsub(/[^0-9.]/,'')
+      return nil if numer_str.length == 0
+      if numer_str.match('\.')
+        return Float(numer_str)
+      else
+        return Integer(numer_str)
+      end
+    end
+
     def parse(edgar_fin_stmt)
-      edgar_fin_stmt.children.each do |row| 
-        cells = []
-        if row.is_a? Hpricot::Elem
-          row.children.each do |cell|
-            cleaned_str = String(cell.to_plain_text)
-            cleaned_str = cleaned_str.gsub(/[\r\n]/,' ')
-            if cleaned_str.length > 0
-              alpha_str = cleaned_str.gsub(/[^A-Za-z]/,'')
-              numer_str = cleaned_str.gsub(/[^0-9.]/,'')
-              if alpha_str.length > 2
-                cells.push(cleaned_str)
-              elsif numer_str.length > 0
-                if numer_str.match('\.')
-                  cells.push(Float(numer_str))
-                else
-                  cells.push(Integer(numer_str))
-                end
-              end
-            end
+      edgar_fin_stmt.children.each do |row_in| 
+        row_out = []
+        if row_in.is_a? Hpricot::Elem
+          row_in.children.each do |cell_in|
+            cell_out = parse_cell(cell_in)
+            row_out.push(cell_out) unless cell_out.nil?
           end
-          if cells.length > 0
-            @rows.push(cells)
+
+          @rows.push(row_out) if row_out.length > 0
           end
         end
       end
