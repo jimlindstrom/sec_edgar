@@ -1,1 +1,34 @@
-Not for use yet.  Still in development...
+sec_edgar is a gem that can download financial statements from the SEC/Edgar 
+database, parse them, write them to CSV, and even merge across quarters/years.
+
+Downloading, parsing, and writing to CSV all work well.  Merging across 
+years/quarters is still a bit buggy and under development.
+
+An example:
+
+        require 'rubygems'
+        require 'sec_edgar'
+        
+        @ticker = 'GOOG'
+        @download_path = '/tmp/'
+        
+        # get all the quarterly reports for Google
+        @edgar = SecEdgar::Edgar.new
+        exit if not @edgar.good_ticker?(@ticker)
+        @list_of_files = @edgar.download_10q_reports(@ticker, @download_path)
+        
+        # load first balance sheet
+        @tenq = SecEdgar::QuarterlyReport.new
+        @tenq.parse(@list_of_files[0])
+        @tenq.normalize
+        
+        # load second balance sheet
+        @tenq2 = SecEdgar::QuarterlyReport.new
+        @tenq2.parse(@list_of_files[1])
+        @tenq2.normalize
+        
+        # merge and write
+        @fin_stmt = @tenq.bal_sheet
+        @fin_stmt2 = @tenq2.bal_sheet
+        @fin_stmt.merge(@fin_stmt2)
+        @fin_stmt.write_to_csv("merged.csv")

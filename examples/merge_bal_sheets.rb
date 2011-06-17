@@ -5,26 +5,26 @@ $LOAD_PATH << './specs'
 require 'rubygems'
 require 'sec_edgar'
 
-# load a primary one
-@good_filename = "specs/testvectors/2010_03_31.html"
+@ticker = 'GOOG'
+@download_path = '/tmp/'
 
+# get all the quarterly reports for Google
+@edgar = SecEdgar::Edgar.new
+exit if not @edgar.good_ticker?(@ticker)
+@list_of_files = @edgar.download_10q_reports(@ticker, @download_path)
+
+# load first balance sheet
 @tenq = SecEdgar::QuarterlyReport.new
-@tenq.parse(@good_filename)
+@tenq.parse(@list_of_files[0])
 @tenq.normalize
 
-@fin_stmt = @tenq.bal_sheet
-@fin_stmt.write_to_csv("1.csv")
-
-# load a second one (to test merging, etc)
-@good_filename2 = "specs/testvectors/2011_03_31.html"
-
+# load second balance sheet
 @tenq2 = SecEdgar::QuarterlyReport.new
-@tenq2.parse(@good_filename2)
+@tenq2.parse(@list_of_files[1])
 @tenq2.normalize
 
+# merge and write
+@fin_stmt = @tenq.bal_sheet
 @fin_stmt2 = @tenq2.bal_sheet
-@fin_stmt2.write_to_csv("2.csv")
-
 @fin_stmt.merge(@fin_stmt2)
-
 @fin_stmt.write_to_csv("merged.csv")
