@@ -6,9 +6,12 @@ shared_examples_for 'SecEdgar::FinancialStatement' do
     create_fin_stmt
   end
     
-  describe "#write_to_csv" do
-    it "writes itself to a given CSV file" do
-      #FIXME
+  describe "#parse" do
+    it "is a 3-column statement (header, reporting period 1, reporting period 2)" do
+      @fin_stmt.rows.first.length.should == 3
+    end
+    it "is a 3-column statement (header, reporting period 1, reporting period 2)" do
+      @fin_stmt2.rows.first.length.should == 3
     end
   end
 

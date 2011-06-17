@@ -32,15 +32,14 @@ module SecEdgar
 
     def parse(edgar_fin_stmt)
       edgar_fin_stmt.children.each do |row_in| 
-        row_out = []
         if row_in.is_a? Hpricot::Elem
+          row_out = []
           row_in.children.each do |cell_in|
             cell_out = parse_cell(cell_in)
             row_out.push(cell_out) unless cell_out.nil?
           end
 
           @rows.push(row_out) if row_out.length > 0
-          end
         end
       end
 
@@ -56,8 +55,9 @@ module SecEdgar
       @rows.collect!{|r| [r, (r.length..(max_cols-1)).collect{''}].flatten }
     end
   
-    def write_to_csv
-      f = File.open(@name + ".csv", "w")
+    def write_to_csv(filename=nil)
+      filename = @name + ".csv" if filename.nil?
+      f = File.open(filename, "w")
       @rows.each do |row|
         f.puts row.join("~")
       end

@@ -49,16 +49,16 @@ module SecEdgar
         # Match [As of][][]
         #       [2003][2004][]
         elsif String(row[0]).match(/As[^A-Za-z]*of/) and
-              String(@rows[idx+1][0]).match(/[0-9]+/) and
-              String(@rows[idx+1][1]).match(/[0-9]+/) then
+              String(@rows[idx+1][0]).match(/[0-9]{4}/) and
+              String(@rows[idx+1][1]).match(/[0-9]{4}/) then
           @rows[idx].concat(@rows[idx+1])
           @rows.delete_at(idx+1)
   
         # Match [December 31][][]
         #       [2003][2004][]
-        elsif String(row[0]).match(/[A-Za-z]+[^A-Za-z]+[0-9]+/) and
-              String(@rows[idx+1][0]).match(/[0-9]+/) and
-              String(@rows[idx+1][1]).match(/[0-9]+/) then
+        elsif String(row[0]).match(/[A-Za-z]+[^A-Za-z]+ [0-9]+/) and
+              String(@rows[idx+1][0]).match(/[0-9]{4}/) and
+              String(@rows[idx+1][1]).match(/[0-9]{4}/) then
           @rows[idx].concat(@rows[idx+1])
           @rows.delete_at(idx+1)
         end
@@ -80,7 +80,6 @@ module SecEdgar
       end
 
       return true
-  
     end
   end
   
