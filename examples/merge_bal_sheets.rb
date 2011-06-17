@@ -2,7 +2,6 @@
 
 $LOAD_PATH << './lib'
 $LOAD_PATH << './specs'
-require 'rubygems'
 require 'sec_edgar'
 
 @ticker = 'GOOG'
@@ -15,16 +14,19 @@ exit if not @edgar.good_ticker?(@ticker)
 
 # load first balance sheet
 @tenq = SecEdgar::QuarterlyReport.new
-@tenq.parse(@list_of_files[0])
+@tenq.parse(@list_of_files.shift)
 @tenq.normalize
-
-# load second balance sheet
-@tenq2 = SecEdgar::QuarterlyReport.new
-@tenq2.parse(@list_of_files[1])
-@tenq2.normalize
-
-# merge and write
 @fin_stmt = @tenq.bal_sheet
-@fin_stmt2 = @tenq2.bal_sheet
-@fin_stmt.merge(@fin_stmt2)
+
+while not @list_of_files.empty?
+
+  @tenq2 = SecEdgar::QuarterlyReport.new
+  @tenq2.parse(@list_of_files.shift)
+  @tenq2.normalize
+  @fin_stmt2 = @tenq2.bal_sheet
+  
+  @fin_stmt.merge(@fin_stmt2)
+  
+end
+
 @fin_stmt.write_to_csv("merged.csv")
