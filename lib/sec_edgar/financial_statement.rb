@@ -15,7 +15,7 @@ module SecEdgar
           row_in.children.each do |cell_str|
             cell = Cell.new
             cell.parse( String(cell_str.to_plain_text) )
-            row_out.push(cell) unless cell.empty?
+            row_out.push(cell) unless cell.empty? ## FIXME: this isn't right
           end
 
           @rows.push(row_out) if row_out.length > 0
@@ -58,7 +58,7 @@ module SecEdgar
       [ [ @rows,      "/tmp/merge.1" ],
         [ stmt2.rows, "/tmp/merge.2" ] ].each do | cur_rows, cur_file |
         f = File.open(cur_file, "w")
-        cur_rows.each { |row| f.puts(row[0]) }
+        cur_rows.each { |row| f.puts(row[0].text) }
         f.close
       end
   
