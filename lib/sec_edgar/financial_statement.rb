@@ -8,18 +8,13 @@ module SecEdgar
       @name = ""
     end
   
-    def parse_cell(cell_str)
-      cell = Cell.new
-      cell.parse( String(cell_str.to_plain_text) )
-      return cell
-    end
-
     def parse(edgar_fin_stmt)
       edgar_fin_stmt.children.each do |row_in| 
         if row_in.is_a? Hpricot::Elem
           row_out = []
           row_in.children.each do |cell_str|
-            cell = parse_cell(cell_str)
+            cell = Cell.new
+            cell.parse( String(cell_str.to_plain_text) )
             row_out.push(cell) unless cell.empty?
           end
 
