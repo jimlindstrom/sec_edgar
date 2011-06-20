@@ -8,35 +8,19 @@ module SecEdgar
       @name = ""
     end
   
-    def parse_cell(cell)
-      cleaned_str = String(cell.to_plain_text)
-      cleaned_str = cleaned_str.gsub(/[\r\n]/,' ')
-
-      return nil if cleaned_str.length == 0
-
-      # If there are any alphabetic characters, return it as a string
-      alpha_str = cleaned_str.gsub(/[^A-Za-z]/,'')
-      if alpha_str.length > 2
-        return cleaned_str
-      end
-
-      # Otherwise, try converting it to a Float or Integer
-      numer_str = cleaned_str.gsub(/[^0-9.]/,'')
-      return nil if numer_str.length == 0
-      if numer_str.match('\.')
-        return Float(numer_str)
-      else
-        return Integer(numer_str)
-      end
+    def parse_cell(cell_str)
+      cell = Cell.new
+      cell.parse( String(cell_str.to_plain_text) )
+      return cell
     end
 
     def parse(edgar_fin_stmt)
       edgar_fin_stmt.children.each do |row_in| 
         if row_in.is_a? Hpricot::Elem
           row_out = []
-          row_in.children.each do |cell_in|
-            cell_out = parse_cell(cell_in)
-            row_out.push(cell_out) unless cell_out.nil?
+          row_in.children.each do |cell_str|
+            cell = parse_cell(cell_str)
+            row_out.push(cell) unless cell.empty?
           end
 
           @rows.push(row_out) if row_out.length > 0

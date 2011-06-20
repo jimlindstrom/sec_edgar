@@ -8,27 +8,27 @@ describe SecEdgar::AnnualReport do
   before(:each) do
     @bogus_filename = "/tmp/ao0gqq34q34g"
     @good_filename = "specs/testvectors/2010_12_31.html"
-    @tenq = SecEdgar::AnnualReport.new
+    @tenk = SecEdgar::AnnualReport.new
   end
    
   describe "#parse" do
-    it "returns false if file doesn't exist or file doesn't contain quarterly report" do
-      @tenq.parse(@bogus_filename).should == false
+    it "returns false if file doesn't exist or file doesn't contain annual report" do
+      @tenk.parse(@bogus_filename).should == false
     end
-    it "returns true if file exists and contains quarterly report" do
-      @tenq.parse(@good_filename).should == true
+    it "returns true if file exists and contains annual report" do
+      @tenk.parse(@good_filename).should == true
     end
     it "creates a balance sheet if success" do
-      @tenq.parse(@good_filename)
-      @tenq.bal_sheet.class.should == SecEdgar::BalanceSheet
+      @tenk.parse(@good_filename)
+      @tenk.bal_sheet.class.should == SecEdgar::BalanceSheet
     end
     it "creates an income statement if success" do
-      @tenq.parse(@good_filename)
-      @tenq.inc_stmt.class.should == SecEdgar::IncomeStatement
+      @tenk.parse(@good_filename)
+      @tenk.inc_stmt.class.should == SecEdgar::IncomeStatement
     end
     it "creates a cash flow statement if success" do
-      @tenq.parse(@good_filename)
-      @tenq.cash_flow_stmt.class.should == SecEdgar::CashFlowStatement
+      @tenk.parse(@good_filename)
+      @tenk.cash_flow_stmt.class.should == SecEdgar::CashFlowStatement
     end
   end
 

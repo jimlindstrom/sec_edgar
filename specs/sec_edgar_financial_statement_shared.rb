@@ -8,6 +8,7 @@ shared_examples_for 'SecEdgar::FinancialStatement' do
     
   describe "#parse" do
     it "is a 3-column statement (header, reporting period 1, reporting period 2)" do
+      puts @fin_stmt.rows.first
       @fin_stmt.rows.first.length.should == 3
     end
     it "is a 3-column statement (header, reporting period 1, reporting period 2)" do
@@ -19,12 +20,12 @@ shared_examples_for 'SecEdgar::FinancialStatement' do
     it "results in @rows that does not have any row labels not found in the original statements" do
       @original_width = @fin_stmt.rows.first.length
 
-      @all_row_labels = @fin_stmt.rows.collect { |r| r[0] } + @fin_stmt2.rows.collect { |r| r[0] }
+      @all_row_labels = @fin_stmt.rows.collect { |r| r[0].text } + @fin_stmt2.rows.collect { |r| r[0].text }
       @expected_rows  = @all_row_labels.uniq.sort
 
       @fin_stmt.merge(@fin_stmt2)
 
-      @actual_rows = @fin_stmt.rows.collect { |r| r[0] }.sort + @fin_stmt.rows.collect { |r| r[@original_width] }
+      @actual_rows = @fin_stmt.rows.collect { |r| r[0].text }.sort + @fin_stmt.rows.collect { |r| r[@original_width].text }
       @actual_rows = @actual_rows.uniq.sort
 
       @extra_rows   = @actual_rows - @expected_rows
@@ -36,12 +37,12 @@ shared_examples_for 'SecEdgar::FinancialStatement' do
     it "results in @rows that contains a row for each row in either of the original statements" do
       @original_width = @fin_stmt.rows.first.length
 
-      @all_row_labels = @fin_stmt.rows.collect { |r| r[0] } + @fin_stmt2.rows.collect { |r| r[0] }
+      @all_row_labels = @fin_stmt.rows.collect { |r| r[0].text } + @fin_stmt2.rows.collect { |r| r[0].text }
       @expected_rows  = @all_row_labels.uniq.sort
 
       @fin_stmt.merge(@fin_stmt2)
 
-      @actual_rows = @fin_stmt.rows.collect { |r| r[0] }.sort + @fin_stmt.rows.collect { |r| r[@original_width] }
+      @actual_rows = @fin_stmt.rows.collect { |r| r[0].text }.sort + @fin_stmt.rows.collect { |r| r[@original_width].text }
       @actual_rows = @actual_rows.uniq.sort
 
       @extra_rows   = @actual_rows - @expected_rows
