@@ -15,8 +15,7 @@ describe SecEdgar::BalanceSheet do
     @good_filename = "specs/testvectors/2010_03_31.html"
 
     @tenq = SecEdgar::QuarterlyReport.new
-    @tenq.parse(@good_filename)
-    @tenq.normalize
+    @tenq.parse(@good_filename);
 
     @fin_stmt = @tenq.bal_sheet
 
@@ -24,8 +23,7 @@ describe SecEdgar::BalanceSheet do
     @good_filename2 = "specs/testvectors/2011_03_31.html"
 
     @tenq2 = SecEdgar::QuarterlyReport.new
-    @tenq2.parse(@good_filename2)
-    @tenq2.normalize
+    @tenq2.parse(@good_filename2);
 
     @fin_stmt2 = @tenq2.bal_sheet
   }

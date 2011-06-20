@@ -16,7 +16,6 @@ describe SecEdgar::CashFlowStatement do
 
     @tenq = SecEdgar::QuarterlyReport.new
     @tenq.parse(@good_filename)
-    @tenq.normalize
 
     @fin_stmt = @tenq.cash_flow_stmt
 
@@ -25,7 +24,6 @@ describe SecEdgar::CashFlowStatement do
 
     @tenq2 = SecEdgar::QuarterlyReport.new
     @tenq2.parse(@good_filename2)
-    @tenq2.normalize
 
     @fin_stmt2 = @tenq2.cash_flow_stmt
   end

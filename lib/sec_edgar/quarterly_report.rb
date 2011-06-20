@@ -1,9 +1,10 @@
 # FIXME put this function somewhere else
 def traverse_for_table(next_elem, depth)
-  return next_elem if next_elem.name == "table"
-  return nil if depth == 0
-  return traverse_for_table(next_elem.nodes_at(1).first, depth-1) if next_elem.nodes_at(1).length > 0
-  return traverse_for_table(next_elem.parent,            depth-1)
+  return next_elem if (next_elem.name == "table")
+  return nil if (depth == 0)
+  tmp = next_elem.nodes_at(1)
+  return traverse_for_table(tmp.first,        depth-1) if (tmp.length > 0)
+  return traverse_for_table(next_elem.parent, depth-1)
 end
 
 module SecEdgar
@@ -16,13 +17,7 @@ module SecEdgar
       @inc_stmt = nil
       @cash_flow_stmt = nil
     end
-  
-    def normalize
-      @bal_sheet.normalize unless @bal_sheet == nil
-      @inc_stmt.normalize unless @inc_stmt == nil
-      @cash_flow_stmt.normalize unless @cash_flow_stmt == nil
-    end
-  
+   
     def parse(filename)
   
       begin

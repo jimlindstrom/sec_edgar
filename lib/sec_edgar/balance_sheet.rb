@@ -5,10 +5,21 @@ module SecEdgar
     STOCK_REGEX=/par value/
     NUMBER_REGEX=/[\$0-9,]+/
   
+    attr_accessor :assets, :liabs, :equity
+    attr_accessor :total_assets, :total_liabs, :total_equity
+
     def initialize
       super()
       @name = "Balance Sheet"
+
+      @assets = []
+      @liabs = []
+      @equity = []
+      @total_assets = nil
+      @total_liabs = nil
+      @total_equity = nil
     end
+
     def parse(edgar_fin_stmt)
       ret = super(edgar_fin_stmt)
       return false if ret == false
@@ -79,8 +90,96 @@ module SecEdgar
         end
       end
 
+      find_assets_liabs_and_equity()
+
       return true
     end
+
+  private
+    def find_assets_liabs_and_equity
+      @state = :waiting_for_cur_assets
+      @rows.each do |cur_row|
+        #puts "cur label: #{cur_row[0].text}"
+        @next_state = nil
+        case @state
+        when :waiting_for_cur_assets
+          if !cur_row[0].nil? and cur_row[0].text == "Current assets:"
+            @next_state = :reading_current_assets
+          end
+
+        when :reading_current_assets
+          if cur_row[0].text == "Total current assets"
+            @next_state = :reading_non_current_assets
+          else
+            cur_row[0].flags[:current] = true
+            @assets.push(cur_row)
+          end
+
+        when :reading_non_current_assets
+          if cur_row[0].text == "Total assets"
+            @next_state = :waiting_for_cur_liabs
+            @total_assets = cur_row
+          else
+            cur_row[0].flags[:non_current] = true
+            @assets.push(cur_row)
+          end
+
+        when :waiting_for_cur_liabs
+          if cur_row[0].text == "Current liabilities:"
+            @next_state = :reading_cur_liabs
+          end
+
+        when :reading_cur_liabs
+          if cur_row[0].text == "Total current liabilities"
+            @next_state = :reading_non_current_liabilities
+          else
+            cur_row[0].flags[:current] = true
+            @liabs.push(cur_row)
+          end
+
+        when :reading_non_current_liabilities
+          if cur_row[0].text =~ /Stockholders.* equity:/
+            @next_state = :reading_shareholders_equity
+          else
+            cur_row[0].flags[:non_current] = true
+            @liabs.push(cur_row)
+          end
+
+        when :reading_shareholders_equity
+          if cur_row[0].text =~ /Total stockholders.* equity/
+            @next_state = :done
+            @total_equity = cur_row
+          else
+            @equity.push(cur_row)
+          end
+
+        when :done
+          if cur_row[0].text =~ /Total liabilities and stockholders.* equity/
+            raise "TL&SE[1] is nil" if cur_row[1].nil?
+            raise "TL&SE[2] is nil" if cur_row[2].nil?
+            @total_liabs = cur_row
+            @total_liabs[0].text = "Total Liabilities"
+            @total_liabs[1].val = cur_row[1].val - @total_equity[1].val 
+            @total_liabs[2].val = cur_row[2].val - @total_equity[2].val
+            @total_liabs[1].text = "" # FIXME
+            @total_liabs[2].text = "" # FIXME
+          end
+
+        else
+          raise "Balance sheet parser state machine.  Got into weird state, #{@state}"
+        end
+
+        if !@next_state.nil?
+          #puts "Switching to state: #{@next_state}"
+          @state = @next_state
+        end
+      end
+
+      if @state != :done
+        raise "Balance sheet parser state machine.  Unexpected final state, #{@state}"
+      end
+    end
+
   end
   
 end

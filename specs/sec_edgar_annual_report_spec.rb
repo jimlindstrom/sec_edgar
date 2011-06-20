@@ -32,14 +32,5 @@ describe SecEdgar::AnnualReport do
     end
   end
 
-  describe "#normalize" do
-    it "does nothing if you haven't parsed anything yet" do
-      # FIXME
-    end
-    it "normalizes the financial statements if you've parsed them" do
-      # FIXME
-    end
-  end
-
 end
 

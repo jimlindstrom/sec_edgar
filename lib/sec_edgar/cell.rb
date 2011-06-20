@@ -23,7 +23,7 @@ module SecEdgar
     def parse(text_in)
       # clean up the text 
       @text = text_in.gsub(/[\r\n]/,' ') # turn newlines into whitespace
-      @text.gsub!(/[^\(\)A-Za-z0-9,\. ]/, '')
+      @text.gsub!(/[^\(\)A-Za-z0-9,'":\. ]/, '')
       @text.gsub!(/^ */, '')            # kill leading whitespace
       @text.gsub!(/ *$/, '')            # kill trailing whitespace
       @text.gsub!(/ +/, ' ')            # collapse consecutive spaces

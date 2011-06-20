@@ -96,7 +96,6 @@ module SecEdgar
       files.each do |cur_file|
         cur_ten_q = QuarterlyReport.new
         cur_ten_q.parse(cur_file)
-        cur_ten_q.normalize
 
         reports.push cur_ten_q
       end
@@ -111,7 +110,6 @@ module SecEdgar
       files.each do |cur_file|
         cur_ten_k = AnnualReport.new
         cur_ten_k.parse(cur_file)
-        cur_ten_k.normalize
 
         reports.push cur_ten_k
       end

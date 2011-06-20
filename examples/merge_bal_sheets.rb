@@ -15,14 +15,12 @@ exit if not @edgar.good_ticker?(@ticker)
 # load first balance sheet
 @tenq = SecEdgar::QuarterlyReport.new
 @tenq.parse(@list_of_files.shift)
-@tenq.normalize
 @fin_stmt = @tenq.bal_sheet
 
 while not @list_of_files.empty?
 
   @tenq2 = SecEdgar::QuarterlyReport.new
   @tenq2.parse(@list_of_files.shift)
-  @tenq2.normalize
   @fin_stmt2 = @tenq2.bal_sheet
   
   @fin_stmt.merge(@fin_stmt2)

@@ -22,6 +22,8 @@ module SecEdgar
         end
       end
 
+      normalize
+
       return true
     end
   
@@ -76,8 +78,6 @@ module SecEdgar
         else
         end
       end
-      normalize
-      stmt2.normalize
   
       # merge them together
       @rows.size.times do |i|
