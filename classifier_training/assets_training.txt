@@ -1,0 +1,59 @@
+FA cash and cash equivalents
+FA marketable securities
+OA accounts receivable, net
+OA deferred commissions
+FA deferred income taxes
+OA prepaid expenses and other current assets
+FA marketable securities, noncurrent
+OA property and equipment, net
+OA deferred commissions, noncurrent
+FA deferred income taxes, noncurrent
+OA capitalized software, net
+OA goodwill
+FA other assets, net
+FA cash and cash equivalents
+FA shortterm investments (including securities loaned of 1,171and 62)
+OA accounts receivable, net of allowance for doubtful accounts of 304 and 375
+OA inventories
+FA deferred income taxes
+FA other
+OA property and equipment, net of accumulated depreciation of 9,564 and 8,629
+FA equity and other investments
+OA goodwill
+OA intangible assets, net
+FA other longterm assets
+FA cash and cash equivalents
+FA marketable securities
+OA accounts receivable, net of allowance of 101 and 133
+OA receivable under reverse repurchase agreements
+FA deferred income taxes, net
+FA income taxes receivable, net
+OA prepaid revenue share, expenses and other assets
+OA prepaid revenue share, expenses and other assets, noncurrent
+FA deferred income taxes, net, noncurrent
+FA nonmarketable equity securities
+OA property and equipment, net
+OA intangible assets, net
+OA goodwill
+FA cash and cash equivalents
+FA shortterm marketable debt securities
+OA accounts receivable, net
+OA prepaid expenses and other current assets
+FA longterm marketable debt securities
+OA property and equipment, net
+OA goodwill
+OA intangible assets, net
+FA other longterm assets
+FA investments in equity interests
+FA cash and cash equivalents
+FA shortterm investments
+FA trading assets
+OA accounts receivable, net
+OA inventories
+FA deferred tax assets
+FA other current assets
+OA property, plant and equipment, net of accumulated depreciation of 25,705 (24,065 at december 25, 2004)
+FA marketable strategic equity securities
+FA other longterm investments
+OA goodwill
+FA other assets

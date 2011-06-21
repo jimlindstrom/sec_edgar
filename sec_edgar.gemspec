@@ -24,4 +24,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'mechanize'
   s.add_dependency 'logger'
   s.add_dependency 'hpricot'
+  s.add_dependency 'naive_bayes'
+  s.add_dependency 'ruby-stemmer'
 end

@@ -25,4 +25,12 @@ require 'sec_edgar'
   @assets.concat(@fin_stmt.assets)
 end
 
+fh = File.new("classifier_training/assets_training.txt", "w")
+@asset_labels = @assets.collect { |x| x[0].text.downcase }
+@asset_labels.each { |a| fh.puts(a) }
+fh.close
 
+fh = File.new("classifier_training/liabs_training.txt", "w")
+@liab_labels = @liabs.collect { |x| x[0].text.downcase }
+@liab_labels.each { |l| fh.puts(l) }
+fh.close

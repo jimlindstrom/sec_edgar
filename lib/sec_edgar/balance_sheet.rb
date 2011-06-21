@@ -103,20 +103,22 @@ module SecEdgar
         @next_state = nil
         case @state
         when :waiting_for_cur_assets
-          if !cur_row[0].nil? and cur_row[0].text == "Current assets:"
+          if !cur_row[0].nil? and cur_row[0].text.downcase == "current assets:"
             @next_state = :reading_current_assets
           end
 
         when :reading_current_assets
           if cur_row[0].text == "Total current assets"
             @next_state = :reading_non_current_assets
+          elsif cur_row[0].text.downcase =~ /total cash.*/
+            # don't save the totals line
           else
             cur_row[0].flags[:current] = true
             @assets.push(cur_row)
           end
 
         when :reading_non_current_assets
-          if cur_row[0].text == "Total assets"
+          if cur_row[0].text.downcase == "total assets"
             @next_state = :waiting_for_cur_liabs
             @total_assets = cur_row
           else
@@ -125,12 +127,12 @@ module SecEdgar
           end
 
         when :waiting_for_cur_liabs
-          if cur_row[0].text == "Current liabilities:"
+          if cur_row[0].text.downcase == "current liabilities:"
             @next_state = :reading_cur_liabs
           end
 
         when :reading_cur_liabs
-          if cur_row[0].text == "Total current liabilities"
+          if cur_row[0].text.downcase == "total current liabilities"
             @next_state = :reading_non_current_liabilities
           else
             cur_row[0].flags[:current] = true
@@ -138,15 +140,17 @@ module SecEdgar
           end
 
         when :reading_non_current_liabilities
-          if cur_row[0].text =~ /[Ss]tockholders.* equity:/
+          if cur_row[0].text.downcase =~ /stockholders.* equity:/
             @next_state = :reading_shareholders_equity
+          elsif cur_row[0].text.downcase =~ /total liab.*/
+            # don't save the totals line
           else
             cur_row[0].flags[:non_current] = true
             @liabs.push(cur_row)
           end
 
         when :reading_shareholders_equity
-          if cur_row[0].text =~ /Total.*stockholders.*equity/
+          if cur_row[0].text.downcase =~ /total.*stockholders.*equity/
             @next_state = :done
             @total_equity = cur_row
           else
@@ -155,11 +159,11 @@ module SecEdgar
 
         when :done
           # FIXME: this should be a 2nd-to-last state and should THEN go to done...
-          if cur_row[0].text =~ /Total liabilities and.*equity/
+          if cur_row[0].text.downcase =~ /total liabilities and.*equity/
             raise "TL&SE[1] is nil" if cur_row[1].nil?
             raise "TL&SE[2] is nil" if cur_row[2].nil?
             @total_liabs = cur_row
-            @total_liabs[0].text = "Total Liabilities"
+            @total_liabs[0].text = "total Liabilities"
             @total_liabs[1].val = cur_row[1].val - @total_equity[1].val 
             @total_liabs[2].val = cur_row[2].val - @total_equity[2].val
             @total_liabs[1].text = "" # FIXME
