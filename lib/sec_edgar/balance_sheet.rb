@@ -169,6 +169,10 @@ module SecEdgar
       return operational_assets(col_idx) - operational_liabs(col_idx)
     end
 
+    def common_shareholders_equity(col_idx)
+      return net_operational_assets(col_idx) + net_financial_assets(col_idx)
+    end
+
   private
     def find_assets_liabs_and_equity
       ac = AssetClassifier.new

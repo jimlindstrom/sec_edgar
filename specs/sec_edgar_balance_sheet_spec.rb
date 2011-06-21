@@ -84,5 +84,14 @@ describe SecEdgar::BalanceSheet do
     end
   end
 
+  describe "#common_shareholders_equity" do
+    it "returns the net operational assets (1st reporting period)" do
+      @fin_stmt.common_shareholders_equity(1).should == @fin_stmt.net_operational_assets(1) + @fin_stmt.net_financial_assets(1)
+    end
+    it "returns the net operational assets (2nd reporting period)" do
+      @fin_stmt.common_shareholders_equity(2).should == @fin_stmt.net_operational_assets(2) + @fin_stmt.net_financial_assets(2)
+    end
+  end
+
 end
  
