@@ -66,5 +66,23 @@ describe SecEdgar::BalanceSheet do
     end
   end
 
+  describe "#net_financial_assets" do
+    it "returns the net financial assets (1st reporting period)" do
+      @fin_stmt.net_financial_assets(1).should == @fin_stmt.financial_assets(1) - @fin_stmt.financial_liabs(1)
+    end
+    it "returns the net financial assets (2nd reporting period)" do
+      @fin_stmt.net_financial_assets(2).should == @fin_stmt.financial_assets(2) - @fin_stmt.financial_liabs(2)
+    end
+  end
+
+  describe "#net_operational_assets" do
+    it "returns the net operational assets (1st reporting period)" do
+      @fin_stmt.net_operational_assets(1).should == @fin_stmt.operational_assets(1) - @fin_stmt.operational_liabs(1)
+    end
+    it "returns the net operational assets (2nd reporting period)" do
+      @fin_stmt.net_operational_assets(2).should == @fin_stmt.operational_assets(2) - @fin_stmt.operational_liabs(2)
+    end
+  end
+
 end
  

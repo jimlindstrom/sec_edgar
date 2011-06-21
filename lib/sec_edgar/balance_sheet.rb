@@ -127,7 +127,6 @@ module SecEdgar
       return sum
     end
 
-
     def operational_liabs(col_idx)
       sum = 0.0
       @liabs.each do |cur_liab|
@@ -160,6 +159,14 @@ module SecEdgar
         end
       end
       return sum
+    end
+
+    def net_financial_assets(col_idx)
+      return financial_assets(col_idx) - financial_liabs(col_idx)
+    end
+
+    def net_operational_assets(col_idx)
+      return operational_assets(col_idx) - operational_liabs(col_idx)
     end
 
   private
