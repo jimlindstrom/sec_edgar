@@ -48,5 +48,23 @@ describe SecEdgar::BalanceSheet do
     end
   end
 
+  describe "#calculated_total_liabs" do
+    it "returns the same amount as the \"total liabs\" line in the balance sheet (1st reporting period)" do
+      @fin_stmt.calculated_total_liabs(1).should == @fin_stmt.total_liabs[1].val
+    end
+    it "returns the same amount as the \"total liabs\" line in the balance sheet (2nd reporting period)" do
+      @fin_stmt.calculated_total_liabs(2).should == @fin_stmt.total_liabs[2].val
+    end
+  end
+
+  describe "#operational_liabs" do
+    it "returns the amount of the company's liabs that are operational (1st reporting period)" do
+      @fin_stmt.operational_liabs(1).should == @fin_stmt.calculated_total_liabs(1) - @fin_stmt.financial_liabs(1)
+    end
+    it "returns the amount of the company's liabs that are operational (2nd reporting period)" do
+      @fin_stmt.operational_liabs(2).should == @fin_stmt.calculated_total_liabs(2) - @fin_stmt.financial_liabs(2)
+    end
+  end
+
 end
  

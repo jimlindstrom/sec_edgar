@@ -15,26 +15,19 @@ module SecEdgar
           row_in.children.each do |cell_str|
             cell = Cell.new
             cell.parse( String(cell_str.to_plain_text) )
-            row_out.push(cell) unless cell.empty? ## FIXME: this isn't right
+            row_out.push(cell) #unless cell.empty? ## FIXME: this isn't right
           end
 
           @rows.push(row_out) if row_out.length > 0
         end
       end
 
-      normalize
+      #normalize
+      delete_empty_columns
 
       return true
     end
-  
-    def normalize
-      # first figure out how many cols wide the table is at its widest
-      max_cols = @rows.collect{ |x| x.length }.max
-  
-      # now make rows the same width, padding them with empty strings
-      @rows.collect!{|r| [r, (r.length..(max_cols-1)).collect{ Cell.new }].flatten }
-    end
-  
+   
     def write_to_csv(filename=nil)
       filename = @name + ".csv" if filename.nil?
       f = File.open(filename, "w")
@@ -82,6 +75,47 @@ module SecEdgar
       @rows.size.times do |i|
         @rows[i].concat(stmt2.rows[i])
       end
+    end
+
+  private
+ 
+    def normalize
+      # first figure out how many cols wide the table is at its widest
+      max_cols = @rows.collect{ |x| x.length }.max
+  
+      # now make rows the same width, padding them with empty strings
+      @rows.collect!{|r| [r, (r.length..(max_cols-1)).collect{ Cell.new }].flatten }
+    end
+
+    def delete_empty_columns
+
+      last_col = @rows.collect{ |r| r.length }.max - 1
+
+      # figure out how many times each column is actually filled in
+      col_filled_count = (0..last_col).map do |col|
+        col_filled = @rows.collect do |r|
+          if (col < r.length) and (not r[col].empty?)
+            1
+          else
+            0
+          end
+        end
+        eval col_filled.join("+")
+      end
+
+      # define a threshold (must be filed in >50% of the time)
+      min_filled_count = Integer(col_filled_count.max * 5/10)
+
+      # delete each column that isn't sufficiently filled in
+      Array(0..last_col).reverse.each do |idx|
+        if col_filled_count[idx] < min_filled_count
+          #puts "Column #{idx} - delete (#{col_filled_count[idx]} < #{min_filled_count})"
+          @rows.each { |r| r.delete_at(idx) }
+        else
+          #puts "Column #{idx} - keep (#{col_filled_count[idx]} >= #{min_filled_count})"
+        end
+      end
+
     end
   end
   

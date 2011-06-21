@@ -39,7 +39,8 @@ module SecEdgar
         if numer_str.match('\.')
           @val = Float(numer_str)
         else
-          @val = Integer(numer_str)
+          #@val = Integer(numer_str)  ## They all need to be floats, so that they can be compared more easily
+          @val = Float(numer_str)
         end
       end
 

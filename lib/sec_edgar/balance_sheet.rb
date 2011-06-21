@@ -127,6 +127,41 @@ module SecEdgar
       return sum
     end
 
+
+    def operational_liabs(col_idx)
+      sum = 0.0
+      @liabs.each do |cur_liab|
+        if cur_liab[0].flags[:operational]
+          if !cur_liab[col_idx].val.nil?
+            sum += cur_liab[col_idx].val
+          end
+        end
+      end
+      return sum
+    end
+
+    def financial_liabs(col_idx)
+      sum = 0.0
+      @liabs.each do |cur_liab|
+        if cur_liab[0].flags[:financial]
+          if !cur_liab[col_idx].val.nil?
+            sum += cur_liab[col_idx].val
+          end
+        end
+      end
+      return sum
+    end
+
+    def calculated_total_liabs(col_idx)
+      sum = 0.0
+      @liabs.each do |cur_liab|
+        if !cur_liab[col_idx].val.nil?
+          sum += cur_liab[col_idx].val
+        end
+      end
+      return sum
+    end
+
   private
     def find_assets_liabs_and_equity
       ac = AssetClassifier.new
