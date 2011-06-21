@@ -90,9 +90,7 @@ module SecEdgar
         end
       end
 
-      find_assets_liabs_and_equity()
-
-      return true
+      return find_assets_liabs_and_equity()
     end
 
   private
@@ -160,8 +158,6 @@ module SecEdgar
         when :done
           # FIXME: this should be a 2nd-to-last state and should THEN go to done...
           if cur_row[0].text.downcase =~ /total liabilities and.*equity/
-            raise "TL&SE[1] is nil" if cur_row[1].nil?
-            raise "TL&SE[2] is nil" if cur_row[2].nil?
             @total_liabs = cur_row
             @total_liabs[0].text = "total Liabilities"
             @total_liabs[1].val = cur_row[1].val - @total_equity[1].val 
@@ -171,7 +167,8 @@ module SecEdgar
           end
 
         else
-          raise "Balance sheet parser state machine.  Got into weird state, #{@state}"
+          puts "Balance sheet parser state machine.  Got into weird state, #{@state}"
+          return false
         end
 
         if !@next_state.nil?
@@ -181,8 +178,11 @@ module SecEdgar
       end
 
       if @state != :done
-        raise "Balance sheet parser state machine.  Unexpected final state, #{@state}"
+        puts "Balance sheet parser state machine.  Unexpected final state, #{@state}"
+        return false
       end
+
+      return true
     end
 
   end

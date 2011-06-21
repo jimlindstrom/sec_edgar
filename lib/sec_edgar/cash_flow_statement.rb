@@ -12,7 +12,7 @@ module SecEdgar
       @rows.each_with_index do |row, idx|
         # Match [Month Ended]
         #       [Mar 1, 2003][Mar 1, 2004]
-        if String(row[0]).match(/[Mm]onth.*[Ee]nded/) then
+        if String(row[0].text).downcase.match(/month.*ended/) then
           if row.length < 2
             @rows[idx].concat(@rows[idx+1])
             @rows.delete_at(idx+1)
@@ -20,7 +20,7 @@ module SecEdgar
   
         # Match [Year Ended]
         #       [Mar 1, 2003][Mar 1, 2004]
-        elsif String(row[0]).match(/[Yy]ear.*[Ee]nded/) then
+        elsif String(row[0].text).downcase.match(/year.*ended/) then
           if row.length < 2
             @rows[idx].concat(@rows[idx+1])
             @rows.delete_at(idx+1)

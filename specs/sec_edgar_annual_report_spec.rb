@@ -4,14 +4,19 @@ $LOAD_PATH << './lib'
 require 'sec_edgar'
 
 describe SecEdgar::AnnualReport do
+  describe "#parse" do
 
   before(:each) do
     @bogus_filename = "/tmp/ao0gqq34q34g"
     @good_filename = "specs/testvectors/2010_12_31.html"
     @tenk = SecEdgar::AnnualReport.new
+    puts "NEW TENK"
+  end
+
+  after(:each) do
+    @tenk = nil
   end
    
-  describe "#parse" do
     it "returns false if file doesn't exist or file doesn't contain annual report" do
       @tenk.parse(@bogus_filename).should == false
     end

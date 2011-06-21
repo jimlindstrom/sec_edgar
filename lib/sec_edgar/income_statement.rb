@@ -13,15 +13,15 @@ module SecEdgar
   
         # Match [X Months Ended  September 30,][Y Months Ended   June 30,]
         #       [2003][2004][2003][2004]
-        if String(row[0]).match(/[Mm]onths[^A-Za-z]*[Ee]nded/) and
-           String(row[1]).match(/[Mm]onths[^A-Za-z]*[Ee]nded/) then
+        if String(row[0].text).downcase.match(/months[^A-Za-z]*ended/) and
+           String(row[1].text).downcase.match(/months[^A-Za-z]*ended/) then
           @rows[idx].insert(1,"")
           @rows[idx].insert(0,"")
           @rows[idx+1].insert(0,"")
   
         # Match [Month Ended]
         #       [Mar 1, 2003][Mar 1, 2004]
-        elsif String(row[0]).match(/[Mm]onth.*[Ee]nded/) then
+        elsif String(row[0].text).downcase.match(/month.*ended/) then
           if row.length < 2 then
             @rows[idx].concat(@rows[idx+1])
             @rows.delete_at(idx+1)
@@ -29,7 +29,7 @@ module SecEdgar
   
         # Match [Year Ended]
         #       [Mar 1, 2003][Mar 1, 2004]
-        elsif String(row[0]).match(/[Yy]ear.*[Ee]nded/) then
+        elsif String(row[0].text).downcase.match(/year.*ended/) then
           if row.length < 2 then
             @rows[idx].concat(@rows[idx+1])
             @rows.delete_at(idx+1)

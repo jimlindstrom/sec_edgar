@@ -29,11 +29,10 @@ module SecEdgar
   
     def normalize
       # first figure out how many cols wide the table is at its widest
-      #max_cols = @rows.sort{|x,y| y.length <=> x.length}[0].length
       max_cols = @rows.collect{ |x| x.length }.max
   
       # now make rows the same width, padding them with empty strings
-      @rows.collect!{|r| [r, (r.length..(max_cols-1)).collect{''}].flatten }
+      @rows.collect!{|r| [r, (r.length..(max_cols-1)).collect{ Cell.new }].flatten }
     end
   
     def write_to_csv(filename=nil)
