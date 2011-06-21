@@ -1,6 +1,8 @@
 require 'mechanize'
 require 'hpricot'
 require 'logger'
+require 'naive_bayes'
+require 'lingua/stemmer'
 
 require "sec_edgar/version"
 
@@ -12,4 +14,6 @@ require "sec_edgar/cash_flow_statement.rb"
 require "sec_edgar/income_statement.rb"
 require "sec_edgar/quarterly_report.rb"
 require "sec_edgar/annual_report.rb"
+require "sec_edgar/asset_classifier.rb"
+require "sec_edgar/liab_classifier.rb"
 
