@@ -15,14 +15,13 @@ module SecEdgar
           row_in.children.each do |cell_str|
             cell = Cell.new
             cell.parse( String(cell_str.to_plain_text) )
-            row_out.push(cell) #unless cell.empty? ## FIXME: this isn't right
+            row_out.push(cell)
           end
 
-          @rows.push(row_out) if row_out.length > 0
+          @rows.push(row_out)
         end
       end
 
-      #normalize
       delete_empty_columns
 
       return true
@@ -50,7 +49,11 @@ module SecEdgar
       [ [ @rows,      "/tmp/merge.1" ],
         [ stmt2.rows, "/tmp/merge.2" ] ].each do | cur_rows, cur_file |
         f = File.open(cur_file, "w")
-        cur_rows.each { |row| f.puts(row[0].text) }
+        cur_rows.each do |row| 
+          if !row[0].nil?
+            f.puts(row[0].text) 
+          end
+        end
         f.close
       end
   
@@ -64,9 +67,17 @@ module SecEdgar
       # paralellize the arrays, by inserting blank rows
       @diffs.each_with_index do |cur_diff,idx|
         if cur_diff == "<"
-          stmt2.rows.insert(idx,[@rows[idx][0]])
+          new_row = [@rows[idx][0]]
+          while new_row.length < stmt2.rows[idx].length
+            new_row.push(Cell.new)
+          end
+          stmt2.rows.insert(idx,new_row)
         elsif cur_diff == ">"
-          @rows.insert(idx,[stmt2.rows[idx][0]])
+          new_row = [stmt2.rows[idx][0]]
+          while new_row.length < @rows[idx].length
+            new_row.push(Cell.new)
+          end
+          @rows.insert(idx,new_row)
         else
         end
       end
@@ -79,14 +90,6 @@ module SecEdgar
 
   private
  
-    def normalize
-      # first figure out how many cols wide the table is at its widest
-      max_cols = @rows.collect{ |x| x.length }.max
-  
-      # now make rows the same width, padding them with empty strings
-      @rows.collect!{|r| [r, (r.length..(max_cols-1)).collect{ Cell.new }].flatten }
-    end
-
     def delete_empty_columns
 
       last_col = @rows.collect{ |r| r.length }.max - 1

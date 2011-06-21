@@ -7,6 +7,8 @@ module SecEdgar
     end
     def parse(edgar_fin_stmt)
       super(edgar_fin_stmt)
+
+      return # some bugs below, need to fix them.
   
       # pull out the date ranges
       @rows.each_with_index do |row, idx|
