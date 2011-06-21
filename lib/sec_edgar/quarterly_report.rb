@@ -1,10 +1,9 @@
 # FIXME put this function somewhere else
 def traverse_for_table(next_elem, depth)
-  #puts "next_elem(#{depth}): #{next_elem.name}"
   return next_elem if (next_elem.name == "table")
   return nil if (depth == 0)
-  tmp = next_elem.nodes_at(1)
-  return traverse_for_table(tmp.first,        depth-1) if (tmp.length > 0)
+  tmp = next_elem.next
+  return traverse_for_table(tmp,              depth-1) if !tmp.nil?
   return traverse_for_table(next_elem.parent, depth-1)
 end
 
