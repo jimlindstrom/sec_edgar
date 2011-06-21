@@ -127,6 +127,10 @@ module SecEdgar
       return false if (@bal_sheet == nil) or (@inc_stmt == nil) or (@cash_flow_stmt == nil)
       return true
     end
+
+    def oa
+    end
+
   end
   
 end

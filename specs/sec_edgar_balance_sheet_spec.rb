@@ -30,5 +30,23 @@ describe SecEdgar::BalanceSheet do
 
   it_should_behave_like 'SecEdgar::FinancialStatement'
 
+  describe "#calculated_total_assets" do
+    it "returns the same amount as the \"total assets\" line in the balance sheet (1st reporting period)" do
+      @fin_stmt.calculated_total_assets(1).should == @fin_stmt.total_assets[1].val
+    end
+    it "returns the same amount as the \"total assets\" line in the balance sheet (2nd reporting period)" do
+      @fin_stmt.calculated_total_assets(2).should == @fin_stmt.total_assets[2].val
+    end
+  end
+
+  describe "#operational_assets" do
+    it "returns the amount of the company's assets that are operational (1st reporting period)" do
+      @fin_stmt.operational_assets(1).should == @fin_stmt.calculated_total_assets(1) - @fin_stmt.financial_assets(1)
+    end
+    it "returns the amount of the company's assets that are operational (2nd reporting period)" do
+      @fin_stmt.operational_assets(2).should == @fin_stmt.calculated_total_assets(2) - @fin_stmt.financial_assets(2)
+    end
+  end
+
 end
  
