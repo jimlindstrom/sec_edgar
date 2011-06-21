@@ -138,7 +138,7 @@ module SecEdgar
           end
 
         when :reading_non_current_liabilities
-          if cur_row[0].text =~ /Stockholders.* equity:/
+          if cur_row[0].text =~ /[Ss]tockholders.* equity:/
             @next_state = :reading_shareholders_equity
           else
             cur_row[0].flags[:non_current] = true
@@ -146,7 +146,7 @@ module SecEdgar
           end
 
         when :reading_shareholders_equity
-          if cur_row[0].text =~ /Total stockholders.* equity/
+          if cur_row[0].text =~ /Total.*stockholders.*equity/
             @next_state = :done
             @total_equity = cur_row
           else
@@ -154,7 +154,8 @@ module SecEdgar
           end
 
         when :done
-          if cur_row[0].text =~ /Total liabilities and stockholders.* equity/
+          # FIXME: this should be a 2nd-to-last state and should THEN go to done...
+          if cur_row[0].text =~ /Total liabilities and.*equity/
             raise "TL&SE[1] is nil" if cur_row[1].nil?
             raise "TL&SE[2] is nil" if cur_row[2].nil?
             @total_liabs = cur_row
