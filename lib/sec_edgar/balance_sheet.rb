@@ -95,6 +95,9 @@ module SecEdgar
 
   private
     def find_assets_liabs_and_equity
+      ac = AssetClassifier.new
+      lc = LiabClassifier.new
+
       @state = :waiting_for_cur_assets
       @rows.each do |cur_row|
         #puts "cur label: #{cur_row[0].text}"
@@ -112,6 +115,12 @@ module SecEdgar
             # don't save the totals line
           else
             cur_row[0].flags[:current] = true
+            case ac.classify(cur_row[0].text)[:class]
+            when :fa
+              cur_row[0].flags[:financial] = true
+            when :oa
+              cur_row[0].flags[:operational] = true
+            end
             @assets.push(cur_row)
           end
 
@@ -121,6 +130,12 @@ module SecEdgar
             @total_assets = cur_row
           else
             cur_row[0].flags[:non_current] = true
+            case ac.classify(cur_row[0].text)[:class]
+            when :fa
+              cur_row[0].flags[:financial] = true
+            when :oa
+              cur_row[0].flags[:operational] = true
+            end
             @assets.push(cur_row)
           end
 
@@ -134,6 +149,12 @@ module SecEdgar
             @next_state = :reading_non_current_liabilities
           else
             cur_row[0].flags[:current] = true
+            case lc.classify(cur_row[0].text)[:class]
+            when :fl
+              cur_row[0].flags[:financial] = true
+            when :ol
+              cur_row[0].flags[:operational] = true
+            end
             @liabs.push(cur_row)
           end
 
@@ -144,6 +165,12 @@ module SecEdgar
             # don't save the totals line
           else
             cur_row[0].flags[:non_current] = true
+            case lc.classify(cur_row[0].text)[:class]
+            when :fl
+              cur_row[0].flags[:financial] = true
+            when :ol
+              cur_row[0].flags[:operational] = true
+            end
             @liabs.push(cur_row)
           end
 

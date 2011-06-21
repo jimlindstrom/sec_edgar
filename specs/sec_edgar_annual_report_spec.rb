@@ -10,7 +10,6 @@ describe SecEdgar::AnnualReport do
     @bogus_filename = "/tmp/ao0gqq34q34g"
     @good_filename = "specs/testvectors/2010_12_31.html"
     @tenk = SecEdgar::AnnualReport.new
-    puts "NEW TENK"
   end
 
   after(:each) do
