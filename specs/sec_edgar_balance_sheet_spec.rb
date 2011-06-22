@@ -14,7 +14,9 @@ describe SecEdgar::BalanceSheet do
     # load a primary one
     @good_filename = "specs/testvectors/2010_03_31.html"
 
-    @tenq = SecEdgar::QuarterlyReport.new
+    @tenq = SecEdgar::QuarterlyReport.new 
+    @tenq.log = Logger.new('sec_edgar.log')
+    @tenq.log.level = Logger::DEBUG
     @tenq.parse(@good_filename);
 
     @fin_stmt = @tenq.bal_sheet
@@ -23,6 +25,8 @@ describe SecEdgar::BalanceSheet do
     @good_filename2 = "specs/testvectors/2011_03_31.html"
 
     @tenq2 = SecEdgar::QuarterlyReport.new
+    @tenq2.log = Logger.new('sec_edgar.log')
+    @tenq2.log.level = Logger::DEBUG
     @tenq2.parse(@good_filename2);
 
     @fin_stmt2 = @tenq2.bal_sheet

@@ -1,7 +1,7 @@
 module SecEdgar
 
   class Cell
-    attr_accessor :text, :val, :flags
+    attr_accessor :log, :text, :val, :flags
 
     def initialize
       @text = nil

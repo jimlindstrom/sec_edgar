@@ -26,7 +26,7 @@ module SecEdgar
     BAL_SHEET_REGEXES = 
       [/consolidated[ \n\r]balance[ \n\r]sheets/,
        /condensed[ \n\r]balance[ \n\r]sheets/,
-       /balance[ \n\r]sheets/ ]
+       /balance[ \n\r]*sheets/ ]
 
     INC_STMT_REGEXES = 
       [/consolidated[ \n\ra-z]*statements[ \n\r]of[ \n\r]income/,
@@ -37,7 +37,7 @@ module SecEdgar
       [/consolidated[ \n\rA-Za-z]*statements[ \n\r]of[ \n\r]cash[ \n\r]flows/,
        /cash[ \n\r]flows[ \n\r]statements/ ]
 
-    attr_accessor :bal_sheet, :inc_stmt, :cash_flow_stmt
+    attr_accessor :log, :bal_sheet, :inc_stmt, :cash_flow_stmt
   
     def initialize
       @bal_sheet = nil
@@ -47,6 +47,8 @@ module SecEdgar
 
     def parse(filename)
   
+      @log.info("parsing 10q from #{filename}") if @log
+
       begin
         fh = File.open(filename, "r")
         doc = Hpricot(fh)
@@ -62,15 +64,20 @@ module SecEdgar
       cur_regexes = Array.new(BAL_SHEET_REGEXES)
       while not cur_regexes.empty?
         cur_regex = cur_regexes.shift
+        @log.debug("trying to match balance sheet regex \"#{cur_regex}\"") if @log
         elems.each do |elem|
           # match to see if this element contains the regex in question
-          if !cur_regexes.empty? and elem.inner_text.downcase =~ cur_regex
+          if bal_sheet.nil? and elem.inner_text.downcase =~ cur_regex
+            @log.debug("matched bal sheet regex at tag \"#{elem.inner_text}\"") if @log
             table_elem = traverse_for_table(elem, SEARCH_DEPTH)
             if not table_elem.nil? 
+              @log.info("parsing balance sheet, at tag \"#{elem.inner_text}\"") if @log
               @bal_sheet = BalanceSheet.new
+              @bal_sheet.log = @log if @log
               if @bal_sheet.parse(table_elem) == false
                 @bal_sheet = nil # discard bogus parse attempts
               else
+                @log.info("parsing of balance sheet succeeded") if @log
                 cur_regexes = [] # done
               end
             end
@@ -84,15 +91,20 @@ module SecEdgar
       cur_regexes = Array.new(INC_STMT_REGEXES)
       while not cur_regexes.empty?
         cur_regex = cur_regexes.shift
+        @log.debug("trying to match income statement regex \"#{cur_regex}\"") if @log
         elems.each do |elem|
           # match to see if this element contains the regex in question
-          if !cur_regexes.empty? and elem.inner_text.downcase =~ cur_regex
+          if inc_stmt.nil? and elem.inner_text.downcase =~ cur_regex
+            @log.debug("matched income stmt regex at tag \"#{elem.inner_text}\"") if @log
             table_elem = traverse_for_table(elem, SEARCH_DEPTH)
             if not table_elem.nil? 
+              @log.info("parsing income stmt, at tag \"#{elem.inner_text}\"") if @log
               @inc_stmt = IncomeStatement.new
+              @inc_stmt.log = @log if @log
               if @inc_stmt.parse(table_elem) == false
                 @inc_stmt = nil # discard bogus parse attempts
               else
+                @log.info("parsing of income stmt succeeded") if @log
                 cur_regexes = [] # done
               end
             end
@@ -106,15 +118,20 @@ module SecEdgar
       cur_regexes = Array.new(CASH_FLOW_STMT_REGEXES)
       while not cur_regexes.empty?
         cur_regex = cur_regexes.shift
+        @log.debug("trying to match cash flow statement regex \"#{cur_regex}\"") if @log
         elems.each do |elem|
           # match to see if this element contains the regex in question
-          if !cur_regexes.empty? and elem.inner_text.downcase =~ cur_regex
+          if @cash_flow_stmt.nil? and elem.inner_text.downcase =~ cur_regex
+            @log.debug("matched cash flow stmt regex at tag \"#{elem.inner_text}\"") if @log
             table_elem = traverse_for_table(elem, SEARCH_DEPTH)
             if not table_elem.nil? 
+              @log.info("parsing cash flow stmt, at tag \"#{elem.inner_text}\"") if @log
               @cash_flow_stmt = CashFlowStatement.new
+              @cash_flow_stmt.log = @log if @log
               if @cash_flow_stmt.parse(table_elem) == false
                 @cash_flow_stmt = nil # discard bogus parse attempts
               else
+                @log.info("parsing of cash flow stmt succeeded") if @log
                 cur_regexes = [] # done
               end
             end
@@ -125,9 +142,6 @@ module SecEdgar
 
       return false if (@bal_sheet == nil) or (@inc_stmt == nil) or (@cash_flow_stmt == nil)
       return true
-    end
-
-    def oa
     end
 
   end

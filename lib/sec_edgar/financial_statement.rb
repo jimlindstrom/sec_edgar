@@ -1,7 +1,7 @@
 module SecEdgar
 
   class FinancialStatement
-    attr_accessor :rows, :name
+    attr_accessor :log, :rows, :name
   
     def initialize
       @rows = []
@@ -13,7 +13,7 @@ module SecEdgar
         if row_in.is_a? Hpricot::Elem
           row_out = []
           row_in.children.each do |cell_str|
-            cell = Cell.new
+            cell = Cell.new { |c| c.log = @log }
             cell.parse( String(cell_str.to_plain_text) )
             row_out.push(cell)
           end
@@ -112,10 +112,10 @@ module SecEdgar
       # delete each column that isn't sufficiently filled in
       Array(0..last_col).reverse.each do |idx|
         if col_filled_count[idx] < min_filled_count
-          #puts "Column #{idx} - delete (#{col_filled_count[idx]} < #{min_filled_count})"
+          @log.debug("Column #{idx} - delete (#{col_filled_count[idx]} < #{min_filled_count})") if @log
           @rows.each { |r| r.delete_at(idx) }
         else
-          #puts "Column #{idx} - keep (#{col_filled_count[idx]} >= #{min_filled_count})"
+          @log.debug("Column #{idx} - keep (#{col_filled_count[idx]} >= #{min_filled_count})") if @log
         end
       end
 

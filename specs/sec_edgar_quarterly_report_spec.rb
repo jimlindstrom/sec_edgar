@@ -9,6 +9,8 @@ describe SecEdgar::QuarterlyReport do
     @bogus_filename = "/tmp/ao0gqq34q34g"
     @good_filename = "specs/testvectors/2010_03_31.html"
     @tenq = SecEdgar::QuarterlyReport.new
+    @tenq.log = Logger.new('sec_edgar.log')
+    @tenq.log.level = Logger::DEBUG
   end
    
   describe "#parse" do

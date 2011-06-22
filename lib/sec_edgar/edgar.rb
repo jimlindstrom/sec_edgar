@@ -8,17 +8,15 @@ module SecEdgar
 
   class Edgar
     AGENT_ALIAS = 'Windows IE 7'
+
+    attr_accessor :log
     
     def initialize
     end
       
     def good_ticker?(ticker)
-      # set up
-      agent = Mechanize.new { |a| a.log = Logger.new('mech.log') }
-      agent.user_agent_alias = AGENT_ALIAS
-      agent.redirection_limit= 5
-      
       # first search for the company in question
+      agent = create_agent
       page  = agent.get('http://www.sec.gov/edgar/searchedgar/companysearch.html')
       form  = page.forms.first
       form['CIK'] = ticker
@@ -31,15 +29,12 @@ module SecEdgar
     end
    
     def get_reports_urls(ticker, rept_type_search)
+      @log.info("Getting report URLS of type #{rept_type_search} for #{ticker}") if @log
       return nil if !good_ticker?(ticker)
       return nil if !['10-q','10-k'].include?(rept_type_search)
 
-      # set up
-      agent = Mechanize.new { |a| a.log = Logger.new('mech.log') }
-      agent.user_agent_alias = AGENT_ALIAS
-      agent.redirection_limit= 5
-      
       # first search for the company in question
+      agent = create_agent
       page  = agent.get('http://www.sec.gov/edgar/searchedgar/companysearch.html')
       form  = page.forms.first
       form['CIK'] = ticker
@@ -67,6 +62,7 @@ module SecEdgar
     # returns list of files downloaded
     # returns nil if bad ticker
     def download_10q_reports(ticker, save_folder)
+      @log.info("Downloading 10q reports for #{ticker}") if @log
       return nil if not good_ticker?(ticker)
 
       report_urls = get_reports_urls(ticker, '10-q')
@@ -79,6 +75,7 @@ module SecEdgar
     # returns list of files downloaded
     # returns nil if bad ticker
     def download_10k_reports(ticker, save_folder)
+      @log.info("Downloading 10k reports for #{ticker}") if @log
       return nil if not good_ticker?(ticker)
 
       report_urls = get_reports_urls(ticker, '10-k')
@@ -91,10 +88,11 @@ module SecEdgar
     def get_10q_reports(ticker, save_folder)
       reports = []
 
+      @log.info("Getting 10q reports for #{ticker}") if @log
       files = download_10q_reports(ticker, save_folder)
       return nil if files.nil?
       files.each do |cur_file|
-        cur_ten_q = QuarterlyReport.new
+        cur_ten_q = QuarterlyReport.new { |q| q.log = @log }
         cur_ten_q.parse(cur_file)
 
         reports.push cur_ten_q
@@ -105,10 +103,11 @@ module SecEdgar
     def get_10k_reports(ticker, save_folder)
       reports = []
 
+      @log.info("Getting 10k reports for #{ticker}") if @log
       files = download_10k_reports(ticker, save_folder)
       return nil if files.nil?
       files.each do |cur_file|
-        cur_ten_k = AnnualReport.new
+        cur_ten_k = AnnualReport.new { |a| a.log = @log }
         cur_ten_k.parse(cur_file)
 
         reports.push cur_ten_k
@@ -169,14 +168,11 @@ module SecEdgar
     end
      
     def get_reports(report_urls, rept_type_linktext, save_folder)
+      @log.info("Getting reports") if @log
       files = []
 
-      # set up
-      agent = Mechanize.new { |a| a.log = Logger.new('mech.log') }
-      agent.user_agent_alias = AGENT_ALIAS
-      agent.redirection_limit= 5
-
       # for each report index
+      agent = create_agent
       report_urls.each do |url|
         page = agent.get('http://www.sec.gov' + url)
         page.links.each do |link|
@@ -204,6 +200,14 @@ module SecEdgar
       end
 
       return files
+    end
+
+    def create_agent
+      #agent = Mechanize.new { |a| a.log = Logger.new('mech.log') }
+      agent = Mechanize.new 
+      agent.user_agent_alias = AGENT_ALIAS
+      agent.redirection_limit= 5
+      return agent
     end
 
 

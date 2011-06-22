@@ -22,7 +22,6 @@ module SecEdgar
       fh = File.new("classifier_training/liabs_training_scored.txt", "r")
       fh.readlines.each do |cur_line|
       
-        #puts "cur_line: #{cur_line}"
         cur_tokens = cur_line.split(' ')
         cur_class = cur_tokens.shift
         cur_tokens.collect! { |x| @s.stem(x) }

@@ -180,7 +180,7 @@ module SecEdgar
 
       @state = :waiting_for_cur_assets
       @rows.each do |cur_row|
-        #puts "cur label: #{cur_row[0].text}"
+        @log.debug("balance sheet parser.  Cur label: #{cur_row[0].text}") if @log
         @next_state = nil
         case @state
         when :waiting_for_cur_assets
@@ -274,18 +274,18 @@ module SecEdgar
           end
 
         else
-          puts "Balance sheet parser state machine.  Got into weird state, #{@state}"
+          @log.error("Balance sheet parser state machine.  Got into weird state, #{@state}") if @log
           return false
         end
 
         if !@next_state.nil?
-          #puts "Switching to state: #{@next_state}"
+          @log.debug("balance sheet parser.  Switching to state: #{@next_state}") if @log
           @state = @next_state
         end
       end
 
       if @state != :done
-        puts "Balance sheet parser state machine.  Unexpected final state, #{@state}"
+        @log.warn("Balance sheet parser state machine.  Unexpected final state, #{@state}") if @log
         return false
       end
 

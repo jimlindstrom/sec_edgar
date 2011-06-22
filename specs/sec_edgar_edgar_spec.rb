@@ -15,6 +15,8 @@ describe SecEdgar::Edgar do
     @report_type = "10-k"
 
     @edgar = SecEdgar::Edgar.new
+    @edgar.log = Logger.new('sec_edgar.log')
+    @edgar.log.level = Logger::DEBUG
   end
    
   describe "#good_ticker?" do
