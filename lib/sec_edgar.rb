@@ -16,4 +16,5 @@ require "sec_edgar/quarterly_report.rb"
 require "sec_edgar/annual_report.rb"
 require "sec_edgar/asset_classifier.rb"
 require "sec_edgar/liab_classifier.rb"
+require "sec_edgar/equity_classifier.rb"
 
