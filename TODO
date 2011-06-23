@@ -1,2 +1,13 @@
-1. Cause some of the tests (maybe the QuarterlyReport) iterate over multiple stocks, so that they catch things before the create_training script does.
-2. Refactor a common parent class for the asset/liab/equity classifiers
+Features
+--------------------------------------------------------------------------------
+1. Parse income statement sections
+
+Test Quality/Coverage
+--------------------------------------------------------------------------------
+1. Cause some of the tests (e.g. QuarterlyReport) iterate over multiple stocks, 
+   so that they catch things before the create_training script does.
+
+Code Quality
+--------------------------------------------------------------------------------
+1. Refactor a common parent class for the asset/liab/equity classifiers
+

@@ -30,8 +30,14 @@ module SecEdgar
    
     def get_reports_urls(ticker, rept_type_search)
       @log.info("Getting report URLS of type #{rept_type_search} for #{ticker}") if @log
-      return nil if !good_ticker?(ticker)
-      return nil if !['10-q','10-k'].include?(rept_type_search)
+      if !good_ticker?(ticker)
+        @log.error("#{ticker} is not a good ticker") if @log
+        return nil
+      end
+      if !['10-q','10-k'].include?(rept_type_search)
+        @log.error("#{rept_type_search} is not a known report type") if @log
+        return nil
+      end
 
       # first search for the company in question
       agent = create_agent
@@ -76,7 +82,10 @@ module SecEdgar
     # returns nil if bad ticker
     def download_10k_reports(ticker, save_folder)
       @log.info("Downloading 10k reports for #{ticker}") if @log
-      return nil if not good_ticker?(ticker)
+      if !good_ticker?(ticker)
+        @log.error("#{ticker} is not a good ticker") if @log
+        return nil
+      end
 
       report_urls = get_reports_urls(ticker, '10-k')
       return nil if report_urls.nil?
@@ -182,11 +191,14 @@ module SecEdgar
             if subpage.body.downcase =~ /period[ &nbsp;]ended[ ^nbsp;]([^<]*)[ ^nbsp;]*</
               $report_date = $1.gsub(/&nbsp;/," ")
               $report_date = parse_date_string($report_date)
+            elsif subpage.body.downcase =~ /year[ &nbsp;]ended[ ^nbsp;]([^<]*)[ ^nbsp;]*</
+              $report_date = $1.gsub(/&nbsp;/," ")
+              $report_date = parse_date_string($report_date)
             else
-              fh = File.open("/tmp/jbl.txt","w")
+              fh = File.open("/tmp/pagedump.txt","w")
               fh.puts(subpage.body.downcase)
               fh.close
-              raise "Could't match report, url=#{link.href}"
+              @log.warn("Could't match report, url=#{link.href}, see /tmp/pagedump.txt") if @log
             end
   
             if ($report_date.length > 5) and ($report_date.length < 50) # overly validation

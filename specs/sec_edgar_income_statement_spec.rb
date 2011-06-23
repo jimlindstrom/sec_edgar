@@ -35,5 +35,23 @@ describe SecEdgar::IncomeStatement do
 
   it_should_behave_like 'SecEdgar::FinancialStatement'
 
+  # operating revenues
+    # looks like it should:
+      # find the first line with 'revenue'.  If that line has numbers, those are the total rvenue.  If not, wait for the first line w/ 'total' in it.
+  # operating expenses
+  # operating income from sales (before tax)
+  # operating income from sales (after tax)
+  # other operating income (after tax)
+  # operating income (after tax)
+  # financing income
+  # net income
+
+  # operating revenues
+  # gross margin
+  # OI from sales (after tax)
+  # OI (after tax)
+  # financing income
+  # comprehensive income
+
 end
  
