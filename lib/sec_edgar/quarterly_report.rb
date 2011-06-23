@@ -24,18 +24,20 @@ module SecEdgar
     SEARCH_DEPTH = 20
 
     BAL_SHEET_REGEXES = 
-      [/consolidated[ \n\r]balance[ \n\r]sheets/,
-       /condensed[ \n\r]balance[ \n\r]sheets/,
-       /balance[ \n\r]*sheets/ ]
+      [/consolidated[ \n\r]*balance[ \n\r]*sheet[s]*/,
+       /condensed[ \n\r]*balance[ \n\r]*sheet[s]*/,
+       /balance[ \n\r]*sheet[s]*/ ]
 
     INC_STMT_REGEXES = 
-      [/consolidated[ \n\ra-z]*statements[ \n\r]of[ \n\r]income/,
-       /consolidated[ \n\ra-z]*statements[ \n\r]of[ \n\r]operations/,
-       /income[ \n\r]*statements/ ]
+      [/consolidated[ \n\ra-z]*statement[s]*[ \n\r]of[ \n\r]income/,
+       /statement[s]*[ \n\r]of[ \n\r]consolidated[ \r\n]income/,
+       /consolidated[ \n\ra-z]*statement[s]*[ \n\r]of[ \n\r]operations/,
+       /income[ \n\r]*statement[s]*/ ]
 
     CASH_FLOW_STMT_REGEXES = 
-      [/consolidated[ \n\rA-Za-z]*statements[ \n\r]of[ \n\r]cash[ \n\r]flows/,
-       /cash[ \n\r]flows[ \n\r]statements/ ]
+      [/consolidated[ \n\rA-Za-z]*statement[s]*[ \n\r]of[ \n\r]cash[ \n\r]flows/,
+       /statement[s]*[ \n\r]of[ \n\r]consolidated[ \n\r]cash[ \n\r]flows/,
+       /cash[ \n\r]flows[ \n\r]statement[s]*/ ]
 
     attr_accessor :log, :bal_sheet, :inc_stmt, :cash_flow_stmt
   
@@ -75,6 +77,7 @@ module SecEdgar
               @bal_sheet = BalanceSheet.new
               @bal_sheet.log = @log if @log
               if @bal_sheet.parse(table_elem) == false
+                @log.info("failed to parse balance sheet, resetting to try again.") if @log
                 @bal_sheet = nil # discard bogus parse attempts
               else
                 @log.info("parsing of balance sheet succeeded") if @log

@@ -153,8 +153,10 @@ module SecEdgar
         @next_state = nil
         case @state
         when :waiting_for_cur_assets
-          if !cur_row[0].nil? and cur_row[0].text.downcase == "current assets:"
+          if !cur_row[0].nil? and cur_row[0].text.downcase =~ /current assets[:]*/
             @next_state = :reading_current_assets
+          elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /^assets$/ # in case they don't break out current ones
+            @next_state = :reading_non_current_assets
           end
 
         when :reading_current_assets
@@ -177,8 +179,12 @@ module SecEdgar
           end
 
         when :waiting_for_cur_liabs
-          if cur_row[0].text.downcase == "current liabilities:"
+          if cur_row[0].text.downcase =~ /current liabilities[:]*/
             @next_state = :reading_cur_liabs
+          elsif cur_row[0].text.downcase =~ /^liabilities.*/ # in case they don't break out current ones
+            @next_state = :reading_non_current_liabilities
+          elsif cur_row[0].text.downcase =~ /^total liabilities.*/ # in case they don't break out current ones
+            @next_state = :reading_non_current_liabilities
           end
 
         when :reading_cur_liabs
@@ -190,7 +196,10 @@ module SecEdgar
           end
 
         when :reading_non_current_liabilities
-          if cur_row[0].text.downcase =~ /stockholders.* equity:/
+          if cur_row[0].text.downcase =~ /(share|stock)holders.* equity:/
+            @next_state = :reading_shareholders_equity
+          elsif cur_row[0].text.downcase =~ /common stock/ 
+            @equity.push(cur_row)
             @next_state = :reading_shareholders_equity
           elsif cur_row[0].text.downcase =~ /total liab.*/
             # don't save the totals line
@@ -200,7 +209,7 @@ module SecEdgar
           end
 
         when :reading_shareholders_equity
-          if cur_row[0].text.downcase =~ /total.*stockholders.*equity/
+          if cur_row[0].text.downcase =~ /total.*(share|stock)holders.*equity/
             @next_state = :done
             @total_equity = [ nil, cur_row[1].val, cur_row[2].val ]
           else
@@ -246,21 +255,25 @@ module SecEdgar
       @noa = [nil, 0.0, 0.0]
       @nfa = [nil, 0.0, 0.0]
       @assets.each do |a|
-        case ac.classify(a[0].text)[:class]
-        when :oa
-          @operational_assets.push(a)
-          @total_oa[1] += a[1].val if !a[1].val.nil?
-          @total_oa[2] += a[2].val if !a[2].val.nil?
-          @noa[1] += a[1].val if !a[1].val.nil?
-          @noa[2] += a[2].val if !a[2].val.nil?
-        when :fa
-          @financial_assets.push(a)
-          @total_fa[1] += a[1].val if !a[1].val.nil?
-          @total_fa[2] += a[2].val if !a[2].val.nil?
-          @nfa[1] += a[1].val if !a[1].val.nil?
-          @nfa[2] += a[2].val if !a[2].val.nil?
+        if a.length < 3
+          @log.warn("asset must be 3 columns wide #{a}")
         else
-          raise "Unknown class #{ac.classify(a[0].text)[:class]}"
+          case ac.classify(a[0].text)[:class]
+          when :oa
+            @operational_assets.push(a)
+            @total_oa[1] += a[1].val if !a[1].val.nil?
+            @total_oa[2] += a[2].val if !a[2].val.nil?
+            @noa[1] += a[1].val if !a[1].val.nil?
+            @noa[2] += a[2].val if !a[2].val.nil?
+          when :fa
+            @financial_assets.push(a)
+            @total_fa[1] += a[1].val if !a[1].val.nil?
+            @total_fa[2] += a[2].val if !a[2].val.nil?
+            @nfa[1] += a[1].val if !a[1].val.nil?
+            @nfa[2] += a[2].val if !a[2].val.nil?
+          else
+            raise "Unknown class #{ac.classify(a[0].text)[:class]}"
+          end
         end
       end
     end
@@ -271,21 +284,25 @@ module SecEdgar
       @total_ol = [nil, 0.0, 0.0]
       @total_fl = [nil, 0.0, 0.0]
       @liabs.each do |l|
-        case lc.classify(l[0].text)[:class]
-        when :ol
-          @operational_liabs.push(l)
-          @total_ol[1] += l[1].val if !l[1].val.nil?
-          @total_ol[2] += l[2].val if !l[2].val.nil?
-          @noa[1] -= l[1].val if !l[1].val.nil?
-          @noa[2] -= l[2].val if !l[2].val.nil?
-        when :fl
-          @financial_liabs.push(l)
-          @total_fl[1] += l[1].val if !l[1].val.nil?
-          @total_fl[2] += l[2].val if !l[2].val.nil?
-          @nfa[1] -= l[1].val if !l[1].val.nil?
-          @nfa[2] -= l[2].val if !l[2].val.nil?
+        if l.length < 3
+          @log.warn("asset must be 3 columns wide #{l}")
         else
-          raise "Unknown class #{lc.classify(l[0].text)[:class]}"
+          case lc.classify(l[0].text)[:class]
+          when :ol
+            @operational_liabs.push(l)
+            @total_ol[1] += l[1].val if !l[1].val.nil?
+            @total_ol[2] += l[2].val if !l[2].val.nil?
+            @noa[1] -= l[1].val if !l[1].val.nil?
+            @noa[2] -= l[2].val if !l[2].val.nil?
+          when :fl
+            @financial_liabs.push(l)
+            @total_fl[1] += l[1].val if !l[1].val.nil?
+            @total_fl[2] += l[2].val if !l[2].val.nil?
+            @nfa[1] -= l[1].val if !l[1].val.nil?
+            @nfa[2] -= l[2].val if !l[2].val.nil?
+          else
+            raise "Unknown class #{lc.classify(l[0].text)[:class]}"
+          end
         end
       end
     end
@@ -295,21 +312,25 @@ module SecEdgar
 
       @cse = [nil, 0.0, 0.0]
       @equity.each do |e|
-        case ec.classify(e[0].text)[:class]
-        when :pse
-          #puts "pse: #{e[0].text}"
-          @financial_liabs.push(e)
-          @total_fl[1] += e[1].val if !e[1].val.nil?
-          @total_fl[2] += e[2].val if !e[2].val.nil?
-          @nfa[1] -= e[1].val if !e[1].val.nil?
-          @nfa[2] -= e[2].val if !e[2].val.nil?
-        when :cse
-          #puts "cse: #{e[0].text}"
-          @common_equity.push(e)
-          @cse[1] += e[1].val if !e[1].val.nil?
-          @cse[2] += e[2].val if !e[2].val.nil?
+        if e.length < 3
+          @log.warn("asset must be 3 columns wide #{e}")
         else
-          raise "Unknown class #{ec.classify(e[0].text)[:class]}"
+          case ec.classify(e[0].text)[:class]
+          when :pse
+            #puts "pse: #{e[0].text}"
+            @financial_liabs.push(e)
+            @total_fl[1] += e[1].val if !e[1].val.nil?
+            @total_fl[2] += e[2].val if !e[2].val.nil?
+            @nfa[1] -= e[1].val if !e[1].val.nil?
+            @nfa[2] -= e[2].val if !e[2].val.nil?
+          when :cse
+            #puts "cse: #{e[0].text}"
+            @common_equity.push(e)
+            @cse[1] += e[1].val if !e[1].val.nil?
+            @cse[2] += e[2].val if !e[2].val.nil?
+          else
+            raise "Unknown class #{ec.classify(e[0].text)[:class]}"
+          end
         end
       end
     end
