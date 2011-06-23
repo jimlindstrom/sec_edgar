@@ -5,8 +5,16 @@ module SecEdgar
     STOCK_REGEX=/par value/
     NUMBER_REGEX=/[\$0-9,]+/
   
-    attr_accessor :assets, :liabs, :equity
-    attr_accessor :total_assets, :total_liabs, :total_equity
+    # original values
+    attr_accessor :assets, :liabs, :equity 
+    attr_accessor :total_assets, :total_liabs, :total_equity 
+
+    # reformulated values
+    attr_accessor :operational_assets, :operational_liabs
+    attr_accessor :financial_assets, :financial_liabs
+    attr_accessor :common_equity 
+    attr_accessor :total_oa, :total_fa, :total_ol, :total_fl
+    attr_accessor :noa, :nfa, :cse
 
     def initialize
       super()
@@ -18,12 +26,55 @@ module SecEdgar
       @total_assets = nil
       @total_liabs = nil
       @total_equity = nil
+
+      @operational_assets = []
+      @operational_liabs = []
+      @financial_assets = []
+      @financial_liabs = []
+      @common_equity = []
     end
 
     def parse(edgar_fin_stmt)
-      ret = super(edgar_fin_stmt)
-      return false if ret == false
+      # pull the table into rows (akin to CSV)
+      return false if not super(edgar_fin_stmt)
   
+      # text-matching to pull out dates, net amounts, etc.
+      parse_common_stock_line # pass/fail?
+      parse_reporting_periods # pass/fail?
+      parse_accounts_receivable # pass/fail?
+
+      # pull apart assets, liabilities, equity (as originally stated)
+      return false if not parse_assets_liabs_and_equity
+      return false if not classify_assets
+      return false if not classify_liabs
+      return false if not classify_equity
+
+      return true
+    end
+
+    ###########################################################################
+    # calculate reformulated values (this needs to change)
+    ###########################################################################
+
+    def net_financial_assets(col_idx)
+      return financial_assets(col_idx) - financial_liabs(col_idx)
+    end
+
+    def net_operational_assets(col_idx)
+      return operational_assets(col_idx) - operational_liabs(col_idx)
+    end
+
+    def common_shareholders_equity(col_idx)
+      return net_operational_assets(col_idx) + net_financial_assets(col_idx)
+    end
+
+  private
+
+    ###########################################################################
+    # Supplemental parsing functions
+    ###########################################################################
+  
+    def parse_common_stock_line
       # parse the common stock line
       @rows.each_with_index do |row, idx|
         if String(row[0]).match(STOCK_REGEX) and
@@ -46,7 +97,9 @@ module SecEdgar
           @rows[idx].insert(0,"Common or Preferred Stock")
         end
       end
-  
+    end
+
+    def parse_reporting_periods
       # pull out the date ranges
       @rows.each_with_index do |row, idx|
         # Match [][As of Dec 31, 2003][As of Dec 31, 2004]
@@ -74,7 +127,9 @@ module SecEdgar
           @rows.delete_at(idx+1)
         end
       end
-  
+    end
+
+    def parse_accounts_receivable
       # pull out the A/R allowances
       @rows.each_with_index do |row, index|
         if String(row[0]).match(AR_ALLOWANCE_REGEX)
@@ -89,95 +144,9 @@ module SecEdgar
           @rows[index+1] = allowances_row
         end
       end
-
-      return find_assets_liabs_and_equity()
     end
 
-    def operational_assets(col_idx)
-      sum = 0.0
-      @assets.each do |cur_asset|
-        if cur_asset[0].flags[:operational]
-          if !cur_asset[col_idx].val.nil?
-            sum += cur_asset[col_idx].val
-          end
-        end
-      end
-      return sum
-    end
-
-    def financial_assets(col_idx)
-      sum = 0.0
-      @assets.each do |cur_asset|
-        if cur_asset[0].flags[:financial]
-          if !cur_asset[col_idx].val.nil?
-            sum += cur_asset[col_idx].val
-          end
-        end
-      end
-      return sum
-    end
-
-    def calculated_total_assets(col_idx)
-      sum = 0.0
-      @assets.each do |cur_asset|
-        if !cur_asset[col_idx].val.nil?
-          sum += cur_asset[col_idx].val
-        end
-      end
-      return sum
-    end
-
-    def operational_liabs(col_idx)
-      sum = 0.0
-      @liabs.each do |cur_liab|
-        if cur_liab[0].flags[:operational]
-          if !cur_liab[col_idx].val.nil?
-            sum += cur_liab[col_idx].val
-          end
-        end
-      end
-      return sum
-    end
-
-    def financial_liabs(col_idx)
-      sum = 0.0
-      @liabs.each do |cur_liab|
-        if cur_liab[0].flags[:financial]
-          if !cur_liab[col_idx].val.nil?
-            sum += cur_liab[col_idx].val
-          end
-        end
-      end
-      return sum
-    end
-
-    def calculated_total_liabs(col_idx)
-      sum = 0.0
-      @liabs.each do |cur_liab|
-        if !cur_liab[col_idx].val.nil?
-          sum += cur_liab[col_idx].val
-        end
-      end
-      return sum
-    end
-
-    def net_financial_assets(col_idx)
-      return financial_assets(col_idx) - financial_liabs(col_idx)
-    end
-
-    def net_operational_assets(col_idx)
-      return operational_assets(col_idx) - operational_liabs(col_idx)
-    end
-
-    def common_shareholders_equity(col_idx)
-      return net_operational_assets(col_idx) + net_financial_assets(col_idx)
-    end
-
-  private
-    def find_assets_liabs_and_equity
-      ac = AssetClassifier.new
-      lc = LiabClassifier.new
-
+    def parse_assets_liabs_and_equity
       @state = :waiting_for_cur_assets
       @rows.each do |cur_row|
         @log.debug("balance sheet parser.  Cur label: #{cur_row[0].text}") if @log
@@ -195,27 +164,15 @@ module SecEdgar
             # don't save the totals line
           else
             cur_row[0].flags[:current] = true
-            case ac.classify(cur_row[0].text)[:class]
-            when :fa
-              cur_row[0].flags[:financial] = true
-            when :oa
-              cur_row[0].flags[:operational] = true
-            end
             @assets.push(cur_row)
           end
 
         when :reading_non_current_assets
           if cur_row[0].text.downcase == "total assets"
             @next_state = :waiting_for_cur_liabs
-            @total_assets = cur_row
+            @total_assets = [ nil, cur_row[1].val, cur_row[2].val ] # 3-column specific
           else
             cur_row[0].flags[:non_current] = true
-            case ac.classify(cur_row[0].text)[:class]
-            when :fa
-              cur_row[0].flags[:financial] = true
-            when :oa
-              cur_row[0].flags[:operational] = true
-            end
             @assets.push(cur_row)
           end
 
@@ -229,12 +186,6 @@ module SecEdgar
             @next_state = :reading_non_current_liabilities
           else
             cur_row[0].flags[:current] = true
-            case lc.classify(cur_row[0].text)[:class]
-            when :fl
-              cur_row[0].flags[:financial] = true
-            when :ol
-              cur_row[0].flags[:operational] = true
-            end
             @liabs.push(cur_row)
           end
 
@@ -245,19 +196,13 @@ module SecEdgar
             # don't save the totals line
           else
             cur_row[0].flags[:non_current] = true
-            case lc.classify(cur_row[0].text)[:class]
-            when :fl
-              cur_row[0].flags[:financial] = true
-            when :ol
-              cur_row[0].flags[:operational] = true
-            end
             @liabs.push(cur_row)
           end
 
         when :reading_shareholders_equity
           if cur_row[0].text.downcase =~ /total.*stockholders.*equity/
             @next_state = :done
-            @total_equity = cur_row
+            @total_equity = [ nil, cur_row[1].val, cur_row[2].val ]
           else
             @equity.push(cur_row)
           end
@@ -265,12 +210,9 @@ module SecEdgar
         when :done
           # FIXME: this should be a 2nd-to-last state and should THEN go to done...
           if cur_row[0].text.downcase =~ /total liabilities and.*equity/
-            @total_liabs = cur_row
-            @total_liabs[0].text = "total Liabilities"
-            @total_liabs[1].val = cur_row[1].val - @total_equity[1].val 
-            @total_liabs[2].val = cur_row[2].val - @total_equity[2].val
-            @total_liabs[1].text = "" # FIXME
-            @total_liabs[2].text = "" # FIXME
+            @total_liabs = [ nil, nil, nil ]
+            @total_liabs[1] = cur_row[1].val - @total_equity[1]
+            @total_liabs[2] = cur_row[2].val - @total_equity[2]
           end
 
         else
@@ -290,6 +232,86 @@ module SecEdgar
       end
 
       return true
+    end
+
+    ###########################################################################
+    # Classifiers for assets, liabilities, equity
+    ###########################################################################
+
+    def classify_assets
+      ac = AssetClassifier.new
+
+      @total_oa = [nil, 0.0, 0.0]
+      @total_fa = [nil, 0.0, 0.0]
+      @noa = [nil, 0.0, 0.0]
+      @nfa = [nil, 0.0, 0.0]
+      @assets.each do |a|
+        case ac.classify(a[0].text)[:class]
+        when :oa
+          @operational_assets.push(a)
+          @total_oa[1] += a[1].val if !a[1].val.nil?
+          @total_oa[2] += a[2].val if !a[2].val.nil?
+          @noa[1] += a[1].val if !a[1].val.nil?
+          @noa[2] += a[2].val if !a[2].val.nil?
+        when :fa
+          @financial_assets.push(a)
+          @total_fa[1] += a[1].val if !a[1].val.nil?
+          @total_fa[2] += a[2].val if !a[2].val.nil?
+          @nfa[1] += a[1].val if !a[1].val.nil?
+          @nfa[2] += a[2].val if !a[2].val.nil?
+        else
+          raise "Unknown class #{ac.classify(a[0].text)[:class]}"
+        end
+      end
+    end
+
+    def classify_liabs
+      lc = LiabClassifier.new
+
+      @total_ol = [nil, 0.0, 0.0]
+      @total_fl = [nil, 0.0, 0.0]
+      @liabs.each do |l|
+        case lc.classify(l[0].text)[:class]
+        when :ol
+          @operational_liabs.push(l)
+          @total_ol[1] += l[1].val if !l[1].val.nil?
+          @total_ol[2] += l[2].val if !l[2].val.nil?
+          @noa[1] -= l[1].val if !l[1].val.nil?
+          @noa[2] -= l[2].val if !l[2].val.nil?
+        when :fl
+          @financial_liabs.push(l)
+          @total_fl[1] += l[1].val if !l[1].val.nil?
+          @total_fl[2] += l[2].val if !l[2].val.nil?
+          @nfa[1] -= l[1].val if !l[1].val.nil?
+          @nfa[2] -= l[2].val if !l[2].val.nil?
+        else
+          raise "Unknown class #{lc.classify(l[0].text)[:class]}"
+        end
+      end
+    end
+
+    def classify_equity
+      ec = EquityClassifier.new
+
+      @cse = [nil, 0.0, 0.0]
+      @equity.each do |e|
+        case ec.classify(e[0].text)[:class]
+        when :pse
+          #puts "pse: #{e[0].text}"
+          @financial_liabs.push(e)
+          @total_fl[1] += e[1].val if !e[1].val.nil?
+          @total_fl[2] += e[2].val if !e[2].val.nil?
+          @nfa[1] -= e[1].val if !e[1].val.nil?
+          @nfa[2] -= e[2].val if !e[2].val.nil?
+        when :cse
+          #puts "cse: #{e[0].text}"
+          @common_equity.push(e)
+          @cse[1] += e[1].val if !e[1].val.nil?
+          @cse[2] += e[2].val if !e[2].val.nil?
+        else
+          raise "Unknown class #{ec.classify(e[0].text)[:class]}"
+        end
+      end
     end
 
   end

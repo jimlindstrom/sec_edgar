@@ -34,66 +34,214 @@ describe SecEdgar::BalanceSheet do
 
   it_should_behave_like 'SecEdgar::FinancialStatement'
 
-  describe "#calculated_total_assets" do
-    it "returns the same amount as the \"total assets\" line in the balance sheet (1st reporting period)" do
-      @fin_stmt.calculated_total_assets(1).should == @fin_stmt.total_assets[1].val
-    end
-    it "returns the same amount as the \"total assets\" line in the balance sheet (2nd reporting period)" do
-      @fin_stmt.calculated_total_assets(2).should == @fin_stmt.total_assets[2].val
+  ##############################################################################
+  # Basic (as stated) arrays
+  ##############################################################################
+
+  describe "#assets" do
+    it "FIXME" do
     end
   end
+
+  describe "#liabs" do
+    it "FIXME" do
+    end
+  end
+
+  describe "#equity" do
+    it "FIXME" do
+    end
+  end
+
+  ##############################################################################
+  # Basic (as stated) totals
+  ##############################################################################
+
+  describe "#total_assets" do
+    it "returns the total value of assets" do
+      reporting_period = 1
+
+      sum = 0.0
+      @fin_stmt.assets.each do |a|
+        if not a[reporting_period].val.nil?
+          sum += a[reporting_period].val
+        end
+      end
+      @fin_stmt.total_assets[reporting_period].should == sum
+    end
+  end
+
+  describe "#total_liabs" do
+    it "returns the total value of liabilities" do
+      reporting_period = 1
+
+      sum = 0.0
+      @fin_stmt.liabs.each do |l|
+        if not l[reporting_period].val.nil?
+          sum += l[reporting_period].val
+        end
+      end
+      @fin_stmt.total_liabs[reporting_period].should == sum
+    end
+  end
+
+  describe "#total_equity" do
+    it "returns the total value of equity" do
+      reporting_period = 1
+
+      sum = 0.0
+      @fin_stmt.equity.each do |e|
+        if not e[reporting_period].val.nil?
+          sum += e[reporting_period].val
+        end
+      end
+      @fin_stmt.total_equity[reporting_period].should == sum
+    end
+  end
+
+  ##############################################################################
+  # Restated arrays
+  ##############################################################################
 
   describe "#operational_assets" do
-    it "returns the amount of the company's assets that are operational (1st reporting period)" do
-      @fin_stmt.operational_assets(1).should == @fin_stmt.calculated_total_assets(1) - @fin_stmt.financial_assets(1)
-    end
-    it "returns the amount of the company's assets that are operational (2nd reporting period)" do
-      @fin_stmt.operational_assets(2).should == @fin_stmt.calculated_total_assets(2) - @fin_stmt.financial_assets(2)
+    it "contains all assets that aren't in financial_assets" do
+      a  = @fin_stmt.assets.collect { |x| x[0].text }
+      oa = @fin_stmt.operational_assets.collect { |x| x[0].text }
+      fa = @fin_stmt.financial_assets.collect { |x| x[0].text }
+      oa.sort.should == (a - fa).sort
     end
   end
 
-  describe "#calculated_total_liabs" do
-    it "returns the same amount as the \"total liabs\" line in the balance sheet (1st reporting period)" do
-      @fin_stmt.calculated_total_liabs(1).should == @fin_stmt.total_liabs[1].val
-    end
-    it "returns the same amount as the \"total liabs\" line in the balance sheet (2nd reporting period)" do
-      @fin_stmt.calculated_total_liabs(2).should == @fin_stmt.total_liabs[2].val
+  describe "#financial_assets" do
+    it "FIXME" do
     end
   end
 
   describe "#operational_liabs" do
-    it "returns the amount of the company's liabs that are operational (1st reporting period)" do
-      @fin_stmt.operational_liabs(1).should == @fin_stmt.calculated_total_liabs(1) - @fin_stmt.financial_liabs(1)
-    end
-    it "returns the amount of the company's liabs that are operational (2nd reporting period)" do
-      @fin_stmt.operational_liabs(2).should == @fin_stmt.calculated_total_liabs(2) - @fin_stmt.financial_liabs(2)
+    it "contains all liabilities that aren't in financial_liabs" do
+      reporting_period = 1
+
+      l  = @fin_stmt.liabs.collect { |x| x[0].text }
+      ol = @fin_stmt.operational_liabs.collect { |x| x[0].text }
+      fl = @fin_stmt.financial_liabs.collect { |x| x[0].text }
+      ol.sort.should == (l - fl).sort
     end
   end
 
-  describe "#net_financial_assets" do
-    it "returns the net financial assets (1st reporting period)" do
-      @fin_stmt.net_financial_assets(1).should == @fin_stmt.financial_assets(1) - @fin_stmt.financial_liabs(1)
+  describe "#financial_liabs" do
+    it "shouldn't contain any common equity" do
+      @fin_stmt.common_equity.each do |e|
+        e[0].text.downcase.should_not match /common stock/
+      end
     end
-    it "returns the net financial assets (2nd reporting period)" do
-      @fin_stmt.net_financial_assets(2).should == @fin_stmt.financial_assets(2) - @fin_stmt.financial_liabs(2)
+
+  end
+
+  describe "#common_equity" do
+    it "contains only common (vs. preferred) equity" do
+      @ec = SecEdgar::EquityClassifier.new
+      @fin_stmt.common_equity.each do |e|
+        @ec.classify(e[0].text)[:class].should == :cse
+        e[0].text.should_not match /preferred/
+      end
     end
   end
 
-  describe "#net_operational_assets" do
-    it "returns the net operational assets (1st reporting period)" do
-      @fin_stmt.net_operational_assets(1).should == @fin_stmt.operational_assets(1) - @fin_stmt.operational_liabs(1)
-    end
-    it "returns the net operational assets (2nd reporting period)" do
-      @fin_stmt.net_operational_assets(2).should == @fin_stmt.operational_assets(2) - @fin_stmt.operational_liabs(2)
+  ##############################################################################
+  # Restated totals
+  ##############################################################################
+
+  describe "#total_oa" do
+    it "returns the sum of the operational assets" do
+      reporting_period = 1
+
+      sum = 0.0
+      @fin_stmt.operational_assets.each do |x|
+        if not x[reporting_period].val.nil?
+          sum += x[reporting_period].val
+        end
+      end
+      @fin_stmt.total_oa[reporting_period].should == sum
     end
   end
 
-  describe "#common_shareholders_equity" do
-    it "returns the net operational assets (1st reporting period)" do
-      @fin_stmt.common_shareholders_equity(1).should == @fin_stmt.net_operational_assets(1) + @fin_stmt.net_financial_assets(1)
+  describe "#total_fa" do
+    it "returns the sum of the financial assets" do
+      reporting_period = 1
+
+      sum = 0.0
+      @fin_stmt.financial_assets.each do |x|
+        if not x[reporting_period].val.nil?
+          sum += x[reporting_period].val
+        end
+      end
+      @fin_stmt.total_fa[reporting_period].should == sum
     end
-    it "returns the net operational assets (2nd reporting period)" do
-      @fin_stmt.common_shareholders_equity(2).should == @fin_stmt.net_operational_assets(2) + @fin_stmt.net_financial_assets(2)
+  end
+
+  describe "#total_ol" do
+    it "returns the sum of the operational liabilities" do
+      reporting_period = 1
+
+      sum = 0.0
+      @fin_stmt.operational_liabs.each do |x|
+        if not x[reporting_period].val.nil?
+          sum += x[reporting_period].val
+        end
+      end
+      @fin_stmt.total_ol[reporting_period].should == sum
+    end
+  end
+
+  describe "#total_fl" do
+    it "returns the sum of the financial liabilities" do
+      reporting_period = 1
+
+      sum = 0.0
+      @fin_stmt.financial_liabs.each do |x|
+        if not x[reporting_period].val.nil?
+          sum += x[reporting_period].val
+        end
+      end
+      @fin_stmt.total_fl[reporting_period].should == sum
+    end
+  end
+
+  describe "#noa" do
+    it "returns operational assets minus operational liabilities" do
+      reporting_period = 1
+
+      diff = @fin_stmt.total_oa[reporting_period] - @fin_stmt.total_ol[reporting_period]
+      @fin_stmt.noa[reporting_period].should == diff
+    end
+  end
+
+  describe "#nfa" do
+    it "returns financial assets minus financial liabilities" do
+      reporting_period = 1
+
+      diff = @fin_stmt.total_fa[reporting_period] - @fin_stmt.total_fl[reporting_period]
+      @fin_stmt.nfa[reporting_period].should == diff
+    end
+  end
+
+  describe "#cse" do
+    it "returns the sum of common_equity" do
+      reporting_period = 1
+
+      sum = 0.0
+      @fin_stmt.common_equity.each do |e|
+        if not e[reporting_period].val.nil?
+          sum += e[reporting_period].val
+        end
+      end
+      @fin_stmt.cse[reporting_period].should == sum
+    end
+    it "is equal to nfa plus noa" do
+      reporting_period = 1
+
+      sum = @fin_stmt.noa[reporting_period] + @fin_stmt.nfa[reporting_period]
+      @fin_stmt.cse[reporting_period].should == sum
     end
   end
 
