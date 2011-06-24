@@ -34,7 +34,8 @@ module SecEdgar
         # its a text string.  Done.
       else
         # Otherwise, try converting it to a Float or Integer
-        numer_str = @text.gsub(/[^0-9.]/,'')
+        numer_str = @text.gsub(/\(/,'-').gsub(/\)/,'') # turn "(22)" into "-22"
+        numer_str = numer_str.gsub(/[^\-0-9.]/,'') # get rid of all other non-numbers characters
         return if numer_str.length == 0
         if numer_str.match('\.')
           @val = Float(numer_str)

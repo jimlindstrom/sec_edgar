@@ -96,7 +96,7 @@ describe SecEdgar::IncomeStatement do
         @tenq.log.level = Logger::DEBUG
         @tenq.parse(cur_test[:filename])
         gm = @tenq.inc_stmt.operating_revenue[reporting_period] - @tenq.inc_stmt.cost_of_revenue[reporting_period]
-        @tenq.inc_stmt.gross_margin[reporting_period].should == gm
+        @tenq.inc_stmt.gross_margin[reporting_period].should be_within(0.1).of(gm)
       end
     end
   end
@@ -149,18 +149,67 @@ describe SecEdgar::IncomeStatement do
     end
   end
 
-  # operating income from sales (before tax)
+  describe "#other_operating_income_before_tax" do
+    [ { :filename=>"specs/testvectors/apple/2010_03_27.html", 
+        :other_operating_income_before_tax=>50.0 },
+      { :filename=>"specs/testvectors/deere/2004_01_31.html",
+        :other_operating_income_before_tax=>0.0 },
+      { :filename=>"specs/testvectors/google/2009_09_30.html",
+        :other_operating_income_before_tax=>21217.0 },
+      { :filename=>"specs/testvectors/intel/2005_07_02.html",
+        :other_operating_income_before_tax=>105.0 },
+      { :filename=>"specs/testvectors/microsoft/2011_03_31.html",
+        :other_operating_income_before_tax=>316.0 } ].each do |cur_test|
+  
+      it "returns the total income from sales (before tax) for #{cur_test[:filename]}" do
+        reporting_period = 1
+  
+        @tenq = SecEdgar::QuarterlyReport.new
+        @tenq.log = Logger.new('sec_edgar.log')
+        @tenq.log.level = Logger::DEBUG
+        @tenq.parse(cur_test[:filename])
+        @tenq.inc_stmt.other_operating_income_before_tax[reporting_period].should be_within(0.1).of(cur_test[:other_operating_income_before_tax])
+      end
+    end
+  end
+
+  describe "#operating_income_before_tax" do
+    [ { :filename=>"specs/testvectors/apple/2010_03_27.html", 
+        :operating_income_before_tax=>4029.0 },
+      { :filename=>"specs/testvectors/deere/2004_01_31.html",
+        :operating_income_before_tax=>262.2 },
+      { :filename=>"specs/testvectors/google/2009_09_30.html",
+        :operating_income_before_tax=>1668782.0 },
+      { :filename=>"specs/testvectors/intel/2005_07_02.html",
+        :operating_income_before_tax=>2754.0 },
+      { :filename=>"specs/testvectors/microsoft/2011_03_31.html",
+        :operating_income_before_tax=>6025.0 } ].each do |cur_test|
+  
+      it "returns the total income from sales (before tax) for #{cur_test[:filename]}" do
+        reporting_period = 1
+  
+        @tenq = SecEdgar::QuarterlyReport.new
+        @tenq.log = Logger.new('sec_edgar.log')
+        @tenq.log.level = Logger::DEBUG
+        @tenq.parse(cur_test[:filename])
+        @tenq.inc_stmt.operating_income_before_tax[reporting_period].should be_within(0.1).of(cur_test[:operating_income_before_tax])
+      end
+    end
+  end
+
+  # original
+  # other operating income (before tax)
+  #   operating income (before tax)
+  # tax
+  # other operating income (after tax)
+  #   operating income (after tax)
+
+  # reformulated:
   # operating income from sales (after tax)
   # other operating income (after tax)
   # operating income (after tax)
   # financing income
   # net income
-
-  # operating revenues
-  # gross margin
-  # OI from sales (after tax)
-  # OI (after tax)
-  # financing income
   # comprehensive income
 
 end
