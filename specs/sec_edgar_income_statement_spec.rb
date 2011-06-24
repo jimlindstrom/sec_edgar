@@ -31,10 +31,9 @@ describe SecEdgar::IncomeStatement do
 
   end
 
-  #it_should_behave_like 'SecEdgar::FinancialStatement'
+  #it_should_behave_like 'SecEdgar::FinancialStatement' ## RE-ENABLE THIS LATER
 
   describe "#operating_revenue" do
-
     [ { :filename=>"specs/testvectors/apple/2010_03_27.html", 
         :operating_revenue=>13499.0 },
       { :filename=>"specs/testvectors/deere/2004_01_31.html",
@@ -55,12 +54,77 @@ describe SecEdgar::IncomeStatement do
         @tenq.parse(cur_test[:filename])
         @tenq.inc_stmt.operating_revenue[reporting_period].should == cur_test[:operating_revenue]
       end
-
     end
-
   end
 
-  # operating expenses
+  describe "#cost_of_revenue" do
+    [ { :filename=>"specs/testvectors/apple/2010_03_27.html", 
+        :cost_of_revenue=>7874.0 },
+      { :filename=>"specs/testvectors/deere/2004_01_31.html",
+        :cost_of_revenue=>2294.5 },
+      { :filename=>"specs/testvectors/google/2009_09_30.html",
+        :cost_of_revenue=>2173390.0 },
+      { :filename=>"specs/testvectors/intel/2005_07_02.html",
+        :cost_of_revenue=>4028.0 },
+      { :filename=>"specs/testvectors/microsoft/2011_03_31.html",
+        :cost_of_revenue=>3897.0 } ].each do |cur_test|
+
+      it "returns the total expenses for #{cur_test[:filename]}" do
+        reporting_period = 1
+
+        @tenq = SecEdgar::QuarterlyReport.new
+        @tenq.log = Logger.new('sec_edgar.log')
+        @tenq.log.level = Logger::DEBUG
+        @tenq.parse(cur_test[:filename])
+        @tenq.inc_stmt.cost_of_revenue[reporting_period].should == cur_test[:cost_of_revenue]
+      end
+    end
+  end
+
+  describe "#gross_margin" do
+    [ { :filename=>"specs/testvectors/apple/2010_03_27.html" }, 
+      { :filename=>"specs/testvectors/deere/2004_01_31.html" },
+      { :filename=>"specs/testvectors/google/2009_09_30.html" },
+      { :filename=>"specs/testvectors/intel/2005_07_02.html" },
+      { :filename=>"specs/testvectors/microsoft/2011_03_31.html" } ].each do |cur_test|
+
+      it "returns the total expenses for #{cur_test[:filename]}" do
+        reporting_period = 1
+
+        @tenq = SecEdgar::QuarterlyReport.new
+        @tenq.log = Logger.new('sec_edgar.log')
+        @tenq.log.level = Logger::DEBUG
+        @tenq.parse(cur_test[:filename])
+        gm = @tenq.inc_stmt.operating_revenue[reporting_period] - @tenq.inc_stmt.cost_of_revenue[reporting_period]
+        @tenq.inc_stmt.gross_margin[reporting_period].should == gm
+      end
+    end
+  end
+
+  describe "#operating_expense" do
+    [ { :filename=>"specs/testvectors/apple/2010_03_27.html", 
+        :operating_expense=>1646.0 },
+      { :filename=>"specs/testvectors/deere/2004_01_31.html",
+        :operating_expense=>927.1 },
+      { :filename=>"specs/testvectors/google/2009_09_30.html",
+        :operating_expense=>1720436.0 },
+      { :filename=>"specs/testvectors/intel/2005_07_02.html",
+        :operating_expense=>2554.0 },
+      { :filename=>"specs/testvectors/microsoft/2011_03_31.html",
+        :operating_expense=>6822.0 } ].each do |cur_test|
+  
+      it "returns the total expenses for #{cur_test[:filename]}" do
+        reporting_period = 1
+  
+        @tenq = SecEdgar::QuarterlyReport.new
+        @tenq.log = Logger.new('sec_edgar.log')
+        @tenq.log.level = Logger::DEBUG
+        @tenq.parse(cur_test[:filename])
+        @tenq.inc_stmt.operating_expense[reporting_period].should == cur_test[:operating_expense]
+      end
+    end
+  end
+
   # operating income from sales (before tax)
   # operating income from sales (after tax)
   # other operating income (after tax)

@@ -1,15 +1,21 @@
 module SecEdgar
 
   class IncomeStatement < FinancialStatement
-    attr_accessor :revenues
-    attr_accessor :operating_revenue
+    attr_accessor :revenues, :operating_expenses
+
+    attr_accessor :operating_revenue, :cost_of_revenue, :gross_margin, :operating_expense
 
     def initialize
       super()
       @name = "Income Statement"
 
       @revenues = [] # array of rows
+      @operating_expenses = [] # array of rows
+
       @operating_revenue = [] # array of floats
+      @cost_of_revenue = [] # array of floats
+      @gross_margin = [] # array of floats
+      @operating_expense = [] # array of floats
     end
 
     def parse(edgar_fin_stmt)
@@ -69,7 +75,7 @@ module SecEdgar
               @next_state = :reading_revenues
             else # there's no lst of revenues coming, just the total on this line
               @operating_revenue = cur_row.collect { |x| x.val || nil }
-              @next_state = :done
+              @next_state = :reading_cost_of_revenue
             end
           else
             # ignore
@@ -78,9 +84,43 @@ module SecEdgar
         when :reading_revenues
           if !cur_row[0].nil? and cur_row[0].text.downcase =~ /total/
               @operating_revenue = cur_row.collect { |x| x.val || nil }
-            @next_state = :done
+            @next_state = :reading_cost_of_revenue
           else
             @revenues.push cur_row
+          end
+
+        when :reading_cost_of_revenue
+          if !cur_row[0].nil? and cur_row[0].text.downcase =~ /cost of (revenue|sales)/
+            @cost_of_revenue = cur_row.collect { |x| x.val || nil }
+            @gross_margin = @operating_revenue.zip(@cost_of_revenue).collect do |x,y| 
+              if x.nil? or y.nil?
+                nil
+              else
+                x - y
+              end
+            end
+            @next_state = :reading_operating_expenses
+          end
+
+        when :reading_operating_expenses
+          if !cur_row[0].nil? and cur_row[0].text.downcase =~ /(^total|^operating expense[s]*$)/
+            @next_state = :done
+          elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /gross margin/
+            # ignore
+          else
+            @operating_expenses.push cur_row
+            @operating_expense = cur_row.zip(@operating_expense || [ ]).collect do |x,y| 
+              if x.val.nil? and y.nil?
+                nil
+              elsif x.val.nil? and !y.nil?
+                y
+              elsif y.nil?
+                x.val
+              else
+                x.val + y
+              end
+            end
+            @log.debug("Income statement parser state machine, OE[1]: #{@operating_expense[1]}") if @log
           end
 
         when :done
