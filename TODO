@@ -4,8 +4,7 @@ Features
 
 Test Quality/Coverage
 --------------------------------------------------------------------------------
-1. Cause some of the tests (e.g. QuarterlyReport) iterate over multiple stocks, 
-   so that they catch things before the create_training script does.
+
 
 Code Quality
 --------------------------------------------------------------------------------
