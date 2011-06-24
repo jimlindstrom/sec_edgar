@@ -197,12 +197,81 @@ describe SecEdgar::IncomeStatement do
     end
   end
 
+  describe "#provision_for_tax" do
+    [ { :filename=>"specs/testvectors/apple/2010_03_27.html", 
+        :provision_for_tax=>955.0 },
+      { :filename=>"specs/testvectors/deere/2004_01_31.html",
+        :provision_for_tax=>92.6 },
+      { :filename=>"specs/testvectors/google/2009_09_30.html",
+        :provision_for_tax=>378844.0 },
+      { :filename=>"specs/testvectors/intel/2005_07_02.html",
+        :provision_for_tax=>716.0 },
+      { :filename=>"specs/testvectors/microsoft/2011_03_31.html",
+        :provision_for_tax=>793.0 } ].each do |cur_test|
+  
+      it "returns the total income from sales (before tax) for #{cur_test[:filename]}" do
+        reporting_period = 1
+  
+        @tenq = SecEdgar::QuarterlyReport.new
+        @tenq.log = Logger.new('sec_edgar.log')
+        @tenq.log.level = Logger::DEBUG
+        @tenq.parse(cur_test[:filename])
+        @tenq.inc_stmt.provision_for_tax[reporting_period].should be_within(0.1).of(cur_test[:provision_for_tax])
+      end
+    end
+  end
+
+  describe "#other_income_after_tax" do
+    [ { :filename=>"specs/testvectors/apple/2010_03_27.html", 
+        :other_income_after_tax=>0.0 },
+      { :filename=>"specs/testvectors/deere/2004_01_31.html",
+        :other_income_after_tax=>1.2 },
+      { :filename=>"specs/testvectors/google/2009_09_30.html",
+        :other_income_after_tax=>0.0 },
+      { :filename=>"specs/testvectors/intel/2005_07_02.html",
+        :other_income_after_tax=>0.0 },
+      { :filename=>"specs/testvectors/microsoft/2011_03_31.html",
+        :other_income_after_tax=>0.0 } ].each do |cur_test|
+  
+      it "returns the total income from sales (before tax) for #{cur_test[:filename]}" do
+        reporting_period = 1
+  
+        @tenq = SecEdgar::QuarterlyReport.new
+        @tenq.log = Logger.new('sec_edgar.log')
+        @tenq.log.level = Logger::DEBUG
+        @tenq.parse(cur_test[:filename])
+        @tenq.inc_stmt.other_income_after_tax[reporting_period].should be_within(0.1).of(cur_test[:other_income_after_tax])
+      end
+    end
+  end
+
+  describe "#net_income" do
+    [ { :filename=>"specs/testvectors/apple/2010_03_27.html", 
+        :net_income=>3074.0 },
+      { :filename=>"specs/testvectors/deere/2004_01_31.html",
+        :net_income=>170.8 },
+      { :filename=>"specs/testvectors/google/2009_09_30.html",
+        :net_income=>1289938.0 },
+      { :filename=>"specs/testvectors/intel/2005_07_02.html",
+        :net_income=>2038.0 },
+      { :filename=>"specs/testvectors/microsoft/2011_03_31.html",
+        :net_income=>5232.0 } ].each do |cur_test|
+  
+      it "returns the total income from sales (before tax) for #{cur_test[:filename]}" do
+        reporting_period = 1
+  
+        @tenq = SecEdgar::QuarterlyReport.new
+        @tenq.log = Logger.new('sec_edgar.log')
+        @tenq.log.level = Logger::DEBUG
+        @tenq.parse(cur_test[:filename])
+        @tenq.inc_stmt.net_income[reporting_period].should be_within(0.1).of(cur_test[:net_income])
+      end
+    end
+  end
+
   # original
-  # other operating income (before tax)
-  #   operating income (before tax)
-  # tax
-  # other operating income (after tax)
-  #   operating income (after tax)
+  # other income (after tax)
+  #   income (after tax)
 
   # reformulated:
   # operating income from sales (after tax)

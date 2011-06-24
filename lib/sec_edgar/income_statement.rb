@@ -1,11 +1,14 @@
 module SecEdgar
 
   class IncomeStatement < FinancialStatement
-    attr_accessor :revenues, :operating_expenses,:other_operating_incomes_before_tax
+    attr_accessor :revenues, :operating_expenses, :other_operating_incomes_before_tax
+    attr_accessor :other_incomes_after_tax
 
     attr_accessor :operating_revenue, :cost_of_revenue, :gross_margin
     attr_accessor :operating_expense, :operating_income_from_sales_before_tax
     attr_accessor :other_operating_income_before_tax, :operating_income_before_tax
+    attr_accessor :provision_for_tax, :operating_income_after_tax
+    attr_accessor :other_income_after_tax, :net_income
 
     def initialize
       super()
@@ -14,6 +17,7 @@ module SecEdgar
       @revenues = [] # array of rows
       @operating_expenses = [] # array of rows
       @other_operating_incomes_before_tax = [] # array of rows
+      @other_incomes_after_tax = [] # array of rows
 
       @operating_revenue = [] # array of floats
       @cost_of_revenue = [] # array of floats
@@ -22,6 +26,10 @@ module SecEdgar
       @operating_income_from_sales_before_tax = [] # array of floats
       @other_operating_income_before_tax = [] # array of floats
       @operating_income_before_tax = [] # array of floats
+      @provision_for_tax = [] # array of floats
+      @operating_income_after_tax = [] # array of floats
+      @other_income_after_tax = [] # array of floats
+      @net_income = [] # array of floats
     end
 
     def parse(edgar_fin_stmt)
@@ -137,7 +145,7 @@ module SecEdgar
           end
 
         when :reading_other_operating_expenses_before_tax
-          if !cur_row[0].nil? and cur_row[0].text.downcase =~ /provision for [income ]*tax/
+          if !cur_row[0].nil? and cur_row[0].text.downcase =~ /^provision for [income ]*tax/
             if @other_operating_income_before_tax[1].nil?
               @other_operating_income_before_tax = @gross_margin.collect { |x| 0.0 }
             end
@@ -148,12 +156,51 @@ module SecEdgar
                 x+y
               end
             end
-            @next_state = :done
+            @provision_for_tax = cur_row.collect { |x| x.val || nil }
+            @operating_income_after_tax = @operating_income_before_tax.zip(@provision_for_tax).collect do |x,y|
+              if x.nil? or y.nil?
+                nil
+              else
+                x-y
+              end
+            end
+            @next_state = :reading_other_incomes_after_tax
           elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /(operating income|^income.*before.*tax|income from operations)/
             # ignore this total line
           else
             @other_operating_incomes_before_tax.push cur_row
             @other_operating_income_before_tax = cur_row.zip(@other_operating_income_before_tax || [ ]).collect do |x,y| 
+              if x.val.nil? and y.nil?
+                nil
+              elsif x.val.nil? and !y.nil?
+                y
+              elsif y.nil?
+                x.val
+              else
+                x.val + y
+              end
+            end
+
+          end
+
+        when :reading_other_incomes_after_tax
+          if !cur_row[0].nil? and cur_row[0].text.downcase =~ /net income/
+            if @other_income_after_tax[1].nil?
+              @other_income_after_tax = @gross_margin.collect { |x| 0.0 }
+            end
+            @net_income = @operating_income_after_tax.zip(@other_income_after_tax).collect do |x,y|
+              if x.nil? or y.nil?
+                nil
+              else
+                x+y
+              end
+            end
+            @next_state = :done
+          elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /(^income of consolidated group$|^total$)/
+            # ignore this total line
+          else
+            @other_incomes_after_tax.push cur_row
+            @other_income_after_tax = cur_row.zip(@other_income_after_tax || [ ]).collect do |x,y| 
               if x.val.nil? and y.nil?
                 nil
               elsif x.val.nil? and !y.nil?
