@@ -3,7 +3,8 @@ module SecEdgar
   class IncomeStatement < FinancialStatement
     attr_accessor :revenues, :operating_expenses
 
-    attr_accessor :operating_revenue, :cost_of_revenue, :gross_margin, :operating_expense
+    attr_accessor :operating_revenue, :cost_of_revenue, :gross_margin
+    attr_accessor :operating_expense, :operating_income_from_sales_before_tax
 
     def initialize
       super()
@@ -16,6 +17,7 @@ module SecEdgar
       @cost_of_revenue = [] # array of floats
       @gross_margin = [] # array of floats
       @operating_expense = [] # array of floats
+      @operating_income_from_sales_before_tax = [] # array of floats
     end
 
     def parse(edgar_fin_stmt)
@@ -104,6 +106,13 @@ module SecEdgar
 
         when :reading_operating_expenses
           if !cur_row[0].nil? and cur_row[0].text.downcase =~ /(^total|^operating expense[s]*$)/
+            @operating_income_from_sales_before_tax = @gross_margin.zip(@operating_expense).collect do |x,y|
+              if x.nil? or y.nil?
+                nil
+              else
+                x-y
+              end
+            end
             @next_state = :done
           elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /gross margin/
             # ignore

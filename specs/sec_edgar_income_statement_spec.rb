@@ -52,7 +52,7 @@ describe SecEdgar::IncomeStatement do
         @tenq.log = Logger.new('sec_edgar.log')
         @tenq.log.level = Logger::DEBUG
         @tenq.parse(cur_test[:filename])
-        @tenq.inc_stmt.operating_revenue[reporting_period].should == cur_test[:operating_revenue]
+        @tenq.inc_stmt.operating_revenue[reporting_period].should be_within(0.1).of(cur_test[:operating_revenue])
       end
     end
   end
@@ -76,7 +76,7 @@ describe SecEdgar::IncomeStatement do
         @tenq.log = Logger.new('sec_edgar.log')
         @tenq.log.level = Logger::DEBUG
         @tenq.parse(cur_test[:filename])
-        @tenq.inc_stmt.cost_of_revenue[reporting_period].should == cur_test[:cost_of_revenue]
+        @tenq.inc_stmt.cost_of_revenue[reporting_period].should be_within(0.1).of(cur_test[:cost_of_revenue])
       end
     end
   end
@@ -120,7 +120,31 @@ describe SecEdgar::IncomeStatement do
         @tenq.log = Logger.new('sec_edgar.log')
         @tenq.log.level = Logger::DEBUG
         @tenq.parse(cur_test[:filename])
-        @tenq.inc_stmt.operating_expense[reporting_period].should == cur_test[:operating_expense]
+        @tenq.inc_stmt.operating_expense[reporting_period].should be_within(0.1).of(cur_test[:operating_expense])
+      end
+    end
+  end
+
+  describe "#operating_income_from_sales_before_tax" do
+    [ { :filename=>"specs/testvectors/apple/2010_03_27.html", 
+        :operating_income_from_sales_before_tax=>3979.0 },
+      { :filename=>"specs/testvectors/deere/2004_01_31.html",
+        :operating_income_from_sales_before_tax=>262.2 },
+      { :filename=>"specs/testvectors/google/2009_09_30.html",
+        :operating_income_from_sales_before_tax=>1647565.0 },
+      { :filename=>"specs/testvectors/intel/2005_07_02.html",
+        :operating_income_from_sales_before_tax=>2649.0 },
+      { :filename=>"specs/testvectors/microsoft/2011_03_31.html",
+        :operating_income_from_sales_before_tax=>5709.0 } ].each do |cur_test|
+  
+      it "returns the total income from sales (before tax) for #{cur_test[:filename]}" do
+        reporting_period = 1
+  
+        @tenq = SecEdgar::QuarterlyReport.new
+        @tenq.log = Logger.new('sec_edgar.log')
+        @tenq.log.level = Logger::DEBUG
+        @tenq.parse(cur_test[:filename])
+        @tenq.inc_stmt.operating_income_from_sales_before_tax[reporting_period].should be_within(0.1).of(cur_test[:operating_income_from_sales_before_tax])
       end
     end
   end
