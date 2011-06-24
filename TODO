@@ -1,10 +1,11 @@
 Features
 --------------------------------------------------------------------------------
-1. Finish parsing income statement sections
+1. Reformulate the income statement
 
 Test Quality/Coverage
 --------------------------------------------------------------------------------
-
+1. Income statement specs are needlessly reparsing every single time.  Do them
+   once up front?
 
 Code Quality
 --------------------------------------------------------------------------------
