@@ -32,6 +32,10 @@ describe SecEdgar::BalanceSheet do
     @fin_stmt2 = @tenq2.bal_sheet
   }
 
+  before(:all) do
+    create_fin_stmt
+  end
+
   it_should_behave_like 'SecEdgar::FinancialStatement'
 
   ##############################################################################
@@ -59,7 +63,6 @@ describe SecEdgar::BalanceSheet do
 
   describe "#total_assets" do
     it "returns the total value of assets" do
-      create_fin_stmt
       reporting_period = 0
 
       sum = 0.0
