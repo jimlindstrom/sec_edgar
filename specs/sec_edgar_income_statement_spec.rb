@@ -23,7 +23,12 @@ describe SecEdgar::IncomeStatement do
           :re_financing_income_plus_taxes => 0.0,
           :re_operating_revenue => 13499.0,
           :re_operating_expense => 1646.0,
-          :re_operating_income_from_sales_before_tax => 3979.0 },
+          :re_operating_income_from_sales_before_tax => 3979.0,
+          :re_other_operating_income_before_tax => 50.0,
+          :re_operating_income_from_sales_after_tax => 3041.5,
+          :re_operating_income_after_tax => 3074.0,
+          :re_net_financing_income_after_tax => 0.0,
+          :re_net_income => 3074.0 },
 
         { :filename => "specs/testvectors/deere/2004_01_31.html",
           :operating_revenue => 3483.8,
@@ -38,7 +43,12 @@ describe SecEdgar::IncomeStatement do
           :re_financing_income => 147.3,
           :re_operating_revenue => 3189.1,
           :re_operating_expense => 779.7,
-          :re_operating_income_from_sales_before_tax => 114.9 },
+          :re_operating_income_from_sales_before_tax => 114.9,
+          :re_other_operating_income_before_tax => 0.0,
+          :re_operating_income_from_sales_after_tax => 73.855,
+          :re_operating_income_after_tax => 75.055,
+          :re_net_financing_income_after_tax => 95.745,
+          :re_net_income => 170.8 },
 
         { :filename => "specs/testvectors/google/2009_09_30.html",
           :operating_revenue => 5541391.0,
@@ -53,7 +63,12 @@ describe SecEdgar::IncomeStatement do
           :re_financing_income => 21217.0,
           :re_operating_revenue => 5541391.0,
           :re_operating_expense => 1720436.0,
-          :re_operating_income_from_sales_before_tax => 1647565.0 },
+          :re_operating_income_from_sales_before_tax => 1647565.0,
+          :re_other_operating_income_before_tax => 0.0,
+          :re_operating_income_from_sales_after_tax => 1276146.95,
+          :re_operating_income_after_tax => 1276146.95,
+          :re_net_financing_income_after_tax => 13791.05,
+          :re_net_income => 1289938.0 },
 
         { :filename => "specs/testvectors/intel/2005_07_02.html",
           :operating_revenue => 9231.0,
@@ -68,7 +83,12 @@ describe SecEdgar::IncomeStatement do
           :re_financing_income => 105.0,
           :re_operating_revenue => 9231.0,
           :re_operating_expense => 2554.0,
-          :re_operating_income_from_sales_before_tax => 2649.0 },
+          :re_operating_income_from_sales_before_tax => 2649.0,
+          :re_other_operating_income_before_tax => 0.0,
+          :re_operating_income_from_sales_after_tax => 1969.75,
+          :re_operating_income_after_tax => 1969.75, 
+          :re_net_financing_income_after_tax => 68.25,
+          :re_net_income => 2038.0 },
 
         { :filename => "specs/testvectors/microsoft/2011_03_31.html",
           :operating_revenue => 16428.0,
@@ -83,7 +103,12 @@ describe SecEdgar::IncomeStatement do
           :re_financing_income => 0.0,
           :re_operating_revenue => 16428.0,
           :re_operating_expense => 6822.0,
-          :re_operating_income_from_sales_before_tax => 5709.0 } ]
+          :re_operating_income_from_sales_before_tax => 5709.0,
+          :re_other_operating_income_before_tax => 316.0,
+          :re_operating_income_from_sales_after_tax => 5026.6,
+          :re_operating_income_after_tax => 5232.0,
+          :re_net_financing_income_after_tax => 0.0,
+          :re_net_income => 5232.0 } ]
 
     @reporting_period = 1
 
@@ -379,27 +404,136 @@ describe SecEdgar::IncomeStatement do
     end
   end
 
-  # reformulated:
-  # operating income from sales (after tax) # with its share of tax applied
-  # operating income (after tax) # with financial income removed
-  # financing income # pulled out of other income & other operating income
-  # comprehensive income # including AOCI (or whatever) from SSE
+  describe "#re_other_operating_income_before_tax" do
+    it "returns the reformulated other operating income before tax tax" do
+      @vectors[0][:ten_q].inc_stmt.re_other_operating_income_before_tax[@reporting_period].should be_within(0.1).of(@vectors[0][:re_other_operating_income_before_tax])
+    end
+    it "returns the reformulated other operating income before tax tax" do
+      @vectors[1][:ten_q].inc_stmt.re_other_operating_income_before_tax[@reporting_period].should be_within(0.1).of(@vectors[1][:re_other_operating_income_before_tax])
+    end
+    it "returns the reformulated other operating income before tax tax" do
+      @vectors[2][:ten_q].inc_stmt.re_other_operating_income_before_tax[@reporting_period].should be_within(0.1).of(@vectors[2][:re_other_operating_income_before_tax])
+    end
+    it "returns the reformulated other operating income before tax tax" do
+      @vectors[3][:ten_q].inc_stmt.re_other_operating_income_before_tax[@reporting_period].should be_within(0.1).of(@vectors[3][:re_other_operating_income_before_tax])
+    end
+    it "returns the reformulated other operating income before tax tax" do
+      @vectors[4][:ten_q].inc_stmt.re_other_operating_income_before_tax[@reporting_period].should be_within(0.1).of(@vectors[4][:re_other_operating_income_before_tax])
+    end
+  end
 
-  # 1. figure out taxes on financial items & other operating income; 
-  #    subtract this from taxes, as reported.
-  #    subtract result from "operating income from sales, before tax"
-  #    result is "operating income from sales, after tax"
+  # figure out taxes on financial items & other operating income; 
+  # subtract this from taxes, as reported.
+  # subtract result from "operating income from sales, before tax"
+  # result is "operating income from sales, after tax"
+  describe "#re_operating_income_from_sales_after_tax" do
+    it "returns the reformulated operating income from sales after tax" do
+      @vectors[0][:ten_q].inc_stmt.re_operating_income_from_sales_after_tax[@reporting_period].should be_within(0.1).of(@vectors[0][:re_operating_income_from_sales_after_tax])
+    end
+    it "returns the reformulated operating income from sales after tax" do
+      @vectors[1][:ten_q].inc_stmt.re_operating_income_from_sales_after_tax[@reporting_period].should be_within(0.1).of(@vectors[1][:re_operating_income_from_sales_after_tax])
+    end
+    it "returns the reformulated operating income from sales after tax" do
+      inc_stmt = @vectors[2][:ten_q].inc_stmt
 
-  # 2. mutliply 35% (Tax rate) times "other (not-from-sales) operating income, before tax (a positive #) -- tax effect
-  #    subtract this from the "other operating income, before tax" 
-  #    add this to "other operating income, after tax"
-  #    add this to "operating income from sales, after tax"
-  #    result is  "operating income (after tax)"
+      other_income =  inc_stmt.re_financing_income[@reporting_period]
+      other_income += inc_stmt.re_other_operating_income_before_tax[@reporting_period]
 
-  # 3. collect all before-tax financing income
-  #    multiply by 35% (tax rate)
-  #    add any after-tax financing income
-  #    result is net financing income after tax
+      tax_on_other_income = 0.35 * other_income
+      tax_on_sales_income = inc_stmt.provision_for_tax[@reporting_period] - tax_on_other_income
+
+      re_operating_income_from_sales_after_tax = inc_stmt.re_operating_income_from_sales_before_tax[@reporting_period] - tax_on_sales_income
+      re_operating_income_from_sales_after_tax.should be_within(0.1).of(@vectors[2][:re_operating_income_from_sales_after_tax])
+
+      @vectors[2][:ten_q].inc_stmt.re_operating_income_from_sales_after_tax[@reporting_period].should be_within(0.1).of(@vectors[2][:re_operating_income_from_sales_after_tax])
+    end
+    it "returns the reformulated operating income from sales after tax" do
+      @vectors[3][:ten_q].inc_stmt.re_operating_income_from_sales_after_tax[@reporting_period].should be_within(0.1).of(@vectors[3][:re_operating_income_from_sales_after_tax])
+    end
+    it "returns the reformulated operating income from sales after tax" do
+      @vectors[4][:ten_q].inc_stmt.re_operating_income_from_sales_after_tax[@reporting_period].should be_within(0.1).of(@vectors[4][:re_operating_income_from_sales_after_tax])
+    end
+  end
+
+  describe "#re_operating_income_after_tax" do
+
+    it "returns the reformulated operating income after tax" do
+      @vectors[0][:ten_q].inc_stmt.re_operating_income_after_tax[@reporting_period].should be_within(0.1).of(@vectors[0][:re_operating_income_after_tax])
+    end
+    it "returns the reformulated operating income after tax" do
+      @vectors[1][:ten_q].inc_stmt.re_operating_income_after_tax[@reporting_period].should be_within(0.1).of(@vectors[1][:re_operating_income_after_tax])
+    end
+    it "returns the reformulated operating income after tax" do
+      inc_stmt = @vectors[2][:ten_q].inc_stmt
+
+      other_income = inc_stmt.re_financing_income[@reporting_period]
+      #other_income += inc_stmt.re_other_operating_income_before_tax[@reporting_period]
+
+      tax_on_other_income = 0.35 * other_income
+      tax_on_operating_income = inc_stmt.provision_for_tax[@reporting_period] - tax_on_other_income
+
+      re_operating_income_after_tax = inc_stmt.re_operating_income_from_sales_before_tax[@reporting_period] + inc_stmt.re_other_operating_income_before_tax[@reporting_period] - tax_on_operating_income
+      re_operating_income_after_tax.should be_within(0.1).of(@vectors[2][:re_operating_income_after_tax])
+
+      @vectors[2][:ten_q].inc_stmt.re_operating_income_after_tax[@reporting_period].should be_within(0.1).of(@vectors[2][:re_operating_income_after_tax])
+    end
+    it "returns the reformulated operating income after tax" do
+      @vectors[3][:ten_q].inc_stmt.re_operating_income_after_tax[@reporting_period].should be_within(0.1).of(@vectors[3][:re_operating_income_after_tax])
+    end
+    it "returns the reformulated operating income after tax" do
+      @vectors[4][:ten_q].inc_stmt.re_operating_income_after_tax[@reporting_period].should be_within(0.1).of(@vectors[4][:re_operating_income_after_tax])
+    end
+  end
+
+
+  # mutliply 35% (Tax rate) times "other (not-from-sales) operating income, before tax (a positive #) -- tax effect
+  # subtract this from the "other operating income, before tax" 
+  # add this to "other operating income, after tax"
+  # add this to "operating income from sales, after tax"
+  # result is  "operating income (after tax)"
+  describe "#re_net_financing_income_after_tax" do
+
+    it "returns the reformulated net financing income after tax" do
+      @vectors[0][:ten_q].inc_stmt.re_net_financing_income_after_tax[@reporting_period].should be_within(0.1).of(@vectors[0][:re_net_financing_income_after_tax])
+    end
+    it "returns the reformulated net financing income after tax" do
+      @vectors[1][:ten_q].inc_stmt.re_net_financing_income_after_tax[@reporting_period].should be_within(0.1).of(@vectors[1][:re_net_financing_income_after_tax])
+    end
+    it "returns the reformulated net financing income after tax" do
+      @vectors[2][:ten_q].inc_stmt.re_net_financing_income_after_tax[@reporting_period].should be_within(0.1).of(@vectors[2][:re_net_financing_income_after_tax])
+    end
+    it "returns the reformulated net financing income after tax" do
+      @vectors[3][:ten_q].inc_stmt.re_net_financing_income_after_tax[@reporting_period].should be_within(0.1).of(@vectors[3][:re_net_financing_income_after_tax])
+    end
+    it "returns the reformulated net financing income after tax" do
+      @vectors[4][:ten_q].inc_stmt.re_net_financing_income_after_tax[@reporting_period].should be_within(0.1).of(@vectors[4][:re_net_financing_income_after_tax])
+    end
+  end
+
+
+  # collect all before-tax financing income
+  # multiply by 35% (tax rate)
+  # add any after-tax financing income
+  # result is net financing income after tax
+  describe "#re_net_income" do
+
+    it "returns the reformulated net income" do
+      @vectors[0][:ten_q].inc_stmt.re_net_income[@reporting_period].should be_within(0.1).of(@vectors[0][:re_net_income])
+    end
+    it "returns the reformulated net income" do
+      @vectors[1][:ten_q].inc_stmt.re_net_income[@reporting_period].should be_within(0.1).of(@vectors[1][:re_net_income])
+    end
+    it "returns the reformulated net income" do
+      @vectors[2][:ten_q].inc_stmt.re_net_income[@reporting_period].should be_within(0.1).of(@vectors[2][:re_net_income])
+    end
+    it "returns the reformulated net income" do
+      @vectors[3][:ten_q].inc_stmt.re_net_income[@reporting_period].should be_within(0.1).of(@vectors[3][:re_net_income])
+    end
+    it "returns the reformulated net income" do
+      @vectors[4][:ten_q].inc_stmt.re_net_income[@reporting_period].should be_within(0.1).of(@vectors[4][:re_net_income])
+    end
+  end
+
 
 end
  

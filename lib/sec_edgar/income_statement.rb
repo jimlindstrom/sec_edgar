@@ -1,6 +1,8 @@
 module SecEdgar
 
   class IncomeStatement < FinancialStatement
+    TAX_RATE = 0.35
+
     attr_accessor :operating_revenue, :cost_of_revenue, :gross_margin
     attr_accessor :operating_expense, :operating_income_from_sales_before_tax
     attr_accessor :other_operating_income_before_tax, :operating_income_before_tax
@@ -9,6 +11,10 @@ module SecEdgar
 
     attr_accessor :re_financing_income, :re_operating_revenue, :re_gross_margin
     attr_accessor :re_operating_expense, :re_operating_income_from_sales_before_tax
+    attr_accessor :re_other_operating_income_before_tax
+    attr_accessor :re_operating_income_from_sales_after_tax
+    attr_accessor :re_operating_income_after_tax, :re_net_financing_income_after_tax
+    attr_accessor :re_net_income
 
     def initialize
       super()
@@ -39,6 +45,11 @@ module SecEdgar
       @re_gross_margin = [] # array of floats
       @re_operating_expense = [] # array of floats
       @re_operating_income_from_sales_before_tax = [] # array of floats
+      @re_other_operating_income_before_tax = [] # array of floats
+      @re_operating_income_from_sales_after_tax = [] # array of floats
+      @re_operating_income_after_tax = [] # array of floats
+      @re_net_financing_income_after_tax = [] # array of floats
+      @re_net_income = [] # array of floats
     end
 
     def parse(edgar_fin_stmt)
@@ -52,10 +63,15 @@ module SecEdgar
       return false if not parse_income_stmt_state_machine
       return false if not calculate_financing_income
       return false if not calculate_re_operating_income_from_sales_before_tax
+      return false if not calculate_re_operating_income_from_sales_after_tax
+      return false if not calculate_re_operating_income_after_tax
+      return false if not calculate_re_net_financing_income_after_tax
+      return false if not calculate_re_net_income
     end
 
   private
 
+    # FIXME: untested.  probably broken
     def parse_reporting_periods
       # pull out the date ranges
       @rows.each_with_index do |row, idx|
@@ -129,17 +145,7 @@ module SecEdgar
             # ignore
           else
             @operating_expenses.push cur_row
-            @operating_expense = cur_row.zip(@operating_expense || [ ]).collect do |x,y|  ## FIXME: replace with helper
-              if x.val.nil? and y.nil?
-                nil
-              elsif x.val.nil? and !y.nil?
-                y
-              elsif y.nil?
-                x.val
-              else
-                x.val + y
-              end
-            end
+            @operating_expense = array_sum_CF(cur_row, @operating_expense || [ ]) 
             @log.debug("Income statement parser state machine, OE[1]: #{@operating_expense[1]}") if @log
           end
 
@@ -156,47 +162,20 @@ module SecEdgar
             # ignore this total line
           else
             @other_operating_incomes_before_tax.push cur_row
-            @other_operating_income_before_tax = cur_row.zip(@other_operating_income_before_tax || [ ]).collect do |x,y|  # replace with helper
-              if x.val.nil? and y.nil?
-                nil
-              elsif x.val.nil? and !y.nil?
-                y
-              elsif y.nil?
-                x.val
-              else
-                x.val + y
-              end
-            end
-
+            @other_operating_income_before_tax = array_sum_CF(cur_row, @other_operating_income_before_tax || [ ]) 
           end
 
         when :reading_other_incomes_after_tax
           if !cur_row[0].nil? and cur_row[0].text.downcase =~ /net income/
-            if @other_income_after_tax[1].nil?
-              @other_income_after_tax = nil_and_n_zeros(@gross_margin.length - 1)
-            end
+            @other_income_after_tax = nil_and_n_zeros(@gross_margin.length - 1) if @other_income_after_tax[1].nil?
             @net_income = array_sum_FF(@operating_income_after_tax, @other_income_after_tax)
             next_state = :done
           elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /(^income of consolidated group$|^total$)/
             # ignore this total line
           else
             @other_incomes_after_tax.push cur_row
-            if @other_income_after_tax.nil?
-              @other_income_after_tax = nil_and_n_zeros(@gross_margin.length - 1)
-            end
-            #@other_income_after_tax = array_sum_FC(@other_income_after_tax, cur_row) # FIXME: this doesn't work for some reason...
-            @other_income_after_tax = cur_row.zip(@other_income_after_tax).collect do |x,y|  
-              if x.val.nil? and y.nil?
-                nil
-              elsif x.val.nil? and !y.nil?
-                y
-              elsif y.nil?
-                x.val
-              else
-                x.val + y
-              end
-            end
-
+            @other_income_after_tax = nil_and_n_zeros(@gross_margin.length - 1) if @other_income_after_tax.nil?
+            @other_income_after_tax = array_sum_CF(cur_row, @other_income_after_tax)
           end
 
         when :done
@@ -225,6 +204,7 @@ module SecEdgar
       @re_financing_income = nil_and_n_zeros(@operating_revenue.length - 1)
       @re_operating_revenue = @operating_revenue
       @re_operating_expense = @operating_expense
+      @re_other_operating_income_before_tax = @other_operating_income_before_tax
 
       # look in revenues
       if @revenues != []
@@ -239,7 +219,7 @@ module SecEdgar
       # look in operating expenses
       @operating_expenses.each do |e|
         if e[0].text.downcase =~ /interest expense/
-          # FIXME: remove this from operating_expense
+          # remove this from operating_expense
           @re_operating_expense = array_diff_FC(@re_operating_expense, e)
 
           # subtract this revenue from the financing income
@@ -250,7 +230,8 @@ module SecEdgar
       # look in other operating income
       @other_operating_incomes_before_tax.each do |i|
         if i[0].text.downcase =~ /(gain[s].* on.* securities|interest)/
-          # FIXME: remove this from other_operating_income_before_tax
+          # remove this from other_operating_income_before_tax
+          @re_other_operating_income_before_tax = array_diff_FC(@re_other_operating_income_before_tax, i)
 
           # subtract this revenue from the financing income
           @re_financing_income = array_sum_FC(@re_financing_income, i)
@@ -263,6 +244,39 @@ module SecEdgar
     def calculate_re_operating_income_from_sales_before_tax
       @re_gross_margin = array_diff_FF(@re_operating_revenue, @cost_of_revenue)
       @re_operating_income_from_sales_before_tax = array_diff_FF(@re_gross_margin, @re_operating_expense)
+
+      return true
+    end
+
+    def calculate_re_operating_income_from_sales_after_tax
+      tax_on_non_sales_income = array_F_mult_by_scalar(array_sum_FF(@re_other_operating_income_before_tax, @re_financing_income), TAX_RATE)
+
+      tax_on_sales_income = array_diff_FF(@provision_for_tax, tax_on_non_sales_income)
+
+      @re_operating_income_from_sales_after_tax = array_diff_FF(@re_operating_income_from_sales_before_tax, tax_on_sales_income)
+
+      return true
+    end
+
+    def calculate_re_operating_income_after_tax
+      tax_on_other_operating_income = array_F_mult_by_scalar(@re_other_operating_income_before_tax, TAX_RATE)
+      @re_operating_income_after_tax = array_diff_FF(@re_other_operating_income_before_tax, tax_on_other_operating_income)
+
+      @re_operating_income_after_tax = array_sum_FF(@re_operating_income_after_tax, @other_income_after_tax)
+      @re_operating_income_after_tax = array_sum_FF(@re_operating_income_after_tax, @re_operating_income_from_sales_after_tax)
+
+      return true
+    end
+
+    def calculate_re_net_financing_income_after_tax
+      @re_net_financing_income_after_tax = array_F_mult_by_scalar(@re_financing_income.collect, 1-TAX_RATE)
+      # ignores after-tax financing income (which we haven't seen in any test vectors yet)
+
+      return true
+    end
+
+    def calculate_re_net_income
+      @re_net_income = array_sum_FF(@re_net_financing_income_after_tax, @re_operating_income_after_tax)
 
       return true
     end
@@ -321,6 +335,31 @@ module SecEdgar
           nil
         else
           f1 + f2
+        end
+      end
+    end
+
+    # param1: array of SecEdgar::Cells.  param2: array of floats
+    def array_sum_CF(cs, fs)
+      return cs.zip(fs).collect do |c,f|  
+        if c.val.nil? and f.nil?
+          nil
+        elsif c.val.nil? and !f.nil?
+          f
+        elsif f.nil?
+          c.val
+        else
+          c.val + f
+        end
+      end
+    end
+
+    def array_F_mult_by_scalar(fs, x)
+      return fs.collect do |f|
+        if f.nil?
+          nil
+        else
+          f * x
         end
       end
     end
