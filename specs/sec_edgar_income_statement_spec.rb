@@ -19,8 +19,10 @@ describe SecEdgar::IncomeStatement do
           :provision_for_tax => 955.0,
           :other_income_after_tax => 0.0,
           :net_income => 3074.0,
-          :financing_income => 0.0,
-          :r_operating_revenue => 13499.0 },
+          :re_financing_income => 0.0,
+          :re_operating_revenue => 13499.0,
+          :re_operating_expense => 1646.0 },
+
         { :filename => "specs/testvectors/deere/2004_01_31.html",
           :operating_revenue => 3483.8,
           :cost_of_revenue => 2294.5,
@@ -31,8 +33,9 @@ describe SecEdgar::IncomeStatement do
           :provision_for_tax => 92.6,
           :other_income_after_tax => 1.2,
           :net_income => 170.8,
-          :financing_income => (294.7-147.4),
-          :r_operating_revenue => 3483.8-294.7 },
+          :re_financing_income => (294.7-147.4),
+          :re_operating_revenue => 3483.8-294.7,
+          :re_operating_expense => (927.1-147.4) },
 
         { :filename => "specs/testvectors/google/2009_09_30.html",
           :operating_revenue => 5541391.0,
@@ -44,8 +47,9 @@ describe SecEdgar::IncomeStatement do
           :provision_for_tax => 378844.0,
           :other_income_after_tax => 0.0,
           :net_income => 1289938.0,
-          :financing_income => 21217.0,
-          :r_operating_revenue => 5541391.0 },
+          :re_financing_income => 21217.0,
+          :re_operating_revenue => 5541391.0,
+          :re_operating_expense => 1720436.0 },
 
         { :filename => "specs/testvectors/intel/2005_07_02.html",
           :operating_revenue => 9231.0,
@@ -57,8 +61,9 @@ describe SecEdgar::IncomeStatement do
           :provision_for_tax => 716.0,
           :other_income_after_tax => 0.0,
           :net_income => 2038.0,
-          :financing_income => 105.0,
-          :r_operating_revenue => 9231.0 },
+          :re_financing_income => 105.0,
+          :re_operating_revenue => 9231.0,
+          :re_operating_expense => 2554.0 },
 
         { :filename => "specs/testvectors/microsoft/2011_03_31.html",
           :operating_revenue => 16428.0,
@@ -70,8 +75,9 @@ describe SecEdgar::IncomeStatement do
           :provision_for_tax => 793.0,
           :other_income_after_tax => 0.0,
           :net_income => 5232.0,
-          :financing_income => 0.0,
-          :r_operating_revenue => 16428.0 } ]
+          :re_financing_income => 0.0,
+          :re_operating_revenue => 16428.0,
+          :re_operating_expense => 6822.0 } ]
 
     @reporting_period = 1
 
@@ -295,21 +301,57 @@ describe SecEdgar::IncomeStatement do
     end
   end
 
-  describe "#financing_income" do
-    it "returns the before-tax financing income" do
-      @vectors[0][:ten_q].inc_stmt.financing_income[@reporting_period].should be_within(0.1).of(@vectors[0][:financing_income])
+  describe "#re_financing_income" do
+    it "returns the reformulated, before-tax financing income" do
+      @vectors[0][:ten_q].inc_stmt.re_financing_income[@reporting_period].should be_within(0.1).of(@vectors[0][:re_financing_income])
     end
-    it "returns the before-tax financing income" do
-      @vectors[1][:ten_q].inc_stmt.financing_income[@reporting_period].should be_within(0.1).of(@vectors[1][:financing_income])
+    it "returns the reformulated, before-tax financing income" do
+      @vectors[1][:ten_q].inc_stmt.re_financing_income[@reporting_period].should be_within(0.1).of(@vectors[1][:re_financing_income])
     end
-    it "returns the before-tax financing income" do
-      @vectors[2][:ten_q].inc_stmt.financing_income[@reporting_period].should be_within(0.1).of(@vectors[2][:financing_income])
+    it "returns the reformulated, before-tax financing income" do
+      @vectors[2][:ten_q].inc_stmt.re_financing_income[@reporting_period].should be_within(0.1).of(@vectors[2][:re_financing_income])
     end
-    it "returns the before-tax financing income" do
-      @vectors[3][:ten_q].inc_stmt.financing_income[@reporting_period].should be_within(0.1).of(@vectors[3][:financing_income])
+    it "returns the reformulated, before-tax financing income" do
+      @vectors[3][:ten_q].inc_stmt.re_financing_income[@reporting_period].should be_within(0.1).of(@vectors[3][:re_financing_income])
     end
-    it "returns the before-tax financing income" do
-      @vectors[4][:ten_q].inc_stmt.financing_income[@reporting_period].should be_within(0.1).of(@vectors[4][:financing_income])
+    it "returns the reformulated, before-tax financing income" do
+      @vectors[4][:ten_q].inc_stmt.re_financing_income[@reporting_period].should be_within(0.1).of(@vectors[4][:re_financing_income])
+    end
+  end
+
+  describe "#re_operating_revenue" do
+    it "returns the reformulated total revenues" do
+      @vectors[0][:ten_q].inc_stmt.re_operating_revenue[@reporting_period].should be_within(0.1).of(@vectors[0][:re_operating_revenue])
+    end
+    it "returns the reformulated total revenues" do
+      @vectors[1][:ten_q].inc_stmt.re_operating_revenue[@reporting_period].should be_within(0.1).of(@vectors[1][:re_operating_revenue])
+    end
+    it "returns the reformulated total revenues" do
+      @vectors[2][:ten_q].inc_stmt.re_operating_revenue[@reporting_period].should be_within(0.1).of(@vectors[2][:re_operating_revenue])
+    end
+    it "returns the reformulated total revenues" do
+      @vectors[3][:ten_q].inc_stmt.re_operating_revenue[@reporting_period].should be_within(0.1).of(@vectors[3][:re_operating_revenue])
+    end
+    it "returns the reformulated total revenues" do
+      @vectors[4][:ten_q].inc_stmt.re_operating_revenue[@reporting_period].should be_within(0.1).of(@vectors[4][:re_operating_revenue])
+    end
+  end
+
+  describe "#re_operating_expense" do
+    it "returns the reformulated operating expenses" do
+      @vectors[0][:ten_q].inc_stmt.re_operating_expense[@reporting_period].should be_within(0.1).of(@vectors[0][:re_operating_expense])
+    end
+    it "returns the reformulated operating expenses" do
+      @vectors[1][:ten_q].inc_stmt.re_operating_expense[@reporting_period].should be_within(0.1).of(@vectors[1][:re_operating_expense])
+    end
+    it "returns the reformulated operating expenses" do
+      @vectors[2][:ten_q].inc_stmt.re_operating_expense[@reporting_period].should be_within(0.1).of(@vectors[2][:re_operating_expense])
+    end
+    it "returns the reformulated operating expenses" do
+      @vectors[3][:ten_q].inc_stmt.re_operating_expense[@reporting_period].should be_within(0.1).of(@vectors[3][:re_operating_expense])
+    end
+    it "returns the reformulated operating expenses" do
+      @vectors[4][:ten_q].inc_stmt.re_operating_expense[@reporting_period].should be_within(0.1).of(@vectors[4][:re_operating_expense])
     end
   end
 

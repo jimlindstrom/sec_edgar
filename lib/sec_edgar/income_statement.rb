@@ -7,17 +7,20 @@ module SecEdgar
     attr_accessor :provision_for_tax, :operating_income_after_tax
     attr_accessor :other_income_after_tax, :net_income
 
-    attr_accessor :financing_income
+    attr_accessor :re_financing_income, :re_operating_revenue
+    attr_accessor :re_operating_expense
 
     def initialize
       super()
       @name = "Income Statement"
 
+      # as stated, line items
       @revenues = [] # array of rows
       @operating_expenses = [] # array of rows
       @other_operating_incomes_before_tax = [] # array of rows
       @other_incomes_after_tax = [] # array of rows
 
+      # as stated, totals
       @operating_revenue = [] # array of floats
       @cost_of_revenue = [] # array of floats
       @gross_margin = [] # array of floats
@@ -30,7 +33,9 @@ module SecEdgar
       @other_income_after_tax = [] # array of floats
       @net_income = [] # array of floats
 
-      @financing_income = [] # array of floats
+      # reformulated, totals
+      @re_financing_income = [] # array of floats
+      @re_operating_revenue = [] # array of floats
     end
 
     def parse(edgar_fin_stmt)
@@ -108,31 +113,19 @@ module SecEdgar
         when :reading_cost_of_revenue
           if !cur_row[0].nil? and cur_row[0].text.downcase =~ /cost of (revenue|sales)/
             @cost_of_revenue = cur_row.collect { |x| x.val || nil }
-            @gross_margin = @operating_revenue.zip(@cost_of_revenue).collect do |x,y| 
-              if x.nil? or y.nil?
-                nil
-              else
-                x - y
-              end
-            end
+            @gross_margin = array_diff_FF(@operating_revenue, @cost_of_revenue)
             next_state = :reading_operating_expenses
           end
 
         when :reading_operating_expenses
           if !cur_row[0].nil? and cur_row[0].text.downcase =~ /(^total|^operating expense[s]*$)/
-            @operating_income_from_sales_before_tax = @gross_margin.zip(@operating_expense).collect do |x,y|
-              if x.nil? or y.nil?
-                nil
-              else
-                x-y
-              end
-            end
+            @operating_income_from_sales_before_tax = array_diff_FF(@gross_margin, @operating_expense)
             next_state = :reading_other_operating_expenses_before_tax
           elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /gross margin/
             # ignore
           else
             @operating_expenses.push cur_row
-            @operating_expense = cur_row.zip(@operating_expense || [ ]).collect do |x,y| 
+            @operating_expense = cur_row.zip(@operating_expense || [ ]).collect do |x,y|  ## FIXME: replace with helper
               if x.val.nil? and y.nil?
                 nil
               elsif x.val.nil? and !y.nil?
@@ -151,27 +144,15 @@ module SecEdgar
             if @other_operating_income_before_tax[1].nil?
               @other_operating_income_before_tax = nil_and_n_zeros(@gross_margin.length - 1)
             end
-            @operating_income_before_tax = @operating_income_from_sales_before_tax.zip(@other_operating_income_before_tax).collect do |x,y|
-              if x.nil? or y.nil?
-                nil
-              else
-                x+y
-              end
-            end
+            @operating_income_before_tax = array_sum_FF(@operating_income_from_sales_before_tax, @other_operating_income_before_tax)
             @provision_for_tax = cur_row.collect { |x| x.val || nil }
-            @operating_income_after_tax = @operating_income_before_tax.zip(@provision_for_tax).collect do |x,y|
-              if x.nil? or y.nil?
-                nil
-              else
-                x-y
-              end
-            end
+            @operating_income_after_tax = array_diff_FF(@operating_income_before_tax, @provision_for_tax)
             next_state = :reading_other_incomes_after_tax
           elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /(operating income|^income.*before.*tax|income from operations)/
             # ignore this total line
           else
             @other_operating_incomes_before_tax.push cur_row
-            @other_operating_income_before_tax = cur_row.zip(@other_operating_income_before_tax || [ ]).collect do |x,y| 
+            @other_operating_income_before_tax = cur_row.zip(@other_operating_income_before_tax || [ ]).collect do |x,y|  # replace with helper
               if x.val.nil? and y.nil?
                 nil
               elsif x.val.nil? and !y.nil?
@@ -190,19 +171,17 @@ module SecEdgar
             if @other_income_after_tax[1].nil?
               @other_income_after_tax = nil_and_n_zeros(@gross_margin.length - 1)
             end
-            @net_income = @operating_income_after_tax.zip(@other_income_after_tax).collect do |x,y|
-              if x.nil? or y.nil?
-                nil
-              else
-                x+y
-              end
-            end
+            @net_income = array_sum_FF(@operating_income_after_tax, @other_income_after_tax)
             next_state = :done
           elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /(^income of consolidated group$|^total$)/
             # ignore this total line
           else
             @other_incomes_after_tax.push cur_row
-            @other_income_after_tax = cur_row.zip(@other_income_after_tax || [ ]).collect do |x,y| 
+            if @other_income_after_tax.nil?
+              @other_income_after_tax = nil_and_n_zeros(@gross_margin.length - 1)
+            end
+            #@other_income_after_tax = array_sum_FC(@other_income_after_tax, cur_row) # FIXME: this doesn't work for some reason...
+            @other_income_after_tax = cur_row.zip(@other_income_after_tax).collect do |x,y|  
               if x.val.nil? and y.nil?
                 nil
               elsif x.val.nil? and !y.nil?
@@ -239,22 +218,16 @@ module SecEdgar
     end
 
     def calculate_financing_income
-      @financing_income = nil_and_n_zeros(@operating_revenue.length - 1)
+      @re_financing_income = nil_and_n_zeros(@operating_revenue.length - 1)
+      @re_operating_revenue = @operating_revenue
+      @re_operating_expense = @operating_expense
 
       # look in revenues
       if @revenues != []
         @revenues.each do |r|
           if r[0].text.downcase =~ /interest income/
-            # FIXME: remove this from operating_revenue
-
-            # add this revenue to the financing income
-            @financing_income = @financing_income.zip(r).collect do |x,y|
-              if x.nil? or y.val.nil?
-                nil
-              else
-                x+y.val
-              end
-            end
+            @re_financing_income = array_sum_FC(@re_financing_income, r)
+            @re_operating_revenue = array_diff_FC(@re_operating_revenue, r)
           end
         end
       end
@@ -263,15 +236,10 @@ module SecEdgar
       @operating_expenses.each do |e|
         if e[0].text.downcase =~ /interest expense/
           # FIXME: remove this from operating_expense
+          @re_operating_expense = array_diff_FC(@re_operating_expense, e)
 
           # subtract this revenue from the financing income
-          @financing_income = @financing_income.zip(e).collect do |x,y|
-            if x.nil? or y.val.nil?
-              nil
-            else
-              x-y.val
-            end
-          end
+          @re_financing_income = array_diff_FC(@re_financing_income, e)
         end
       end
 
@@ -281,13 +249,7 @@ module SecEdgar
           # FIXME: remove this from other_operating_income_before_tax
 
           # subtract this revenue from the financing income
-          @financing_income = @financing_income.zip(i).collect do |x,y|
-            if x.nil? or y.val.nil?
-              nil
-            else
-              x+y.val
-            end
-          end
+          @re_financing_income = array_sum_FC(@re_financing_income, i)
         end
       end
 
@@ -302,6 +264,54 @@ module SecEdgar
       a = [nil]
       n.times { a.push(0.0) }
       return a
+    end
+
+    # param1: array of floats.  param2: array of SecEdgar::Cell
+    def array_diff_FC(fs, cs)
+      return fs.zip(cs).collect do |f, c|
+        if f.nil? or c.val.nil?
+          nil
+        else
+          f - c.val
+        end
+      end
+    end
+
+    # param1: array of floats.  param2: array of floats
+    def array_diff_FF(f1s, f2s)
+      return f1s.zip(f2s).collect do |f1, f2|
+        if f1.nil? or f2.nil?
+          nil
+        else
+          f1 - f2
+        end
+      end
+    end
+
+    # param1: array of floats.  param2: array of SecEdgar::Cell
+    def array_sum_FC(fs, cs)
+      return fs.zip(cs).collect do |f, c|
+        if f.nil? and c.val.nil?
+          nil
+        elsif f.nil? and !c.val.nil?
+          c.val
+        elsif c.val.nil?
+          f
+        else
+          f + c.val
+        end
+      end
+    end
+
+    # param1: array of floats.  param2: array of floats
+    def array_sum_FF(f1s, f2s)
+      return f1s.zip(f2s).collect do |f1, f2|
+        if f1.nil? or f2.nil?
+          nil
+        else
+          f1 + f2
+        end
+      end
     end
 
   end
