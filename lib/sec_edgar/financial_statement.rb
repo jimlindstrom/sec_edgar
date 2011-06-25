@@ -1,7 +1,7 @@
 module SecEdgar
 
   class FinancialStatement
-    attr_accessor :log, :rows, :name
+    attr_accessor :log, :name, :rows, :sheet, :num_cols
   
     def initialize
       @rows = []
@@ -9,19 +9,7 @@ module SecEdgar
     end
   
     def parse(edgar_fin_stmt)
-      edgar_fin_stmt.children.each do |row_in| 
-        if row_in.is_a? Hpricot::Elem
-          row_out = []
-          row_in.children.each do |cell_str|
-            cell = Cell.new { |c| c.log = @log }
-            cell.parse( String(cell_str.to_plain_text) )
-            row_out.push(cell)
-          end
-
-          @rows.push(row_out)
-        end
-      end
-
+      parse_html(edgar_fin_stmt)
       delete_empty_columns
 
       return true
@@ -89,7 +77,24 @@ module SecEdgar
     end
 
   private
- 
+
+     def parse_html(edgar_fin_stmt)
+
+      edgar_fin_stmt.children.each do |row_in| 
+        if row_in.is_a? Hpricot::Elem
+          row_out = []
+          row_in.children.each do |cell_str|
+            cell = Cell.new { |c| c.log = @log }
+            cell.parse( String(cell_str.to_plain_text) )
+            row_out.push(cell)
+          end
+
+          @rows.push(row_out)
+        end
+      end
+
+    end
+
     def delete_empty_columns
 
       last_col = @rows.collect{ |r| r.length }.max - 1
@@ -110,13 +115,26 @@ module SecEdgar
       min_filled_count = Integer(col_filled_count.max * 5/10)
 
       # delete each column that isn't sufficiently filled in
+      @num_cols = 0
       Array(0..last_col).reverse.each do |idx|
         if col_filled_count[idx] < min_filled_count
           @log.debug("Column #{idx} - delete (#{col_filled_count[idx]} < #{min_filled_count})") if @log
           @rows.each { |r| r.delete_at(idx) }
         else
           @log.debug("Column #{idx} - keep (#{col_filled_count[idx]} >= #{min_filled_count})") if @log
+          @num_cols += 1
         end
+      end
+      @num_cols -= 1 # because the first column is just the label
+
+      # convert rows to SheetRows
+      @sheet = []
+      @rows.each do |r|
+        sr = SheetRow.new(@num_cols, 0)
+        sr.label = r[0].text
+        sr.flags = r[0].flags
+        sr.cols  = r[1..r.length].collect { |x| x.val }
+        @sheet.push(sr)
       end
 
     end

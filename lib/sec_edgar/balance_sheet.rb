@@ -75,172 +75,171 @@ module SecEdgar
     ###########################################################################
   
     def parse_common_stock_line
-      # parse the common stock line
-      @rows.each_with_index do |row, idx|
-        if String(row[0]).match(STOCK_REGEX) and
-           String(row[1]).match(STOCK_REGEX) then
-          @rows[idx].delete_at(0)
-          @rows[idx].delete_at(0)
-          @rows[idx].insert(0,"Common or Preferred Stock")
-  
-        elsif String(row[0]).match(STOCK_REGEX)  and
-              String(row[1]).match(NUMBER_REGEX) and
-              String(row[2]).match(STOCK_REGEX)  and
-              String(row[3]).match(NUMBER_REGEX) then
-          @rows[idx].delete_at(0)
-          @rows[idx].insert(0,"Common or Preferred Stock")
-          @rows[idx].delete_at(2)
-          @rows[idx].insert(2,"Common or Preferred Stock")
-  
-        elsif String(row[0]).match(STOCK_REGEX)
-          @rows[idx].delete_at(0)
-          @rows[idx].insert(0,"Common or Preferred Stock")
-        end
-      end
+#      # parse the common stock line
+#      @rows.each_with_index do |row, idx|
+#        if String(row[0]).match(STOCK_REGEX) and
+#           String(row[1]).match(STOCK_REGEX) then
+#          @rows[idx].delete_at(0)
+#          @rows[idx].delete_at(0)
+#          @rows[idx].insert(0,"Common or Preferred Stock")
+#  
+#        elsif String(row[0]).match(STOCK_REGEX)  and
+#              String(row[1]).match(NUMBER_REGEX) and
+#              String(row[2]).match(STOCK_REGEX)  and
+#              String(row[3]).match(NUMBER_REGEX) then
+#          @rows[idx].delete_at(0)
+#          @rows[idx].insert(0,"Common or Preferred Stock")
+#          @rows[idx].delete_at(2)
+#          @rows[idx].insert(2,"Common or Preferred Stock")
+#  
+#        elsif String(row[0]).match(STOCK_REGEX)
+#          @rows[idx].delete_at(0)
+#          @rows[idx].insert(0,"Common or Preferred Stock")
+#        end
+#      end
     end
 
     def parse_reporting_periods
-      # pull out the date ranges
-      @rows.each_with_index do |row, idx|
-        # Match [][As of Dec 31, 2003][As of Dec 31, 2004]
-        if String(row[0]).match(/As[^A-Za-z]*of/) and
-           String(row[1]).match(/As[^A-Za-z]*of/) then
-          @rows[idx][0].gsub!(/As[^A-Za-z]*of[^A-Za-z]*/,'')
-          @rows[idx][1].gsub!(/As[^A-Za-z]*of[^A-Za-z]*/,'')
-          @rows[idx].insert(0,"As of")
-          @rows[idx].delete_at(3)
-  
-        # Match [As of][][]
-        #       [2003][2004][]
-        elsif String(row[0]).match(/As[^A-Za-z]*of/) and
-              String(@rows[idx+1][0]).match(/[0-9]{4}/) and
-              String(@rows[idx+1][1]).match(/[0-9]{4}/) then
-          @rows[idx].concat(@rows[idx+1])
-          @rows.delete_at(idx+1)
-  
-        # Match [December 31][][]
-        #       [2003][2004][]
-        elsif String(row[0]).match(/[A-Za-z]+[^A-Za-z]+ [0-9]+/) and
-              String(@rows[idx+1][0]).match(/[0-9]{4}/) and
-              String(@rows[idx+1][1]).match(/[0-9]{4}/) then
-          @rows[idx].concat(@rows[idx+1])
-          @rows.delete_at(idx+1)
-        end
-      end
+#      # pull out the date ranges
+#      @rows.each_with_index do |row, idx|
+#        # Match [][As of Dec 31, 2003][As of Dec 31, 2004]
+#        if String(row[0]).match(/As[^A-Za-z]*of/) and
+#           String(row[1]).match(/As[^A-Za-z]*of/) then
+#          @rows[idx][0].gsub!(/As[^A-Za-z]*of[^A-Za-z]*/,'')
+#          @rows[idx][1].gsub!(/As[^A-Za-z]*of[^A-Za-z]*/,'')
+#          @rows[idx].insert(0,"As of")
+#          @rows[idx].delete_at(3)
+#  
+#        # Match [As of][][]
+#        #       [2003][2004][]
+#        elsif String(row[0]).match(/As[^A-Za-z]*of/) and
+#              String(@rows[idx+1][0]).match(/[0-9]{4}/) and
+#              String(@rows[idx+1][1]).match(/[0-9]{4}/) then
+#          @rows[idx].concat(@rows[idx+1])
+#          @rows.delete_at(idx+1)
+#  
+#        # Match [December 31][][]
+#        #       [2003][2004][]
+#        elsif String(row[0]).match(/[A-Za-z]+[^A-Za-z]+ [0-9]+/) and
+#              String(@rows[idx+1][0]).match(/[0-9]{4}/) and
+#              String(@rows[idx+1][1]).match(/[0-9]{4}/) then
+#          @rows[idx].concat(@rows[idx+1])
+#          @rows.delete_at(idx+1)
+#        end
+#      end
     end
 
     def parse_accounts_receivable
-      # pull out the A/R allowances
-      @rows.each_with_index do |row, index|
-        if String(row[0]).match(AR_ALLOWANCE_REGEX)
-          # first, (FIXME) pull out the allowances from the regex
-          allowances = [$1, $2]
-          allowances.map!{|item| item.gsub(/[$,]/,"")} # strip out comma and dollar sign
-          allowances_row=["A/R Allowance"].concat(allowances)
-  
-          # now remove the allowances from the current line
-          row[0] = row[0].gsub(AR_ALLOWANCE_REGEX,', net of allowance')
-          @rows[index] = row
-          @rows[index+1] = allowances_row
-        end
-      end
+#      # pull out the A/R allowances
+#      @rows.each_with_index do |row, index|
+#        if String(row[0]).match(AR_ALLOWANCE_REGEX)
+#          # first, (FIXME) pull out the allowances from the regex
+#          allowances = [$1, $2]
+#          allowances.map!{|item| item.gsub(/[$,]/,"")} # strip out comma and dollar sign
+#          allowances_row=["A/R Allowance"].concat(allowances)
+#  
+#          # now remove the allowances from the current line
+#          row[0] = row[0].gsub(AR_ALLOWANCE_REGEX,', net of allowance')
+#          @rows[index] = row
+#          @rows[index+1] = allowances_row
+#        end
+#      end
     end
 
     def parse_assets_liabs_and_equity
-      @state = :waiting_for_cur_assets
-      @rows.each do |cur_row|
-        @log.debug("balance sheet parser.  Cur label: #{cur_row[0].text}") if @log
-        @next_state = nil
-        case @state
+      state = :waiting_for_cur_assets
+      @sheet.each do |row|
+        @log.debug("balance sheet parser.  Cur label: #{row.label}") if @log
+        next_state = nil
+        case state
         when :waiting_for_cur_assets
-          if !cur_row[0].nil? and cur_row[0].text.downcase =~ /current assets[:]*/
-            @next_state = :reading_current_assets
-          #elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /^assets$/ # in case they don't break out current ones
-          elsif !cur_row[1].val.nil? # if the values have started and we didn't see 'current ...', assume this stmt doesn't break out cur/non-cur
+          if row.label.downcase =~ /current assets[:]*/
+            next_state = :reading_current_assets
+          elsif !row.cols[0].nil? 
+            # if the values have started and we didn't see 'current ...', assume this stmt doesn't break out cur/non-cur
             @log.info("balance sheet parser. this stmt doesn't break out current assets...") if @log
-            @next_state = :reading_non_current_assets
+            next_state = :reading_non_current_assets
           end
 
         when :reading_current_assets
-          if cur_row[0].text.downcase =~ /total current assets/
-            @log.debug("balance sheet parser. matched total current assets: #{cur_row[0].text}") if @log
-            @next_state = :reading_non_current_assets
-          elsif cur_row[0].text.downcase =~ /total cash.*/
+          if row.label.downcase =~ /total current assets/
+            @log.debug("balance sheet parser. matched total current assets: #{row.label}") if @log
+            next_state = :reading_non_current_assets
+          elsif row.label.downcase =~ /total cash.*/
             # don't save the totals line
           else
-            cur_row[0].flags[:current] = true
-            @assets.push(cur_row)
+            row.flags[:current] = true
+            @assets.push(row)
           end
 
         when :reading_non_current_assets
-          if cur_row[0].text.downcase =~ /total assets/
-            @next_state = :waiting_for_cur_liabs
-            @total_assets = [ nil, cur_row[1].val, cur_row[2].val ] # 3-column specific
+          if row.label.downcase =~ /total assets/
+            next_state = :waiting_for_cur_liabs
+            @total_assets = row
           else
-            cur_row[0].flags[:non_current] = true
-            @assets.push(cur_row)
+            row.flags[:non_current] = true
+            @assets.push(row)
           end
 
         when :waiting_for_cur_liabs
-          if cur_row[0].text.downcase =~ /current liabilities[:]*/
-            @next_state = :reading_cur_liabs
-          #elsif cur_row[0].text.downcase =~ /^liabilities.*/ # in case they don't break out current ones
-          #  @next_state = :reading_non_current_liabilities
-          #elsif cur_row[0].text.downcase =~ /^total liabilities.*/ # in case they don't break out current ones
-          elsif !cur_row[1].val.nil? # if the values have started and we didn't see 'current ...', assume this stmt doesn't break out cur/non-cur
-            @next_state = :reading_non_current_liabilities
+          if row.label.downcase =~ /current liabilities[:]*/
+            next_state = :reading_cur_liabs
+          #elsif row.label.downcase =~ /^liabilities.*/ # in case they don't break out current ones
+          #  next_state = :reading_non_current_liabilities
+          #elsif row.label.downcase =~ /^total liabilities.*/ # in case they don't break out current ones
+          elsif !row.cols[0].nil? # if the values have started and we didn't see 'current ...', assume this stmt doesn't break out cur/non-cur
+            next_state = :reading_non_current_liabilities
           end
 
         when :reading_cur_liabs
-          if cur_row[0].text.downcase == "total current liabilities"
-            @next_state = :reading_non_current_liabilities
+          if row.label.downcase == "total current liabilities"
+            next_state = :reading_non_current_liabilities
           else
-            cur_row[0].flags[:current] = true
-            @liabs.push(cur_row)
+            row.flags[:current] = true
+            @liabs.push(row)
           end
 
         when :reading_non_current_liabilities
-          if cur_row[0].text.downcase =~ /(share|stock)holders.* equity:/
-            @next_state = :reading_shareholders_equity
-          elsif cur_row[0].text.downcase =~ /common stock/ 
-            @equity.push(cur_row)
-            @next_state = :reading_shareholders_equity
-          elsif cur_row[0].text.downcase =~ /total liab.*/
+          if row.label.downcase =~ /(share|stock)holders.* equity:/
+            next_state = :reading_shareholders_equity
+          elsif row.label.downcase =~ /common stock/ 
+            @equity.push(row)
+            next_state = :reading_shareholders_equity
+          elsif row.label.downcase =~ /total liab.*/
             # don't save the totals line
           else
-            cur_row[0].flags[:non_current] = true
-            @liabs.push(cur_row)
+            row.flags[:non_current] = true
+            @liabs.push(row)
           end
 
         when :reading_shareholders_equity
-          if cur_row[0].text.downcase =~ /total.*(share|stock)holders.*equity/
-            @next_state = :done
-            @total_equity = [ nil, cur_row[1].val, cur_row[2].val ]
+          if row.label.downcase =~ /total.*(share|stock)holders.*equity/
+            next_state = :done
+            @total_equity = row
           else
-            @equity.push(cur_row)
+            @equity.push(row)
           end
 
         when :done
           # FIXME: this should be a 2nd-to-last state and should THEN go to done...
-          if cur_row[0].text.downcase =~ /total liabilities and.*equity/
-            @total_liabs = [ nil, nil, nil ]
-            @total_liabs[1] = cur_row[1].val - @total_equity[1]
-            @total_liabs[2] = cur_row[2].val - @total_equity[2]
+          if row.label.downcase =~ /total liabilities and.*equity/
+            @total_liabs = row.clone
+            @total_liabs.subtract(@total_equity)
           end
 
         else
-          @log.error("Balance sheet parser state machine.  Got into weird state, #{@state}") if @log
+          @log.error("Balance sheet parser state machine.  Got into weird state, #{state}") if @log
           return false
         end
 
-        if !@next_state.nil?
-          @log.debug("balance sheet parser.  Switching to state: #{@next_state}") if @log
-          @state = @next_state
+        if !next_state.nil?
+          @log.debug("balance sheet parser.  Switching to state: #{next_state}") if @log
+          state = next_state
         end
       end
 
-      if @state != :done
-        @log.warn("Balance sheet parser state machine.  Unexpected final state, #{@state}") if @log
+      if state != :done
+        @log.warn("Balance sheet parser state machine.  Unexpected final state, #{state}") if @log
         return false
       end
 
@@ -254,29 +253,25 @@ module SecEdgar
     def classify_assets
       ac = AssetClassifier.new
 
-      @total_oa = [nil, 0.0, 0.0]
-      @total_fa = [nil, 0.0, 0.0]
-      @noa = [nil, 0.0, 0.0]
-      @nfa = [nil, 0.0, 0.0]
+      @total_oa = SheetRow.new(@num_cols, 0.0)
+      @total_fa = SheetRow.new(@num_cols, 0.0)
+      @noa      = SheetRow.new(@num_cols, 0.0)
+      @nfa      = SheetRow.new(@num_cols, 0.0)
       @assets.each do |a|
-        if a.length < 3
-          @log.warn("asset must be 3 columns wide #{a}")
+        if a.num_cols < 2
+          @log.warn("asset must be 2 columns wide #{a.label}")
         else
-          case ac.classify(a[0].text)[:class]
+          case ac.classify(a.label)[:class]
           when :oa
             @operational_assets.push(a)
-            @total_oa[1] += a[1].val if !a[1].val.nil?
-            @total_oa[2] += a[2].val if !a[2].val.nil?
-            @noa[1] += a[1].val if !a[1].val.nil?
-            @noa[2] += a[2].val if !a[2].val.nil?
+            @total_oa.add(a)
+            @noa.add(a)
           when :fa
             @financial_assets.push(a)
-            @total_fa[1] += a[1].val if !a[1].val.nil?
-            @total_fa[2] += a[2].val if !a[2].val.nil?
-            @nfa[1] += a[1].val if !a[1].val.nil?
-            @nfa[2] += a[2].val if !a[2].val.nil?
+            @total_fa.add(a)
+            @nfa.add(a)
           else
-            raise "Unknown class #{ac.classify(a[0].text)[:class]}"
+            raise "Unknown class #{ac.classify(a.label)[:class]}"
           end
         end
       end
@@ -285,27 +280,23 @@ module SecEdgar
     def classify_liabs
       lc = LiabClassifier.new
 
-      @total_ol = [nil, 0.0, 0.0]
-      @total_fl = [nil, 0.0, 0.0]
+      @total_ol = SheetRow.new(@num_cols, 0.0)
+      @total_fl = SheetRow.new(@num_cols, 0.0)
       @liabs.each do |l|
-        if l.length < 3
-          @log.warn("asset must be 3 columns wide #{l}")
+        if l.num_cols < 2
+          @log.warn("asset must be 2 columns wide #{l}")
         else
-          case lc.classify(l[0].text)[:class]
+          case lc.classify(l.label)[:class]
           when :ol
             @operational_liabs.push(l)
-            @total_ol[1] += l[1].val if !l[1].val.nil?
-            @total_ol[2] += l[2].val if !l[2].val.nil?
-            @noa[1] -= l[1].val if !l[1].val.nil?
-            @noa[2] -= l[2].val if !l[2].val.nil?
+            @total_ol.add(l)
+            @noa.subtract(l)
           when :fl
             @financial_liabs.push(l)
-            @total_fl[1] += l[1].val if !l[1].val.nil?
-            @total_fl[2] += l[2].val if !l[2].val.nil?
-            @nfa[1] -= l[1].val if !l[1].val.nil?
-            @nfa[2] -= l[2].val if !l[2].val.nil?
+            @total_fl.add(l)
+            @nfa.subtract(l)
           else
-            raise "Unknown class #{lc.classify(l[0].text)[:class]}"
+            raise "Unknown class #{lc.classify(l.label)[:class]}"
           end
         end
       end
@@ -314,26 +305,21 @@ module SecEdgar
     def classify_equity
       ec = EquityClassifier.new
 
-      @cse = [nil, 0.0, 0.0]
+      @cse = SheetRow.new(@num_cols, 0.0)
       @equity.each do |e|
-        if e.length < 3
-          @log.warn("asset must be 3 columns wide #{e}")
+        if e.num_cols < 2
+          @log.warn("asset must be 2 columns wide #{e}")
         else
-          case ec.classify(e[0].text)[:class]
+          case ec.classify(e.label)[:class]
           when :pse
-            #puts "pse: #{e[0].text}"
             @financial_liabs.push(e)
-            @total_fl[1] += e[1].val if !e[1].val.nil?
-            @total_fl[2] += e[2].val if !e[2].val.nil?
-            @nfa[1] -= e[1].val if !e[1].val.nil?
-            @nfa[2] -= e[2].val if !e[2].val.nil?
+            @total_fl.add(e)
+            @nfa.subtract(e)
           when :cse
-            #puts "cse: #{e[0].text}"
             @common_equity.push(e)
-            @cse[1] += e[1].val if !e[1].val.nil?
-            @cse[2] += e[2].val if !e[2].val.nil?
+            @cse.add(e)
           else
-            raise "Unknown class #{ec.classify(e[0].text)[:class]}"
+            raise "Unknown class #{ec.classify(e.label)[:class]}"
           end
         end
       end
