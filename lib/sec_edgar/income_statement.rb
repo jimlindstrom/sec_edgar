@@ -7,8 +7,8 @@ module SecEdgar
     attr_accessor :provision_for_tax, :operating_income_after_tax
     attr_accessor :other_income_after_tax, :net_income
 
-    attr_accessor :re_financing_income, :re_operating_revenue
-    attr_accessor :re_operating_expense
+    attr_accessor :re_financing_income, :re_operating_revenue, :re_gross_margin
+    attr_accessor :re_operating_expense, :re_operating_income_from_sales_before_tax
 
     def initialize
       super()
@@ -36,6 +36,9 @@ module SecEdgar
       # reformulated, totals
       @re_financing_income = [] # array of floats
       @re_operating_revenue = [] # array of floats
+      @re_gross_margin = [] # array of floats
+      @re_operating_expense = [] # array of floats
+      @re_operating_income_from_sales_before_tax = [] # array of floats
     end
 
     def parse(edgar_fin_stmt)
@@ -48,6 +51,7 @@ module SecEdgar
       # restate it
       return false if not parse_income_stmt_state_machine
       return false if not calculate_financing_income
+      return false if not calculate_re_operating_income_from_sales_before_tax
     end
 
   private
@@ -252,6 +256,13 @@ module SecEdgar
           @re_financing_income = array_sum_FC(@re_financing_income, i)
         end
       end
+
+      return true
+    end
+
+    def calculate_re_operating_income_from_sales_before_tax
+      @re_gross_margin = array_diff_FF(@re_operating_revenue, @cost_of_revenue)
+      @re_operating_income_from_sales_before_tax = array_diff_FF(@re_gross_margin, @re_operating_expense)
 
       return true
     end

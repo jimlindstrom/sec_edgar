@@ -20,8 +20,10 @@ describe SecEdgar::IncomeStatement do
           :other_income_after_tax => 0.0,
           :net_income => 3074.0,
           :re_financing_income => 0.0,
+          :re_financing_income_plus_taxes => 0.0,
           :re_operating_revenue => 13499.0,
-          :re_operating_expense => 1646.0 },
+          :re_operating_expense => 1646.0,
+          :re_operating_income_from_sales_before_tax => 3979.0 },
 
         { :filename => "specs/testvectors/deere/2004_01_31.html",
           :operating_revenue => 3483.8,
@@ -33,9 +35,10 @@ describe SecEdgar::IncomeStatement do
           :provision_for_tax => 92.6,
           :other_income_after_tax => 1.2,
           :net_income => 170.8,
-          :re_financing_income => (294.7-147.4),
-          :re_operating_revenue => 3483.8-294.7,
-          :re_operating_expense => (927.1-147.4) },
+          :re_financing_income => 147.3,
+          :re_operating_revenue => 3189.1,
+          :re_operating_expense => 779.7,
+          :re_operating_income_from_sales_before_tax => 114.9 },
 
         { :filename => "specs/testvectors/google/2009_09_30.html",
           :operating_revenue => 5541391.0,
@@ -49,7 +52,8 @@ describe SecEdgar::IncomeStatement do
           :net_income => 1289938.0,
           :re_financing_income => 21217.0,
           :re_operating_revenue => 5541391.0,
-          :re_operating_expense => 1720436.0 },
+          :re_operating_expense => 1720436.0,
+          :re_operating_income_from_sales_before_tax => 1647565.0 },
 
         { :filename => "specs/testvectors/intel/2005_07_02.html",
           :operating_revenue => 9231.0,
@@ -63,7 +67,8 @@ describe SecEdgar::IncomeStatement do
           :net_income => 2038.0,
           :re_financing_income => 105.0,
           :re_operating_revenue => 9231.0,
-          :re_operating_expense => 2554.0 },
+          :re_operating_expense => 2554.0,
+          :re_operating_income_from_sales_before_tax => 2649.0 },
 
         { :filename => "specs/testvectors/microsoft/2011_03_31.html",
           :operating_revenue => 16428.0,
@@ -77,7 +82,8 @@ describe SecEdgar::IncomeStatement do
           :net_income => 5232.0,
           :re_financing_income => 0.0,
           :re_operating_revenue => 16428.0,
-          :re_operating_expense => 6822.0 } ]
+          :re_operating_expense => 6822.0,
+          :re_operating_income_from_sales_before_tax => 5709.0 } ]
 
     @reporting_period = 1
 
@@ -352,6 +358,24 @@ describe SecEdgar::IncomeStatement do
     end
     it "returns the reformulated operating expenses" do
       @vectors[4][:ten_q].inc_stmt.re_operating_expense[@reporting_period].should be_within(0.1).of(@vectors[4][:re_operating_expense])
+    end
+  end
+
+  describe "#re_operating_income_from_sales_before_tax" do
+    it "returns the reformulated operating income from sales before tax" do
+      @vectors[0][:ten_q].inc_stmt.re_operating_income_from_sales_before_tax[@reporting_period].should be_within(0.1).of(@vectors[0][:re_operating_income_from_sales_before_tax])
+    end
+    it "returns the reformulated operating income from sales before tax" do
+      @vectors[1][:ten_q].inc_stmt.re_operating_income_from_sales_before_tax[@reporting_period].should be_within(0.1).of(@vectors[1][:re_operating_income_from_sales_before_tax])
+    end
+    it "returns the reformulated operating income from sales before tax" do
+      @vectors[2][:ten_q].inc_stmt.re_operating_income_from_sales_before_tax[@reporting_period].should be_within(0.1).of(@vectors[2][:re_operating_income_from_sales_before_tax])
+    end
+    it "returns the reformulated operating income from sales before tax" do
+      @vectors[3][:ten_q].inc_stmt.re_operating_income_from_sales_before_tax[@reporting_period].should be_within(0.1).of(@vectors[3][:re_operating_income_from_sales_before_tax])
+    end
+    it "returns the reformulated operating income from sales before tax" do
+      @vectors[4][:ten_q].inc_stmt.re_operating_income_from_sales_before_tax[@reporting_period].should be_within(0.1).of(@vectors[4][:re_operating_income_from_sales_before_tax])
     end
   end
 
