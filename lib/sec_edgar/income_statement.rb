@@ -1,14 +1,13 @@
 module SecEdgar
 
   class IncomeStatement < FinancialStatement
-    attr_accessor :revenues, :operating_expenses, :other_operating_incomes_before_tax
-    attr_accessor :other_incomes_after_tax
-
     attr_accessor :operating_revenue, :cost_of_revenue, :gross_margin
     attr_accessor :operating_expense, :operating_income_from_sales_before_tax
     attr_accessor :other_operating_income_before_tax, :operating_income_before_tax
     attr_accessor :provision_for_tax, :operating_income_after_tax
     attr_accessor :other_income_after_tax, :net_income
+
+    attr_accessor :financing_income
 
     def initialize
       super()
@@ -30,6 +29,8 @@ module SecEdgar
       @operating_income_after_tax = [] # array of floats
       @other_income_after_tax = [] # array of floats
       @net_income = [] # array of floats
+
+      @financing_income = [] # array of floats
     end
 
     def parse(edgar_fin_stmt)
@@ -41,6 +42,7 @@ module SecEdgar
   
       # restate it
       return false if not parse_income_stmt_state_machine
+      return false if not calculate_financing_income
     end
 
   private
@@ -78,18 +80,18 @@ module SecEdgar
 
     def parse_income_stmt_state_machine
       
-      @state = :waiting_for_revenues
+      state = :waiting_for_revenues
       @rows.each do |cur_row|
         @log.debug("income statement parser.  Cur label: #{cur_row[0].text}") if @log
-        @next_state = nil
-        case @state
+        next_state = nil
+        case state
         when :waiting_for_revenues
           if !cur_row[0].nil? and cur_row[0].text.downcase =~ /(net sales|net revenue|revenue)/
             if cur_row[1].val.nil? #  there's a list of individual revenue line items cominng
-              @next_state = :reading_revenues
+              next_state = :reading_revenues
             else # there's no lst of revenues coming, just the total on this line
               @operating_revenue = cur_row.collect { |x| x.val || nil }
-              @next_state = :reading_cost_of_revenue
+              next_state = :reading_cost_of_revenue
             end
           else
             # ignore
@@ -97,8 +99,8 @@ module SecEdgar
 
         when :reading_revenues
           if !cur_row[0].nil? and cur_row[0].text.downcase =~ /total/
-              @operating_revenue = cur_row.collect { |x| x.val || nil }
-            @next_state = :reading_cost_of_revenue
+            @operating_revenue = cur_row.collect { |x| x.val || nil }
+            next_state = :reading_cost_of_revenue
           else
             @revenues.push cur_row
           end
@@ -113,7 +115,7 @@ module SecEdgar
                 x - y
               end
             end
-            @next_state = :reading_operating_expenses
+            next_state = :reading_operating_expenses
           end
 
         when :reading_operating_expenses
@@ -125,7 +127,7 @@ module SecEdgar
                 x-y
               end
             end
-            @next_state = :reading_other_operating_expenses_before_tax
+            next_state = :reading_other_operating_expenses_before_tax
           elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /gross margin/
             # ignore
           else
@@ -147,7 +149,7 @@ module SecEdgar
         when :reading_other_operating_expenses_before_tax
           if !cur_row[0].nil? and cur_row[0].text.downcase =~ /^provision for [income ]*tax/
             if @other_operating_income_before_tax[1].nil?
-              @other_operating_income_before_tax = @gross_margin.collect { |x| 0.0 }
+              @other_operating_income_before_tax = nil_and_n_zeros(@gross_margin.length - 1)
             end
             @operating_income_before_tax = @operating_income_from_sales_before_tax.zip(@other_operating_income_before_tax).collect do |x,y|
               if x.nil? or y.nil?
@@ -164,7 +166,7 @@ module SecEdgar
                 x-y
               end
             end
-            @next_state = :reading_other_incomes_after_tax
+            next_state = :reading_other_incomes_after_tax
           elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /(operating income|^income.*before.*tax|income from operations)/
             # ignore this total line
           else
@@ -186,7 +188,7 @@ module SecEdgar
         when :reading_other_incomes_after_tax
           if !cur_row[0].nil? and cur_row[0].text.downcase =~ /net income/
             if @other_income_after_tax[1].nil?
-              @other_income_after_tax = @gross_margin.collect { |x| 0.0 }
+              @other_income_after_tax = nil_and_n_zeros(@gross_margin.length - 1)
             end
             @net_income = @operating_income_after_tax.zip(@other_income_after_tax).collect do |x,y|
               if x.nil? or y.nil?
@@ -195,7 +197,7 @@ module SecEdgar
                 x+y
               end
             end
-            @next_state = :done
+            next_state = :done
           elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /(^income of consolidated group$|^total$)/
             # ignore this total line
           else
@@ -218,22 +220,88 @@ module SecEdgar
           # ignore
 
         else
-          @log.error("Income statement parser state machine.  Got into weird state, #{@state}") if @log
+          @log.error("Income statement parser state machine.  Got into weird state, #{state}") if @log
           return false
         end
 
-        if !@next_state.nil?
-          @log.debug("Income statement parser.  Switching to state: #{@next_state}") if @log
-          @state = @next_state
+        if !next_state.nil?
+          @log.debug("Income statement parser.  Switching to state: #{next_state}") if @log
+          state = next_state
         end
       end
 
-      if @state != :done
-        @log.warn("Balance sheet parser state machine.  Unexpected final state, #{@state}") if @log
+      if state != :done
+        @log.warn("Balance sheet parser state machine.  Unexpected final state, #{state}") if @log
         return false
       end
 
       return true
+    end
+
+    def calculate_financing_income
+      @financing_income = nil_and_n_zeros(@operating_revenue.length - 1)
+
+      # look in revenues
+      if @revenues != []
+        @revenues.each do |r|
+          if r[0].text.downcase =~ /interest income/
+            # FIXME: remove this from operating_revenue
+
+            # add this revenue to the financing income
+            @financing_income = @financing_income.zip(r).collect do |x,y|
+              if x.nil? or y.val.nil?
+                nil
+              else
+                x+y.val
+              end
+            end
+          end
+        end
+      end
+
+      # look in operating expenses
+      @operating_expenses.each do |e|
+        if e[0].text.downcase =~ /interest expense/
+          # FIXME: remove this from operating_expense
+
+          # subtract this revenue from the financing income
+          @financing_income = @financing_income.zip(e).collect do |x,y|
+            if x.nil? or y.val.nil?
+              nil
+            else
+              x-y.val
+            end
+          end
+        end
+      end
+
+      # look in other operating income
+      @other_operating_incomes_before_tax.each do |i|
+        if i[0].text.downcase =~ /(gain[s].* on.* securities|interest)/
+          # FIXME: remove this from other_operating_income_before_tax
+
+          # subtract this revenue from the financing income
+          @financing_income = @financing_income.zip(i).collect do |x,y|
+            if x.nil? or y.val.nil?
+              nil
+            else
+              x+y.val
+            end
+          end
+        end
+      end
+
+      return true
+    end
+
+    ############################################################################
+    # Array helpers
+    ############################################################################
+
+    def nil_and_n_zeros(n)
+      a = [nil]
+      n.times { a.push(0.0) }
+      return a
     end
 
   end
