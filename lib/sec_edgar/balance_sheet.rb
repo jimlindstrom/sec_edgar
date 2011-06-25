@@ -155,12 +155,15 @@ module SecEdgar
         when :waiting_for_cur_assets
           if !cur_row[0].nil? and cur_row[0].text.downcase =~ /current assets[:]*/
             @next_state = :reading_current_assets
-          elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /^assets$/ # in case they don't break out current ones
+          #elsif !cur_row[0].nil? and cur_row[0].text.downcase =~ /^assets$/ # in case they don't break out current ones
+          elsif !cur_row[1].val.nil? # if the values have started and we didn't see 'current ...', assume this stmt doesn't break out cur/non-cur
+            @log.info("balance sheet parser. this stmt doesn't break out current assets...") if @log
             @next_state = :reading_non_current_assets
           end
 
         when :reading_current_assets
-          if cur_row[0].text == "Total current assets"
+          if cur_row[0].text.downcase =~ /total current assets/
+            @log.debug("balance sheet parser. matched total current assets: #{cur_row[0].text}") if @log
             @next_state = :reading_non_current_assets
           elsif cur_row[0].text.downcase =~ /total cash.*/
             # don't save the totals line
@@ -170,7 +173,7 @@ module SecEdgar
           end
 
         when :reading_non_current_assets
-          if cur_row[0].text.downcase == "total assets"
+          if cur_row[0].text.downcase =~ /total assets/
             @next_state = :waiting_for_cur_liabs
             @total_assets = [ nil, cur_row[1].val, cur_row[2].val ] # 3-column specific
           else
@@ -181,9 +184,10 @@ module SecEdgar
         when :waiting_for_cur_liabs
           if cur_row[0].text.downcase =~ /current liabilities[:]*/
             @next_state = :reading_cur_liabs
-          elsif cur_row[0].text.downcase =~ /^liabilities.*/ # in case they don't break out current ones
-            @next_state = :reading_non_current_liabilities
-          elsif cur_row[0].text.downcase =~ /^total liabilities.*/ # in case they don't break out current ones
+          #elsif cur_row[0].text.downcase =~ /^liabilities.*/ # in case they don't break out current ones
+          #  @next_state = :reading_non_current_liabilities
+          #elsif cur_row[0].text.downcase =~ /^total liabilities.*/ # in case they don't break out current ones
+          elsif !cur_row[1].val.nil? # if the values have started and we didn't see 'current ...', assume this stmt doesn't break out cur/non-cur
             @next_state = :reading_non_current_liabilities
           end
 
