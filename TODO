@@ -1,13 +1,14 @@
 Features
 --------------------------------------------------------------------------------
-1. Have the tenq print out a summary
-2. Get #merge working again
+* Update README with real example
+* Do #merge on FSS
+* Jettison 10q/10k #merge  (?)
 
 Test Quality/Coverage
 --------------------------------------------------------------------------------
-1. Increase the number of companies/years tested in balance sheet specs
+* Increase the number of companies/years tested in balance sheet specs
 
 Code Quality
 --------------------------------------------------------------------------------
-1. Refactor a common parent class for the asset/liab/equity classifiers
+* Refactor a common parent class for the asset/liab/equity classifiers
 

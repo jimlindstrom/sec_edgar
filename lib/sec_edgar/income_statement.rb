@@ -95,7 +95,7 @@ module SecEdgar
           end
 
         when :reading_other_operating_expenses_before_tax
-          if row.label.downcase =~ /^provision for [income ]*tax/
+          if row.label.downcase =~ /^provision.*for [income ]*tax/
             @other_operating_income_before_tax = SheetRow.new(@num_cols, 0.0) if @other_operating_income_before_tax.nil?
 
             @operating_income_before_tax = @operating_income_from_sales_before_tax.clone

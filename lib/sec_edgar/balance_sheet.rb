@@ -284,7 +284,7 @@ module SecEdgar
       @total_fl = SheetRow.new(@num_cols, 0.0)
       @liabs.each do |l|
         if l.num_cols < 2
-          @log.warn("asset must be 2 columns wide #{l}")
+          @log.warn("liability must be 2 columns wide #{l}") if @log
         else
           case lc.classify(l.label)[:class]
           when :ol

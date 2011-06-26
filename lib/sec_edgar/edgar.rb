@@ -12,6 +12,7 @@ module SecEdgar
     attr_accessor :log
     
     def initialize
+      @agent = nil
     end
       
     def good_ticker?(ticker)
@@ -22,76 +23,18 @@ module SecEdgar
       form['CIK'] = ticker
       page = form.submit
       
-      # Now search for reports
+      # if there's a form, it's a good ticker
       form  = page.forms.first
 
       return !form.nil?
     end
-   
-    def get_reports_urls(ticker, rept_type_search)
-      @log.info("Getting report URLS of type #{rept_type_search} for #{ticker}") if @log
-      if !good_ticker?(ticker)
-        @log.error("#{ticker} is not a good ticker") if @log
-        return nil
-      end
-      if !['10-q','10-k'].include?(rept_type_search)
-        @log.error("#{rept_type_search} is not a known report type") if @log
-        return nil
-      end
-
-      # first search for the company in question
-      agent = create_agent
-      page  = agent.get('http://www.sec.gov/edgar/searchedgar/companysearch.html')
-      form  = page.forms.first
-      form['CIK'] = ticker
-      page = form.submit
-      
-      # Now search for reports
-      form  = page.forms.first
-
-      return nil if form.nil?
-
-      form['type'] = rept_type_search
-      page = form.submit
-      
-      # Now find the links to the reports 
-      report_urls = []
-      page.links.each do |link|
-        if link.text.remove_non_ascii == "Documents"
-          report_urls.push link.href
-        end
-      end
-      
-      return report_urls
-    end
- 
-    # returns list of files downloaded
-    # returns nil if bad ticker
-    def download_10q_reports(ticker, save_folder)
-      @log.info("Downloading 10q reports for #{ticker}") if @log
+    
+    def get_fin_stmts(ticker, save_folder)
       return nil if not good_ticker?(ticker)
 
-      report_urls = get_reports_urls(ticker, '10-q')
-      return nil if report_urls.nil?
-
-      report_files = get_reports(report_urls, 'd10q.htm', save_folder)
-      return report_files
-    end
- 
-    # returns list of files downloaded
-    # returns nil if bad ticker
-    def download_10k_reports(ticker, save_folder)
-      @log.info("Downloading 10k reports for #{ticker}") if @log
-      if !good_ticker?(ticker)
-        @log.error("#{ticker} is not a good ticker") if @log
-        return nil
-      end
-
-      report_urls = get_reports_urls(ticker, '10-k')
-      return nil if report_urls.nil?
-
-      report_files = get_reports(report_urls, 'd10k.htm', save_folder)
-      return report_files
+      reports  = get_10q_reports(ticker, save_folder)
+      reports += get_10k_reports(ticker, save_folder)
+      return reports
     end
 
     def get_10q_reports(ticker, save_folder)
@@ -123,27 +66,126 @@ module SecEdgar
       end
       return reports
     end
-   
+
     # returns list of files downloaded
     # returns nil if bad ticker
-    def get_fin_stmts(ticker, save_folder)
+    def download_10q_reports(ticker, save_folder)
+      @log.info("Downloading 10q reports for #{ticker}") if @log
       return nil if not good_ticker?(ticker)
 
-      files_10q = get_10q_reports(ticker, save_folder)
-      return nil if files_10q.nil?
+      reports = lookup_reports(ticker)
+      return nil if reports.nil?
+      reports.keep_if { |r| r[:type]=='10-Q' }
 
-      files_10k = get_10k_reports(ticker, save_folder)
-      return nil if files_10k.nil?
+      report_files = get_reports(reports, save_folder)
+      return report_files
+    end
+ 
+    # returns list of files downloaded
+    # returns nil if bad ticker
+    def download_10k_reports(ticker, save_folder)
+      @log.info("Downloading 10k reports for #{ticker}") if @log
+      if !good_ticker?(ticker)
+        @log.error("#{ticker} is not a good ticker") if @log
+        return nil
+      end
 
-      return files_10q + files_10k
+      reports = lookup_reports(ticker)
+      return nil if reports.nil?
+      reports.keep_if { |r| r[:type]=='10-K' }
+
+      report_files = get_reports(reports, save_folder)
+      return report_files
+    end
+    
+    def lookup_reports(ticker)
+      @log.info("Looking up reports for #{ticker}") if @log
+      if !good_ticker?(ticker)
+        @log.error("#{ticker} is not a good ticker") if @log
+        return nil
+      end
+
+      # first search for the company in question
+      agent = create_agent
+      page  = agent.get('http://www.sec.gov/edgar/searchedgar/companysearch.html')
+      form  = page.forms.first
+      form['CIK'] = ticker
+      page = form.submit
+      return nil if page.nil?
+
+      reports = [ ]
+
+      while !page.nil?
+        doc = Hpricot(page.body)
+        trs = doc.search("table[@summary='Results']/tr")
+        trs.shift # ignore the header row
+        trs.each do |tr_item|
+          tds = tr_item.search("td")
+  
+          reports.push( { :type => tds[0].innerHTML,
+                          :url  => tds[1].children.first.attributes['href'],
+                          :date => tds[3].innerHTML } )
+        end
+  
+        buttons = doc.search("input[@value='Next 40']")
+        if buttons.length > 0
+          button = buttons.first
+          next_url = button.attributes['onclick'].gsub(/^[^']*'/,'').gsub(/'$/,'')
+          page = agent.get('http://www.sec.gov' + next_url)
+        else
+          page = nil
+        end
+      end
+
+      return reports
+    end
+
+    def get_reports(reports, save_folder)
+      @log.info("Getting reports") if @log
+      files = []
+
+      rept_type_linktext =
+        { "10-Q" => "d10q.htm",
+          "10-K" => "d10k.htm" }
+
+      # for each report index
+      agent = create_agent
+      reports.each do |report|
+        raise "unsupported report type #{report[:type]}" if !rept_type_linktext.keys.include?(report[:type])
+
+        page = agent.get('http://www.sec.gov' + report[:url])
+        page.links.each do |link|
+          if link.text == rept_type_linktext[report[:type]]
+            subpage = agent.get('http://www.sec.gov' + link.href)
+
+            cur_filename = save_folder + report[:date] + ".html"
+            files.push cur_filename
+
+            fh = File.open(cur_filename, "w") 
+            fh << subpage.body
+            fh.close
+          end
+        end
+      end
+
+      return files
     end
 
   private
-  
+       
+    def create_agent
+      return @agent if not @agent.nil?
+
+      @agent = Mechanize.new # { |a| a.log = Logger.new('mech.log') }
+      @agent.user_agent_alias = AGENT_ALIAS
+      @agent.redirection_limit= 5
+      return @agent
+    end
+
     # Takes in something like "January 2, 2008" and returns 2008_01_02
     def parse_date_string(date_str)
 
-      if date_str =~ /([0-9]+)\/([0-9]+)\/([0-9]+)/
+      if date_str =~ /([0-9]+)\/([0-9]+)\/([0-9]{4})/
         $mon  = $1
         $day  = $2
         $year = $3
@@ -174,52 +216,6 @@ module SecEdgar
       end
 
       return $ret_str
-    end
-     
-    def get_reports(report_urls, rept_type_linktext, save_folder)
-      @log.info("Getting reports") if @log
-      files = []
-
-      # for each report index
-      agent = create_agent
-      report_urls.each do |url|
-        page = agent.get('http://www.sec.gov' + url)
-        page.links.each do |link|
-          if link.text == rept_type_linktext
-            subpage = agent.get('http://www.sec.gov' + link.href)
-      
-            if subpage.body.downcase =~ /period[ &nbsp;]ended[ ^nbsp;]([^<]*)[ ^nbsp;]*</
-              $report_date = $1.gsub(/&nbsp;/," ")
-              $report_date = parse_date_string($report_date)
-            elsif subpage.body.downcase =~ /year[ &nbsp;]ended[ ^nbsp;]([^<]*)[ ^nbsp;]*</
-              $report_date = $1.gsub(/&nbsp;/," ")
-              $report_date = parse_date_string($report_date)
-            else
-              fh = File.open("/tmp/pagedump.txt","w")
-              fh.puts(subpage.body.downcase)
-              fh.close
-              @log.warn("Could't match report, url=#{link.href}, see /tmp/pagedump.txt") if @log
-            end
-  
-            if ($report_date.length > 5) and ($report_date.length < 50) # overly validation
-              # save the file to a report
-              cur_filename = save_folder + $report_date + ".html"
-              files.push cur_filename
-              output = File.open(save_folder + $report_date + ".html", "w") { |file|  file << subpage.body }
-            end
-          end
-        end
-      end
-
-      return files
-    end
-
-    def create_agent
-      #agent = Mechanize.new { |a| a.log = Logger.new('mech.log') }
-      agent = Mechanize.new 
-      agent.user_agent_alias = AGENT_ALIAS
-      agent.redirection_limit= 5
-      return agent
     end
 
 
