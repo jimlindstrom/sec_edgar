@@ -1,9 +1,10 @@
 module SecEdgar
 
   class FinancialStatement
-    attr_accessor :log, :name, :rows, :sheet, :num_cols
+    attr_accessor :log, :name, :rows, :sheet, :num_cols, :report_dates
   
     def initialize
+      @report_dates = []
       @rows = []
       @name = ""
     end
@@ -11,6 +12,7 @@ module SecEdgar
     def parse(edgar_fin_stmt)
       parse_html(edgar_fin_stmt)
       delete_empty_columns
+      parse_reporting_dates
 
       return true
     end
@@ -84,6 +86,17 @@ module SecEdgar
         if row_in.is_a? Hpricot::Elem
           row_out = []
           row_in.children.each do |cell_str|
+            # in case there's a "colspan" - parse it and push some blank cells
+            if cell_str.is_a? Hpricot::Elem
+              if !cell_str.attributes['colspan'].nil? and cell_str.attributes['colspan'] =~ /\d/
+                Integer(cell_str.attributes['colspan']).times do
+                  cell = Cell.new { |c| c.log = @log }
+                  cell.parse("") # not sure if this is needed
+                  row_out.push(cell)
+                end
+              end
+            end
+
             cell = Cell.new { |c| c.log = @log }
             cell.parse( String(cell_str.to_plain_text) )
             row_out.push(cell)
@@ -138,6 +151,18 @@ module SecEdgar
       end
 
     end
+
+    def parse_reporting_dates
+      # pull out the date ranges
+      @rows[0..10].each do |row|
+        row[1..(row.length-1)].each_with_index do |cell, idx|
+          if cell.text =~ /([0-9]{4})/ # check later ones too
+            @report_dates[idx] = $1
+          end
+        end
+      end
+    end
+
   end
   
 end

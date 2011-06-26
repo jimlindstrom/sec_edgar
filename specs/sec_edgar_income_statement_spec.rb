@@ -10,6 +10,10 @@ describe SecEdgar::IncomeStatement do
   before(:all) do
     @vectors = 
       [ { :filename => "specs/testvectors/apple/2010_03_27.html", 
+          :date0 => "2010",
+          :date1 => "2009",
+          :date2 => "2010",
+          :date3 => "2009",
           :operating_revenue => 13499.0,
           :cost_of_revenue => 7874.0,
           :operating_expense => 1646.0,
@@ -31,6 +35,8 @@ describe SecEdgar::IncomeStatement do
           :re_net_income => 3074.0 },
 
         { :filename => "specs/testvectors/deere/2004_01_31.html",
+          :date0 => "2004",
+          :date1 => "2003",
           :operating_revenue => 3483.8,
           :cost_of_revenue => 2294.5,
           :operating_expense => 927.1,
@@ -51,6 +57,8 @@ describe SecEdgar::IncomeStatement do
           :re_net_income => 170.8 },
 
         { :filename => "specs/testvectors/google/2009_09_30.html",
+          :date0 => "2008",
+          :date1 => "2009",
           :operating_revenue => 5541391.0,
           :cost_of_revenue => 2173390.0,
           :operating_expense => 1720436.0,
@@ -71,6 +79,10 @@ describe SecEdgar::IncomeStatement do
           :re_net_income => 1289938.0 },
 
         { :filename => "specs/testvectors/intel/2005_07_02.html",
+          :date0 => "2005",
+          :date1 => "2004",
+          :date2 => "2005",
+          :date3 => "2004",
           :operating_revenue => 9231.0,
           :cost_of_revenue => 4028.0,
           :operating_expense => 2554.0,
@@ -91,6 +103,10 @@ describe SecEdgar::IncomeStatement do
           :re_net_income => 2038.0 },
 
         { :filename => "specs/testvectors/microsoft/2011_03_31.html",
+          :date0 => "2011",
+          :date1 => "2010",
+          :date2 => "2011",
+          :date3 => "2010",
           :operating_revenue => 16428.0,
           :cost_of_revenue => 3897.0,
           :operating_expense => 6822.0,
@@ -145,7 +161,36 @@ describe SecEdgar::IncomeStatement do
 
   end
 
-  #it_should_behave_like 'SecEdgar::FinancialStatement' ## RE-ENABLE THIS LATER
+  ## it_should_behave_like 'SecEdgar::FinancialStatement' ## RE-ENABLE THIS LATER
+
+  describe "#report_dates" do
+    it "returns the report date for a given column" do
+      @vectors[0][:ten_q].inc_stmt.report_dates[0].should == @vectors[0][:date0]
+      @vectors[0][:ten_q].inc_stmt.report_dates[1].should == @vectors[0][:date1]
+      @vectors[0][:ten_q].inc_stmt.report_dates[2].should == @vectors[0][:date2]
+      @vectors[0][:ten_q].inc_stmt.report_dates[3].should == @vectors[0][:date3]
+    end
+    it "returns the report date for a given column" do
+      @vectors[1][:ten_q].inc_stmt.report_dates[0].should == @vectors[1][:date0]
+      @vectors[1][:ten_q].inc_stmt.report_dates[1].should == @vectors[1][:date1]
+    end
+    it "returns the report date for a given column" do
+      @vectors[2][:ten_q].inc_stmt.report_dates[0].should == @vectors[2][:date0]
+      @vectors[2][:ten_q].inc_stmt.report_dates[1].should == @vectors[2][:date1]
+    end
+    it "returns the report date for a given column" do
+      @vectors[3][:ten_q].inc_stmt.report_dates[0].should == @vectors[3][:date0]
+      @vectors[3][:ten_q].inc_stmt.report_dates[1].should == @vectors[3][:date1]
+      @vectors[3][:ten_q].inc_stmt.report_dates[2].should == @vectors[3][:date2]
+      @vectors[3][:ten_q].inc_stmt.report_dates[3].should == @vectors[3][:date3]
+    end
+    it "returns the report date for a given column" do
+      @vectors[4][:ten_q].inc_stmt.report_dates[0].should == @vectors[4][:date0]
+      @vectors[4][:ten_q].inc_stmt.report_dates[1].should == @vectors[4][:date1]
+      @vectors[4][:ten_q].inc_stmt.report_dates[2].should == @vectors[4][:date2]
+      @vectors[4][:ten_q].inc_stmt.report_dates[3].should == @vectors[4][:date3]
+    end
+  end
 
   describe "#operating_revenue" do
     it "returns the total revenues" do

@@ -39,6 +39,17 @@ describe SecEdgar::BalanceSheet do
   it_should_behave_like 'SecEdgar::FinancialStatement'
 
   ##############################################################################
+  # Header Information
+  ##############################################################################
+
+  describe "#report_dates" do
+    it "returns dates associated with each column of data" do
+      @fin_stmt.report_dates[0].should == "2009"
+      @fin_stmt.report_dates[1].should == "2010"
+    end
+  end
+
+  ##############################################################################
   # Basic (as stated) arrays
   ##############################################################################
 

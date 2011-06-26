@@ -1,5 +1,7 @@
 Features
 --------------------------------------------------------------------------------
+1. Have the tenq print out a summary
+2. Get #merge working again
 
 Test Quality/Coverage
 --------------------------------------------------------------------------------
@@ -7,7 +9,5 @@ Test Quality/Coverage
 
 Code Quality
 --------------------------------------------------------------------------------
-1. Model financial statement rows as {:label=>"", :vals=>[0.0, ...]} , so that 
-   we can just manipulate an Array of floats
-2. Refactor a common parent class for the asset/liab/equity classifiers
+1. Refactor a common parent class for the asset/liab/equity classifiers
 

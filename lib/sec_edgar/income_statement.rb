@@ -20,47 +20,22 @@ module SecEdgar
       super()
       @name = "Income Statement"
 
-      # as stated, line items
-      @revenues = [] # array of rows
-      @operating_expenses = [] # array of rows
-      @other_operating_incomes_before_tax = [] # array of rows
-      @other_incomes_after_tax = [] # array of rows
-
-      # as stated, totals
-      @operating_revenue = [] # array of floats
-      @cost_of_revenue = [] # array of floats
-      @gross_margin = [] # array of floats
-      @operating_expense = [] # array of floats
-      @operating_income_from_sales_before_tax = [] # array of floats
-      @other_operating_income_before_tax = nil # array of floats
-      @operating_income_before_tax = [] # array of floats
-      @provision_for_tax = [] # array of floats
-      @operating_income_after_tax = [] # array of floats
-      @other_income_after_tax = nil # array of floats
-      @net_income = [] # array of floats
-
-      # reformulated, totals
-      @re_financing_income = [] # array of floats
-      @re_operating_revenue = [] # array of floats
-      @re_gross_margin = [] # array of floats
-      @re_operating_expense = [] # array of floats
-      @re_operating_income_from_sales_before_tax = [] # array of floats
-      @re_other_operating_income_before_tax = [] # array of floats
-      @re_operating_income_from_sales_after_tax = [] # array of floats
-      @re_operating_income_after_tax = [] # array of floats
-      @re_net_financing_income_after_tax = [] # array of floats
-      @re_net_income = [] # array of floats
+      @revenues                           = []
+      @operating_expenses                 = []
+      @other_operating_incomes_before_tax = []
+      @other_incomes_after_tax            = []
+      @other_operating_income_before_tax  = nil
+      @other_income_after_tax             = nil
     end
 
     def parse(edgar_fin_stmt)
       # pull the table into rows (akin to CSV)
       return false if not super(edgar_fin_stmt)
 
-      # text-matching to pull out dates, net amounts, etc.
-      parse_reporting_periods
-  
-      # restate it
+      # pull out the basic statement
       return false if not parse_income_stmt_state_machine
+
+      # restate it
       return false if not calculate_financing_income
       return false if not calculate_re_operating_income_from_sales_before_tax
       return false if not calculate_re_operating_income_from_sales_after_tax
@@ -70,38 +45,6 @@ module SecEdgar
     end
 
   private
-
-    # FIXME: untested.  probably broken
-    def parse_reporting_periods
-      # pull out the date ranges
-#      @rows.each_with_index do |row, idx|
-#  
-#        # Match [X Months Ended  September 30,][Y Months Ended   June 30,]
-#        #       [2003][2004][2003][2004]
-#        if String(row[0].text).downcase.match(/months[^A-Za-z]*ended/) and
-#           String(row[1].text).downcase.match(/months[^A-Za-z]*ended/) then
-#          @rows[idx].insert(1,"")
-#          @rows[idx].insert(0,"")
-#          @rows[idx+1].insert(0,"")
-#  
-#        # Match [Month Ended]
-#        #       [Mar 1, 2003][Mar 1, 2004]
-#        elsif String(row[0].text).downcase.match(/month.*ended/) then
-#          if row.length < 2 then
-#            @rows[idx].concat(@rows[idx+1])
-#            @rows.delete_at(idx+1)
-#          end
-#  
-#        # Match [Year Ended]
-#        #       [Mar 1, 2003][Mar 1, 2004]
-#        elsif String(row[0].text).downcase.match(/year.*ended/) then
-#          if row.length < 2 then
-#            @rows[idx].concat(@rows[idx+1])
-#            @rows.delete_at(idx+1)
-#          end
-#        end
-#      end
-    end
 
     def parse_income_stmt_state_machine
       
