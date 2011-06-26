@@ -3,8 +3,6 @@ module SecEdgar
   class FinancialStatementSummary
     attr_accessor :report_dates
 
-    # FIXME: all of this should be in a hash so that it can be more easily iterated over
-
     # balance sheet
     attr_accessor :oa, :ol, :noa
     attr_accessor :fa, :fl, :nfa
@@ -93,6 +91,58 @@ module SecEdgar
       v_e_0 = v_noa_0 + v_nfa_0
 
       return v_e_0
+    end
+
+    def sf2_valuation(forecast_data, rho_f, thousands_of_shares)
+      cur_year = Integer(@report_dates.last)
+      yrs_to_discount = 0
+      sum_pv_re_oi = 0.0
+
+      forecast_data.each do |f|
+        cur_year += 1
+        @report_dates.push String(cur_year) + "E"
+
+        # forecast revenue
+        @revenue_growth.push f[:revenue_growth]
+        @operating_revenue.push @operating_revenue.last * (1.0 + f[:revenue_growth])
+
+        # forecast core OI
+        @sales_pm.push f[:sales_pm]
+        @oi_from_sales_after_tax.push @operating_revenue.last * f[:sales_pm]
+
+        # forecast financing income
+        @fi_over_nfa.push f[:fi_over_nfa]
+        @financing_income.push @nfa.last * f[:fi_over_nfa]
+
+        # forecast earnings
+        @net_income.push (@oi_from_sales_after_tax.last + @financing_income.last)
+
+        # forecast balance sheet
+        @sales_over_noa.push f[:ato]
+        @noa.push @operating_revenue.last / f[:ato]
+
+        @cse.push @cse.last + @net_income.last
+
+        @nfa.push @cse.last - @noa.last
+
+        # calculate residual operating income
+        @re_oi.push @oi_from_sales_after_tax.last - ((rho_f - 1.0) * @noa.last(2).first )
+
+        # discount things
+        yrs_to_discount += 1
+        pv_re_oi = @re_oi.last / (rho_f ** yrs_to_discount)
+        sum_pv_re_oi += pv_re_oi
+      end
+
+      # calculate continuing value
+      cv = @re_oi.last * (1 + forecast_data.last[:revenue_growth]) / (rho_f - (1.0 + forecast_data.last[:revenue_growth]))
+
+      v_enterprise_0 = sum_pv_re_oi + cv
+      v_cse_0 = v_enterprise_0 + @nfa.last
+
+      v_cse_share_0 = v_cse_0 / thousands_of_shares
+      return v_cse_share_0 
+
     end
 
     def to_csv(filename)

@@ -1,34 +1,69 @@
 sec_edgar is a gem that can download financial statements from the SEC/Edgar 
-database, parse them, write them to CSV, and even merge across quarters/years.
+database, parse them, perform valuations, and write the results to CSV
 
-Downloading, parsing, and writing to CSV all work well.  Merging across 
-years/quarters is still a bit buggy and under development.
+The following example retrieves all of Google's annual reports (10k's).  It
+then reformulates them to highlight the business's operating fundamentals.
+Based on the reformulated statements, it performs a two-stage valuation, 
+based on 5 years of forecast data and then a long-term growth rate.
 
-An example:
-
-        require 'rubygems'
         require 'sec_edgar'
         
-        @ticker = 'GOOG'
-        @download_path = '/tmp/'
+        # look up all of GOOG's 10-k's
+        ticker = 'GOOG'
+        rept_type = '10-K'
+        download_path = "/tmp/"
+        edgar = SecEdgar::Edgar.new
         
-        # get all the quarterly reports for Google
-        @edgar = SecEdgar::Edgar.new
-        exit if not @edgar.good_ticker?(@ticker)
-        @list_of_files = @edgar.download_10q_reports(@ticker, @download_path)
+        reports = edgar.lookup_reports(ticker)
+        reports.keep_if{ |r| r[:type] == rept_type }
+        reports.sort! {|a,b| a[:date] <=> b[:date] }
         
-        # load first balance sheet
-        @tenq = SecEdgar::QuarterlyReport.new
-        @tenq.parse(@list_of_files[0])
-        @tenq.normalize
+        files = edgar.get_reports(reports, download_path)
         
-        # load second balance sheet
-        @tenq2 = SecEdgar::QuarterlyReport.new
-        @tenq2.parse(@list_of_files[1])
-        @tenq2.normalize
+        # get the first one.  (later ones will be merged into this)
+        ten_k = SecEdgar::AnnualReport.new 
+        ten_k.parse(files.shift)
+        summary = ten_k.get_summary
+        ten_k = nil
         
-        # merge and write
-        @fin_stmt = @tenq.bal_sheet
-        @fin_stmt2 = @tenq2.bal_sheet
-        @fin_stmt.merge(@fin_stmt2)
-        @fin_stmt.write_to_csv("merged.csv")
+        # get all the later 10-K's and merge them into this one
+        while !files.empty?
+          ten_k2 = SecEdgar::AnnualReport.new 
+          ten_k2.log = Logger.new('sec_edgar.log')
+          ten_k2.log.level = Logger::DEBUG
+          ten_k2.parse(files.shift)
+          summary2 = ten_k2.get_summary
+        
+          summary.merge(summary2)
+        end
+        
+        # provide some forecast data and do a valuation
+        forecast_data = 
+          [ { :revenue_growth => 0.15,
+              :sales_pm       => 0.17,
+              :fi_over_nfa    => 0.01,
+              :ato            => 1.50 },
+            { :revenue_growth => 0.15,
+              :sales_pm       => 0.17,
+              :fi_over_nfa    => 0.01,
+              :ato            => 1.50 },
+            { :revenue_growth => 0.15,
+              :sales_pm       => 0.17,
+              :fi_over_nfa    => 0.01,
+              :ato            => 1.50 },
+            { :revenue_growth => 0.15,
+              :sales_pm       => 0.17,
+              :fi_over_nfa    => 0.01,
+              :ato            => 1.50 },
+            { :revenue_growth => 0.04,
+              :sales_pm       => 0.17,
+              :fi_over_nfa    => 0.01,
+              :ato            => 1.50 } ]
+        
+        rho_f = 1.11
+        thousands_of_shares = 322250
+        
+        v_cse_share_0 = summary.sf2_valuation(forecast_data, rho_f, thousands_of_shares)
+        puts "value per share = #{v_cse_share_0}"
+        
+        summary.to_csv("summary.csv")
