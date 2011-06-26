@@ -1,7 +1,6 @@
 Features
 --------------------------------------------------------------------------------
 * Update README with real example
-* Do #merge on FSS
 * Jettison 10q/10k #merge  (?)
 
 Test Quality/Coverage
@@ -10,5 +9,6 @@ Test Quality/Coverage
 
 Code Quality
 --------------------------------------------------------------------------------
+* Refactor FSS to use a hash, should be WAY less code
 * Refactor a common parent class for the asset/liab/equity classifiers
 
