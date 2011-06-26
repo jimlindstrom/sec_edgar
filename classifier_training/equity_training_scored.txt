@@ -18,3 +18,7 @@ CSE retained earnings
 CSE retained earnings
 CSE retained earnings
 CSE treasury stock at cost, zero shares as of december31, 2010 and 8,443 shares as of march31, 2011
+CSE Class A and Class B common stock and additional paid-in capital, $0.001 par value per share: 9,000,000 shares authorized; 317,772 (Class A 243,611, Class B 74,161) and par value of $318 (Class A $244, Class B $74) and 321,301 (Class A 250,413, Class B 70,888) and par value of $321 (Class A $250, Class B $71) shares issued and outstanding
+PSE Convertible preferred stock, $0.001 par value per share, 100,000 shares authorized; no shares issued and outstanding
+PSE Convertible preferred stock
+PSE Redeemable convertible preferred stock
