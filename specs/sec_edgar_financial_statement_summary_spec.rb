@@ -22,11 +22,16 @@ describe SecEdgar::FinancialStatementSummary do
       files = edgar.get_reports(reports, download_path)
 
       ten_k = SecEdgar::AnnualReport.new 
+      ten_k.log = Logger.new('sec_edgar.log')
+      ten_k.log.level = Logger::DEBUG
       ten_k.parse(files.shift)
       summary = ten_k.get_summary
+      ten_k = nil
 
       while !files.empty?
         ten_k2 = SecEdgar::AnnualReport.new 
+        ten_k2.log = Logger.new('sec_edgar.log')
+        ten_k2.log.level = Logger::DEBUG
         ten_k2.parse(files.shift)
         summary2 = ten_k2.get_summary
   

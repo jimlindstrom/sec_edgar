@@ -10,6 +10,7 @@ describe SecEdgar::IncomeStatement do
   before(:all) do
     @vectors = 
       [ { :filename => "specs/testvectors/apple/2010_03_27.html", 
+          :base_multiplier => 1000000, # i.e., in millions
           :date0 => "2010",
           :date1 => "2009",
           :date2 => "2010",
@@ -35,6 +36,7 @@ describe SecEdgar::IncomeStatement do
           :re_net_income => 3074.0 },
 
         { :filename => "specs/testvectors/deere/2004_01_31.html",
+          :base_multiplier => 1000000, # i.e., in millions
           :date0 => "2004",
           :date1 => "2003",
           :operating_revenue => 3483.8,
@@ -57,6 +59,7 @@ describe SecEdgar::IncomeStatement do
           :re_net_income => 170.8 },
 
         { :filename => "specs/testvectors/google/2009_09_30.html",
+          :base_multiplier => 1000, # i.e., in thousands
           :date0 => "2008",
           :date1 => "2009",
           :operating_revenue => 5541391.0,
@@ -79,6 +82,7 @@ describe SecEdgar::IncomeStatement do
           :re_net_income => 1289938.0 },
 
         { :filename => "specs/testvectors/intel/2005_07_02.html",
+          :base_multiplier => 1000000, # i.e., in millions
           :date0 => "2005",
           :date1 => "2004",
           :date2 => "2005",
@@ -103,6 +107,7 @@ describe SecEdgar::IncomeStatement do
           :re_net_income => 2038.0 },
 
         { :filename => "specs/testvectors/microsoft/2011_03_31.html",
+          :base_multiplier => 1000000, # i.e., in millions
           :date0 => "2011",
           :date1 => "2010",
           :date2 => "2011",
@@ -162,6 +167,24 @@ describe SecEdgar::IncomeStatement do
   end
 
   ## it_should_behave_like 'SecEdgar::FinancialStatement' ## RE-ENABLE THIS LATER
+
+  describe "#base_multiplier" do
+    it "returns the base multiplier (e.g., 'in millions' or 'in thousands') for the statement" do
+      @vectors[0][:ten_q].inc_stmt.base_multiplier.should == @vectors[0][:base_multiplier]
+    end
+    it "returns the base multiplier (e.g., 'in millions' or 'in thousands') for the statement" do
+      @vectors[1][:ten_q].inc_stmt.base_multiplier.should == @vectors[1][:base_multiplier]
+    end
+    it "returns the base multiplier (e.g., 'in millions' or 'in thousands') for the statement" do
+      @vectors[2][:ten_q].inc_stmt.base_multiplier.should == @vectors[2][:base_multiplier]
+    end
+    it "returns the base multiplier (e.g., 'in millions' or 'in thousands') for the statement" do
+      @vectors[3][:ten_q].inc_stmt.base_multiplier.should == @vectors[3][:base_multiplier]
+    end
+    it "returns the base multiplier (e.g., 'in millions' or 'in thousands') for the statement" do
+      @vectors[4][:ten_q].inc_stmt.base_multiplier.should == @vectors[4][:base_multiplier]
+    end
+  end
 
   describe "#report_dates" do
     it "returns the report date for a given column" do

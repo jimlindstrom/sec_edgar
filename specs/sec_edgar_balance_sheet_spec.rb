@@ -49,6 +49,12 @@ describe SecEdgar::BalanceSheet do
     end
   end
 
+  describe "#base_multiplier" do
+    it "returns dates associated with each column of data" do
+      @fin_stmt.base_multiplier.should == 1000000
+    end
+  end
+
   ##############################################################################
   # Basic (as stated) arrays
   ##############################################################################

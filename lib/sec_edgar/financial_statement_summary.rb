@@ -98,6 +98,7 @@ module SecEdgar
     def to_csv(filename)
 
       CSV.open(filename, "wb") do |csv|
+        csv << ["Ammounts in 1,000s"]
         csv << [""] + @report_dates
         csv << [""]
 

@@ -2,6 +2,7 @@ module SecEdgar
 
   class FinancialStatement
     attr_accessor :log, :name, :rows, :sheet, :num_cols, :report_dates
+    attr_accessor :base_multiplier
   
     def initialize
       @report_dates = []

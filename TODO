@@ -1,14 +1,23 @@
 Features
 --------------------------------------------------------------------------------
-* Update README with real example
+* Read "in millions", "in thousands", etc. from financial statements
 * Jettison 10q/10k #merge  (?)
 
 Test Quality/Coverage
 --------------------------------------------------------------------------------
 * Increase the number of companies/years tested in balance sheet specs
+* Revisit the shared financial statement speces.  Get rid of them?
 
 Code Quality
 --------------------------------------------------------------------------------
+* Think through whether merge should use original year's reported values, or 
+  their possible restatement in later years
+* Shift some calculations from QuarterlyReport to FinancialStatementSummary, so 
+  that they'll be accurate post-merge
 * Refactor FSS to use a hash, should be WAY less code
+* DRY up the parser in QuarterlyReport.  ugh.
 * Refactor a common parent class for the asset/liab/equity classifiers
 
+Packaging
+--------------------------------------------------------------------------------
+* Update README with real example

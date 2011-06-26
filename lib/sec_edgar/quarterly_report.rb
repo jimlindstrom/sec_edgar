@@ -7,6 +7,23 @@ def traverse_for_table(next_elem, depth)
   return traverse_for_table(next_elem.parent, depth-1)
 end
 
+# FIXME put this function somewhere else
+def traverse_for_base_multiplier(next_elem, depth)
+  str = next_elem.to_plain_text.downcase 
+  if str =~ /^in (millions|thousands)/
+    return $1
+  elsif str =~ /\(in[ \r\n]*(millions|thousands)/
+    return $1
+  elsif str =~ /\(in.(millions|thousands)/
+    return $1
+  end
+
+  return nil if (depth == 0)
+  tmp = next_elem.next
+  return traverse_for_base_multiplier(tmp,              depth-1) if !tmp.nil?
+  return traverse_for_base_multiplier(next_elem.parent, depth-1)
+end
+
 class String
   def match_regexes(regex_arr)
     regex_arr.each do |cur_regex|
@@ -50,6 +67,24 @@ module SecEdgar
     def get_summary
       fss = FinancialStatementSummary.new
 
+      # make sure that the income statement and balance sheet have the same base_multiplier
+      case @bal_sheet.base_multiplier 
+        when 1000000
+          bscale = Proc.new { |a| a.collect { |x| x*1000.0 } }
+        when 1000
+          bscale = Proc.new { |a| a }
+        else
+          raise "unknown multiplier (#{@bal_sheet.base_multiplier})"
+      end
+      case @inc_stmt.base_multiplier
+        when 1000000
+          iscale = Proc.new { |a| a.collect { |x| x*1000.0 } }
+        when 1000
+          iscale = Proc.new { |a| a }
+        else
+          raise "unknown multiplier (#{@bal_sheet.base_multiplier})"
+      end
+
       # choose which indices to use (not all reports will the same set of dates, or be sorted
       # in the same direction.  Find common ones, then sort them ascending chronologically.)
       a = @bal_sheet.report_dates
@@ -60,24 +95,24 @@ module SecEdgar
 
       fss.report_dates = @bal_sheet.report_dates.values_at(*bsidx)
 
-      fss.oa  = @bal_sheet.total_oa.cols.values_at(*bsidx)
-      fss.ol  = @bal_sheet.total_ol.cols.values_at(*bsidx)
-      fss.noa = @bal_sheet.noa.cols.values_at(*bsidx)
-      fss.fa  = @bal_sheet.total_fa.cols.values_at(*bsidx)
-      fss.fl  = @bal_sheet.total_fl.cols.values_at(*bsidx)
-      fss.nfa = @bal_sheet.nfa.cols.values_at(*bsidx)
-      fss.cse = @bal_sheet.cse.cols.values_at(*bsidx)
+      fss.oa  = bscale.call(@bal_sheet.total_oa.cols.values_at(*bsidx))
+      fss.ol  = bscale.call(@bal_sheet.total_ol.cols.values_at(*bsidx))
+      fss.noa = bscale.call(@bal_sheet.noa.cols.values_at(*bsidx))
+      fss.fa  = bscale.call(@bal_sheet.total_fa.cols.values_at(*bsidx))
+      fss.fl  = bscale.call(@bal_sheet.total_fl.cols.values_at(*bsidx))
+      fss.nfa = bscale.call(@bal_sheet.nfa.cols.values_at(*bsidx))
+      fss.cse = bscale.call(@bal_sheet.cse.cols.values_at(*bsidx))
 
       fss.composition_ratio = @bal_sheet.noa.cols.values_at(*bsidx).zip(@bal_sheet.cse.cols.values_at(*bsidx)).collect { |x,y| x/y }
       fss.noa_growth = [nil] + calc_growth_rates(@bal_sheet.noa.cols.values_at(*bsidx))
       fss.cse_growth = [nil] + calc_growth_rates(@bal_sheet.cse.cols.values_at(*bsidx))
 
-      fss.operating_revenue       = @inc_stmt.re_operating_revenue.cols.values_at(*isidx)
-      fss.gross_margin            = @inc_stmt.re_gross_margin.cols.values_at(*isidx)
-      fss.oi_from_sales_after_tax = @inc_stmt.re_operating_income_from_sales_after_tax.cols.values_at(*isidx)
-      fss.oi_after_tax            = @inc_stmt.re_operating_income_after_tax.cols.values_at(*isidx)
-      fss.financing_income        = @inc_stmt.re_net_financing_income_after_tax.cols.values_at(*isidx)
-      fss.net_income              = @inc_stmt.re_net_income.cols.values_at(*isidx)
+      fss.operating_revenue       = iscale.call(@inc_stmt.re_operating_revenue.cols.values_at(*isidx))
+      fss.gross_margin            = iscale.call(@inc_stmt.re_gross_margin.cols.values_at(*isidx))
+      fss.oi_from_sales_after_tax = iscale.call(@inc_stmt.re_operating_income_from_sales_after_tax.cols.values_at(*isidx))
+      fss.oi_after_tax            = iscale.call(@inc_stmt.re_operating_income_after_tax.cols.values_at(*isidx))
+      fss.financing_income        = iscale.call(@inc_stmt.re_net_financing_income_after_tax.cols.values_at(*isidx))
+      fss.net_income              = iscale.call(@inc_stmt.re_net_income.cols.values_at(*isidx))
 
       fss.gm            = calc_ratios(@inc_stmt.re_gross_margin.cols.values_at(*isidx),                          @inc_stmt.re_operating_revenue.cols.values_at(*isidx))
       fss.sales_pm      = calc_ratios(@inc_stmt.re_operating_income_from_sales_after_tax.cols.values_at(*isidx), @inc_stmt.re_operating_revenue.cols.values_at(*isidx))
@@ -85,12 +120,12 @@ module SecEdgar
       fss.fi_over_sales = calc_ratios(@inc_stmt.re_net_financing_income_after_tax.cols.values_at(*isidx),        @inc_stmt.re_operating_revenue.cols.values_at(*isidx))
       fss.ni_over_sales = calc_ratios(@inc_stmt.re_net_income.cols.values_at(*isidx),                            @inc_stmt.re_operating_revenue.cols.values_at(*isidx))
 
-      fss.sales_over_noa = calc_ratios(@inc_stmt.re_operating_revenue.cols.values_at(*isidx), @bal_sheet.noa.cols.values_at(*bsidx))
+      fss.sales_over_noa = calc_ratios(iscale.call(@inc_stmt.re_operating_revenue.cols.values_at(*isidx)), bscale.call(@bal_sheet.noa.cols.values_at(*bsidx)))
       fss.revenue_growth = [nil] + calc_growth_rates(@inc_stmt.re_operating_revenue.cols.values_at(*isidx))
       fss.core_oi_growth = [nil] + calc_growth_rates(@inc_stmt.re_operating_income_from_sales_after_tax.cols.values_at(*isidx))
       fss.oi_growth      = [nil] + calc_growth_rates(@inc_stmt.re_operating_income_after_tax.cols.values_at(*isidx))
-      fss.fi_over_nfa    = calc_ratios(@inc_stmt.re_net_financing_income_after_tax.cols.values_at(*isidx), @bal_sheet.nfa.cols.values_at(*bsidx))
-      fss.re_oi          = [nil] + calc_reois(@inc_stmt.re_operating_income_after_tax.cols.values_at(*isidx), @bal_sheet.noa.cols.values_at(*bsidx))
+      fss.fi_over_nfa    = calc_ratios(iscale.call(@inc_stmt.re_net_financing_income_after_tax.cols.values_at(*isidx)), bscale.call(@bal_sheet.nfa.cols.values_at(*bsidx)))
+      fss.re_oi          = [nil] + calc_reois(iscale.call(@inc_stmt.re_operating_income_after_tax.cols.values_at(*isidx)), bscale.call(@bal_sheet.noa.cols.values_at(*bsidx)))
 
       return fss
 
@@ -125,10 +160,24 @@ module SecEdgar
               @log.info("parsing balance sheet, at tag \"#{elem.inner_text}\"") if @log
               @bal_sheet = BalanceSheet.new
               @bal_sheet.log = @log if @log
+
+              multiplier_str = traverse_for_base_multiplier(elem, SEARCH_DEPTH)
+              if !multiplier_str.nil?
+                case multiplier_str
+                when "millions"
+                  @bal_sheet.base_multiplier = 1000000
+                when "thousands"
+                  @bal_sheet.base_multiplier = 1000
+                else
+                  raise "Unknown base multiplier #{multiplier_str}"
+                end
+              end
+
               if @bal_sheet.parse(table_elem) == false
                 @log.info("failed to parse balance sheet, resetting to try again.") if @log
                 @bal_sheet = nil # discard bogus parse attempts
               else
+                raise "balance sheet (#{filename}) has no base multiplier" if @bal_sheet.base_multiplier.nil?
                 @log.info("parsing of balance sheet succeeded") if @log
                 cur_regexes = [] # done
               end
@@ -153,9 +202,23 @@ module SecEdgar
               @log.info("parsing income stmt, at tag \"#{elem.inner_text}\"") if @log
               @inc_stmt = IncomeStatement.new
               @inc_stmt.log = @log if @log
+
+              multiplier_str = traverse_for_base_multiplier(elem, SEARCH_DEPTH)
+              if !multiplier_str.nil?
+                case multiplier_str
+                when "millions"
+                  @inc_stmt.base_multiplier = 1000000
+                when "thousands"
+                  @inc_stmt.base_multiplier = 1000
+                else
+                  raise "Unknown base multiplier #{multiplier_str}"
+                end
+              end
+
               if @inc_stmt.parse(table_elem) == false
                 @inc_stmt = nil # discard bogus parse attempts
               else
+                raise "income statement (#{filename}) has no base multiplier" if @inc_stmt.base_multiplier.nil?
                 @log.info("parsing of income stmt succeeded") if @log
                 cur_regexes = [] # done
               end
