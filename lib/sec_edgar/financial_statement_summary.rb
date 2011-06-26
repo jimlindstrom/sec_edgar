@@ -39,6 +39,17 @@ module SecEdgar
     def initialize
     end
 
+    def simple_valuation(g_1, g_2, g_long, rho_f)
+      oi_0 = @oi_from_sales_after_tax.last
+      oi_1 = oi_0 * (1.0 + g_1)
+
+      v_noa_0 = oi_1 * (1.0 / (rho_f - 1.0)) * ((g_2 - g_long)/(rho_f - g_long))
+      v_nfa_0 = @nfa.last
+      v_e_0 = v_noa_0 + v_nfa_0
+
+      return v_e_0
+    end
+
     def write_summary(filename)
 
       CSV.open(filename, "wb") do |csv|
