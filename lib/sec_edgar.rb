@@ -3,6 +3,7 @@ require 'hpricot'
 require 'logger'
 require 'naive_bayes'
 require 'lingua/stemmer'
+require 'csv'
 
 require "sec_edgar/version"
 

@@ -47,6 +47,71 @@ module SecEdgar
       @cash_flow_stmt = nil
     end
 
+    def write_summary(filename)
+      def calc_growth_rates(a)
+        a[0..(a.length-2)].zip(a[1..a.length]).collect { |x,y| (Float(y)-x)/x }
+      end
+
+      def calc_ratios(a, b)
+        a.zip(b).collect{ |x,y| Float(x)/y }
+      end
+
+      def calc_reois(ois, noas)
+        ois[1..(ois.length-1)].zip(noas[0..(noas.length-2)]).collect { |oi,noa| Float(oi)-(0.1*noa) }
+      end
+
+      CSV.open(filename, "wb") do |csv|
+        csv << [""] + @bal_sheet.report_dates
+        csv << [""]
+
+        csv << ["Balance Sheet"]
+        csv << ["  NOA"]
+        csv << ["    OA" ] + @bal_sheet.total_oa.cols
+        csv << ["    OL" ] + @bal_sheet.total_ol.cols
+        csv << ["    NOA"] + @bal_sheet.noa.cols
+        csv << ["  NFA"]
+        csv << ["    FA" ] + @bal_sheet.total_fa.cols
+        csv << ["    FL" ] + @bal_sheet.total_fl.cols
+        csv << ["    NFA"] + @bal_sheet.nfa.cols
+        csv << ["  CSE"]
+        csv << ["    CSE"] + @bal_sheet.cse.cols
+        csv << [""]
+
+        csv << ["Balance Sheet Analysis"]
+        csv << ["  Composition ratio"    ] + @bal_sheet.noa.cols.zip(@bal_sheet.cse.cols).collect { |x,y| x/y }
+        csv << ["  NOA growth",        ""] + calc_growth_rates(@bal_sheet.noa.cols)
+        csv << ["  CSE growth",        ""] + calc_growth_rates(@bal_sheet.cse.cols)
+        csv << [""]
+
+        csv << ["Income Statement"]
+        csv << ["  Operating revenues"       ] + @inc_stmt.re_operating_revenue.cols
+        csv << ["  Gross margin"             ] + @inc_stmt.re_gross_margin.cols
+        csv << ["  OI from sales (after tax)"] + @inc_stmt.re_operating_income_from_sales_after_tax.cols
+        csv << ["  OI (after tax)"           ] + @inc_stmt.re_operating_income_after_tax.cols
+        csv << ["  Financing income"         ] + @inc_stmt.re_net_financing_income_after_tax.cols
+        csv << ["  Net income"               ] + @inc_stmt.re_net_income.cols
+        csv << [""]
+
+        csv << ["Income Statement Margin Analysis"]
+        csv << ["  Gross margin"] + calc_ratios(@inc_stmt.re_gross_margin.cols,                          @inc_stmt.re_operating_revenue.cols)
+        csv << ["  Sales PM"    ] + calc_ratios(@inc_stmt.re_operating_income_from_sales_after_tax.cols, @inc_stmt.re_operating_revenue.cols)
+        csv << ["  PM"          ] + calc_ratios(@inc_stmt.re_operating_income_after_tax.cols,            @inc_stmt.re_operating_revenue.cols)
+        csv << ["  FI / Sales"  ] + calc_ratios(@inc_stmt.re_net_financing_income_after_tax.cols,        @inc_stmt.re_operating_revenue.cols)
+        csv << ["  NI / Sales"  ] + calc_ratios(@inc_stmt.re_net_income.cols,                            @inc_stmt.re_operating_revenue.cols)
+        csv << [""]
+
+        csv << ["Income Statement Ratio Analysis"]
+        csv << ["  Sales / NOA (ATO)"   ] + calc_ratios(@inc_stmt.re_operating_revenue.cols, @bal_sheet.noa.cols)
+        csv << ["  Revenue Growth",   ""] + calc_growth_rates(@inc_stmt.re_operating_revenue.cols)
+        csv << ["  Core OI Growth",   ""] + calc_growth_rates(@inc_stmt.re_operating_income_from_sales_after_tax.cols)
+        csv << ["  OI Growth",        ""] + calc_growth_rates(@inc_stmt.re_operating_income_after_tax.cols)
+        csv << ["  FI / NFA",           ] + calc_ratios(@inc_stmt.re_net_financing_income_after_tax.cols, @bal_sheet.nfa.cols)
+        csv << ["  ReOI (at 10%)",    ""] + calc_reois(@inc_stmt.re_operating_income_after_tax.cols, @bal_sheet.noa.cols)
+        csv << [""]
+
+      end
+    end
+
     def parse(filename)
   
       @log.info("parsing 10q from #{filename}") if @log
