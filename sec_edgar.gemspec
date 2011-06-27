@@ -26,4 +26,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'hpricot'
   s.add_dependency 'naive_bayes'
   s.add_dependency 'ruby-stemmer'
+  s.add_dependency 'yahoofinance'
 end

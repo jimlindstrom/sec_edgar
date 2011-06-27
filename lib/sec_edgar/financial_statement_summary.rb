@@ -71,7 +71,7 @@ module SecEdgar
       @sales_pm      += fss2.sales_pm.values_at(*indices)
       @pm            += fss2.pm.values_at(*indices)
       @fi_over_sales += fss2.fi_over_sales.values_at(*indices)
-      @ni_over_sales += fss2.fi_over_sales.values_at(*indices)
+      @ni_over_sales += fss2.ni_over_sales.values_at(*indices)
 
       @sales_over_noa += fss2.sales_over_noa.values_at(*indices)
       @revenue_growth += fss2.revenue_growth.values_at(*indices)

@@ -4,6 +4,7 @@ require 'logger'
 require 'naive_bayes'
 require 'lingua/stemmer'
 require 'csv'
+require 'yahoofinance'
 
 require "sec_edgar/version"
 
@@ -20,4 +21,4 @@ require "sec_edgar/annual_report.rb"
 require "sec_edgar/asset_classifier.rb"
 require "sec_edgar/liab_classifier.rb"
 require "sec_edgar/equity_classifier.rb"
-
+require "sec_edgar/helpers.rb"

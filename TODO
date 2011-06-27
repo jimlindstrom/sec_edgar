@@ -1,5 +1,9 @@
 Features
 --------------------------------------------------------------------------------
+* Introduce a confidence measure.  I.e., how do the balance sheet classifiers 
+  look?  How stable are the financials off of which we're anchoring (e.g., ATO, 
+  PM, etc.)?
+* Automate the forecast
 * Jettison 10q/10k #merge  (?)
 
 Test Quality/Coverage
@@ -9,6 +13,7 @@ Test Quality/Coverage
 
 Code Quality
 --------------------------------------------------------------------------------
+* The WACC code is pretty sketchy.  Clean that up and make sure it's even right.
 * Think through whether merge should use original year's reported values, or 
   their possible restatement in later years
 * Shift some calculations from QuarterlyReport to FinancialStatementSummary, so 
