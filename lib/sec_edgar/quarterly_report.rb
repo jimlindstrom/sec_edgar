@@ -1,10 +1,26 @@
 # FIXME put this function somewhere else
-def traverse_for_table(next_elem, depth)
+def traverse_for_table(next_elem, depth, only_go_down=false)
   return next_elem if (next_elem.name == "table")
   return nil if (depth == 0)
+
+  # look to children
+  if next_elem.innerHTML =~ /table/
+    next_elem.children.each do |c|
+      if c.class==Hpricot::Elem
+        r = traverse_for_table(c, depth-1, true) 
+        return r if !r.nil?
+      end
+    end
+  end
+
+  return nil if only_go_down==true
+
+  # look to peers
   tmp = next_elem.next
   return traverse_for_table(tmp,              depth-1) if !tmp.nil?
-  return traverse_for_table(next_elem.parent, depth-1)
+
+  # pop up to parent
+  return traverse_for_table(next_elem.parent, depth-1) 
 end
 
 # FIXME put this function somewhere else
@@ -162,16 +178,7 @@ module SecEdgar
               @bal_sheet.log = @log if @log
 
               multiplier_str = traverse_for_base_multiplier(elem, SEARCH_DEPTH)
-              if !multiplier_str.nil?
-                case multiplier_str
-                when "millions"
-                  @bal_sheet.base_multiplier = 1000000
-                when "thousands"
-                  @bal_sheet.base_multiplier = 1000
-                else
-                  raise "Unknown base multiplier #{multiplier_str}"
-                end
-              end
+              @bal_sheet.set_base_multiplier(multiplier_str) if !multiplier_str.nil?
 
               if @bal_sheet.parse(table_elem) == false
                 @log.info("failed to parse balance sheet, resetting to try again.") if @log
@@ -204,16 +211,7 @@ module SecEdgar
               @inc_stmt.log = @log if @log
 
               multiplier_str = traverse_for_base_multiplier(elem, SEARCH_DEPTH)
-              if !multiplier_str.nil?
-                case multiplier_str
-                when "millions"
-                  @inc_stmt.base_multiplier = 1000000
-                when "thousands"
-                  @inc_stmt.base_multiplier = 1000
-                else
-                  raise "Unknown base multiplier #{multiplier_str}"
-                end
-              end
+              @inc_stmt.set_base_multiplier(multiplier_str) if !multiplier_str.nil?
 
               if @inc_stmt.parse(table_elem) == false
                 @inc_stmt = nil # discard bogus parse attempts

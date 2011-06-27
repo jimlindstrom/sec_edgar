@@ -14,6 +14,7 @@ module SecEdgar
       parse_html(edgar_fin_stmt)
       delete_empty_columns
       parse_reporting_dates
+      parse_second_pass_for_base_multiplier
 
       return true
     end
@@ -77,6 +78,19 @@ module SecEdgar
       @rows.size.times do |i|
         @rows[i].concat(stmt2.rows[i])
       end
+    end
+
+    def set_base_multiplier(str)
+
+      case str
+      when "millions"
+        @bal_sheet.base_multiplier = 1000000
+      when "thousands"
+        @bal_sheet.base_multiplier = 1000
+      else
+        raise "Unknown base multiplier #{str}"
+      end
+
     end
 
   private
@@ -159,6 +173,20 @@ module SecEdgar
         row[1..(row.length-1)].each_with_index do |cell, idx|
           if cell.text =~ /([0-9]{4})/ # check later ones too
             @report_dates[idx] = $1
+          end
+        end
+      end
+    end
+
+    # FIXME: we may not need this....
+    def parse_second_pass_for_base_multiplier
+      # pull out the date ranges
+      @rows[0..10].each do |row|
+        row[1..(row.length-1)].each_with_index do |cell, idx|
+          if cell.text.downcase =~ /^in (billions|millions|thousands)/
+            set_base_multiplier($1)
+          elsif cell.text.downcase =~ /\(in (billions|millions|thousands)/
+            set_base_multiplier($1)
           end
         end
       end

@@ -37,12 +37,10 @@ module SecEdgar
         numer_str = @text.gsub(/\(/,'-').gsub(/\)/,'') # turn "(22)" into "-22"
         numer_str = numer_str.gsub(/[^\-0-9.]/,'') # get rid of all other non-numbers characters
         return if numer_str.length == 0
-        if numer_str.match('\.')
-          @val = Float(numer_str)
-        else
-          #@val = Integer(numer_str)  ## They all need to be floats, so that they can be compared more easily
-          @val = Float(numer_str)
+        if numer_str.match('\.$')
+          numer_str += "0"
         end
+        @val = Float(numer_str)
       end
 
     end

@@ -8,10 +8,13 @@ module SecEdgar
       edgar = SecEdgar::Edgar.new
       
       reports = edgar.lookup_reports(ticker)
+      raise "couldn't lookup reports for #{ticker}" if reports==[] or reports.nil?
       reports.keep_if{ |r| r[:type] == rept_type }
       reports.sort! {|a,b| a[:date] <=> b[:date] }
+      raise "No 10-K's found for #{ticker}" if reports==[] or reports.nil?
       
       files = edgar.get_reports(reports, download_path)
+      raise "couldn't get reports for #{ticker}" if files==[] or files.nil?
       
       ten_k = SecEdgar::AnnualReport.new 
       ten_k.log = Logger.new('sec_edgar.log')
@@ -33,8 +36,7 @@ module SecEdgar
       return summary
     end
 
-    def Helpers.get_shares_outstanding(ticker)
-      std_quotes = YahooFinance::get_quotes(YahooFinance::StandardQuote, ticker)
+    def Helpers.get_actual_market_cap(ticker)
       ext_quotes = YahooFinance::get_quotes(YahooFinance::ExtendedQuote, ticker)
     
       mkt_cap = Float(ext_quotes[ticker].marketCap.gsub(/[A-Za-z]/,''))
@@ -49,16 +51,35 @@ module SecEdgar
         raise "unknown modifier"
       end
     
-      share_price = Float(std_quotes[ticker].lastTrade)
+      return mkt_cap 
+    end
+
+    def Helpers.get_actual_share_price(ticker)
+      std_quotes = YahooFinance::get_quotes(YahooFinance::StandardQuote, ticker)
+      return Float(std_quotes[ticker].lastTrade)
+    end
+
+    def Helpers.get_shares_outstanding(ticker)
+      mkt_cap     = Helpers.get_actual_market_cap(ticker)
+      share_price = Helpers.get_actual_share_price(ticker)
     
       return mkt_cap / share_price
     end
     
-    RISK_FREE_RATE = 0.0387
-    EQUITY_RISK_PREMIUM = 0.084
+    RISK_FREE_RATE               = 0.04 # feel free to use this for calculating equity cost-of-capital
+    EXPECTED_RETURN_FOR_EQUITIES = 0.09 # feel free to use this for calculating equity cost-of-capital
 
-    def Helpers.wacc_capm(r_f, r_m, beta)
-      return r_f + ((beta*(r_m - r_f)))
+    def Helpers.equity_cost_of_capital__capm(risk_free_rate, expected_return_for_equities, beta)
+      return risk_free_rate + (beta * (expected_return_for_equities - risk_free_rate))
+    end
+
+    def Helpers.weighted_avg_cost_of_capital(ticker, summary, rho_e, rho_d, tax_rate)
+      v_e = Helpers.get_actual_market_cap(ticker)
+      v_d = summary.nfa.last * 1000.0
+      v_f = v_e + v_d
+
+      rho_f = ((v_e / v_f) * rho_e) + ((v_d / v_f) * rho_d)
+      return rho_f
     end
 
   end

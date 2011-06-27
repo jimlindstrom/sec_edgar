@@ -154,20 +154,28 @@ module SecEdgar
         raise "unsupported report type #{report[:type]}" if !rept_type_linktext.keys.include?(report[:type])
 
         page = agent.get('http://www.sec.gov' + report[:url])
-        page.links.each do |link|
-          if link.text == rept_type_linktext[report[:type]]
-            subpage = agent.get('http://www.sec.gov' + link.href)
+        doc = Hpricot(page.body)
 
-            cur_filename = save_folder + report[:date] + ".html"
-            files.push cur_filename
-
-            fh = File.open(cur_filename, "w") 
-            fh << subpage.body
-            fh.close
+        trs = doc.search("table[@class='tableFile']/tr")
+        trs.each do |tr_item|
+          tds = tr_item.search("td")
+  
+          if !tds[3].nil? and tds[3].innerHTML == report[:type]
+            subpage_url ='http://www.sec.gov' + tds[2].children.first.attributes['href']
+            if subpage_url =~ /htm$/
+              subpage = agent.get(subpage_url)
+    
+              cur_filename = save_folder + report[:date] + ".html"
+              files.push cur_filename
+    
+              fh = File.open(cur_filename, "w") 
+              fh << subpage.body
+              fh.close
+            end
           end
         end
       end
-
+  
       return files
     end
 
