@@ -84,9 +84,9 @@ module SecEdgar
 
       case str
       when "millions"
-        @bal_sheet.base_multiplier = 1000000
+        @base_multiplier = 1000000
       when "thousands"
-        @bal_sheet.base_multiplier = 1000
+        @base_multiplier = 1000
       else
         raise "Unknown base multiplier #{str}"
       end

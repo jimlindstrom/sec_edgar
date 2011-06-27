@@ -26,14 +26,14 @@ forecast_data =
     { :revenue_growth => 0.04, :sales_pm => 0.17, :fi_over_nfa => 0.01, :ato => 1.00 } ]
 
 # set up the valuation with forecast data
-ticker = 'IBM'
-beta = 0.73
+ticker = 'MSFT'
+beta = 1.05
 forecast_data = 
-  [ { :revenue_growth => 0.12, :sales_pm => 0.22, :fi_over_nfa => 0.01, :ato => 1.00 },
-    { :revenue_growth => 0.11, :sales_pm => 0.21, :fi_over_nfa => 0.01, :ato => 1.00 },
-    { :revenue_growth => 0.11, :sales_pm => 0.20, :fi_over_nfa => 0.01, :ato => 1.00 },
-    { :revenue_growth => 0.10, :sales_pm => 0.19, :fi_over_nfa => 0.01, :ato => 1.00 },
-    { :revenue_growth => 0.04, :sales_pm => 0.17, :fi_over_nfa => 0.01, :ato => 1.00 } ]
+  [ { :revenue_growth => 0.08, :sales_pm => 0.26, :fi_over_nfa => 0.00, :ato => 1.20 },
+    { :revenue_growth => 0.07, :sales_pm => 0.25, :fi_over_nfa => 0.00, :ato => 1.15 },
+    { :revenue_growth => 0.06, :sales_pm => 0.24, :fi_over_nfa => 0.00, :ato => 1.10 },
+    { :revenue_growth => 0.05, :sales_pm => 0.20, :fi_over_nfa => 0.00, :ato => 1.05 },
+    { :revenue_growth => 0.04, :sales_pm => 0.18, :fi_over_nfa => 0.00, :ato => 1.00 } ]
 
 
 # get the financial summary (from all historical 10k's)

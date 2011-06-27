@@ -1,12 +1,13 @@
 Bugs
 --------------------------------------------------------------------------------
 * Failed to parse IBM, HPQ, ADI, LPSN (base multiplier)
-* Failed to parse CSCO, NVDA, MSFT (balance sheet)
+* Failed to parse CSCO, NVDA (balance sheet)
 * Failed to parse CRM, ORCL (income statement)
 * Failed to parse TXN (traverse for table)
 
 Features
 --------------------------------------------------------------------------------
+* Make get_all_10k's to just ignore reports it can't parse?
 * Introduce a confidence measure.  I.e., how do the balance sheet classifiers 
   look?  How stable are the financials off of which we're anchoring (e.g., ATO, 
   PM, etc.)?

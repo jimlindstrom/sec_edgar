@@ -40,7 +40,12 @@ module SecEdgar
         if numer_str.match('\.$')
           numer_str += "0"
         end
-        @val = Float(numer_str)
+        begin
+          @val = Float(numer_str)
+        rescue
+          @log.warn("couldn't parse number out of #{numer_str}") if @log
+          @val = nil 
+        end
       end
 
     end
