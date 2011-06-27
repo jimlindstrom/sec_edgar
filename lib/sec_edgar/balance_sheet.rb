@@ -176,6 +176,10 @@ module SecEdgar
           if row.label.downcase =~ /total assets/
             next_state = :waiting_for_cur_liabs
             @total_assets = row
+          elsif row.label.downcase == '' and !row.cols[0].nil? and !row.cols[1].nil? 
+            # ... because, AMD 2003 10-k has a blank where you'd expect to see the total
+            next_state = :waiting_for_cur_liabs
+            @total_assets = row
           else
             row.flags[:non_current] = true
             @assets.push(row)
@@ -223,6 +227,10 @@ module SecEdgar
         when :done
           # FIXME: this should be a 2nd-to-last state and should THEN go to done...
           if row.label.downcase =~ /total liabilities and.*equity/
+            @total_liabs = row.clone
+            @total_liabs.subtract(@total_equity)
+          elsif row.label.downcase == '' and !row.cols[0].nil? and !row.cols[1].nil? 
+            # ... because, AMD 2003 10-k has a blank where you'd expect to see the total
             @total_liabs = row.clone
             @total_liabs.subtract(@total_equity)
           end
@@ -275,6 +283,7 @@ module SecEdgar
           end
         end
       end
+      return true
     end
 
     def classify_liabs
@@ -300,6 +309,7 @@ module SecEdgar
           end
         end
       end
+      return true
     end
 
     def classify_equity
@@ -308,7 +318,7 @@ module SecEdgar
       @cse = SheetRow.new(@num_cols, 0.0)
       @equity.each do |e|
         if e.num_cols < 2
-          @log.warn("asset must be 2 columns wide #{e}")
+          @log.warn("equity must be 2 columns wide #{e}")
         else
           case ec.classify(e.label)[:class]
           when :pse
@@ -323,6 +333,7 @@ module SecEdgar
           end
         end
       end
+      return true
     end
 
   end

@@ -187,6 +187,8 @@ module SecEdgar
             set_base_multiplier($1)
           elsif cell.text.downcase =~ /\(in (billions|millions|thousands)/
             set_base_multiplier($1)
+          elsif cell.text.downcase =~ /\((billion|million|thousand)/ # AMD 2003 10-k
+            set_base_multiplier($1)
           end
         end
       end

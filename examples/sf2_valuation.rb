@@ -35,6 +35,16 @@ forecast_data =
     { :revenue_growth => 0.05, :sales_pm => 0.20, :fi_over_nfa => 0.00, :ato => 1.05 },
     { :revenue_growth => 0.04, :sales_pm => 0.18, :fi_over_nfa => 0.00, :ato => 1.00 } ]
 
+# set up the valuation with forecast data
+ticker = 'AMD'
+beta = 1.06
+forecast_data = 
+  [ { :revenue_growth => 0.08, :sales_pm => 0.26, :fi_over_nfa => 0.00, :ato => 1.20 },
+    { :revenue_growth => 0.07, :sales_pm => 0.25, :fi_over_nfa => 0.00, :ato => 1.15 },
+    { :revenue_growth => 0.06, :sales_pm => 0.24, :fi_over_nfa => 0.00, :ato => 1.10 },
+    { :revenue_growth => 0.05, :sales_pm => 0.20, :fi_over_nfa => 0.00, :ato => 1.05 },
+    { :revenue_growth => 0.04, :sales_pm => 0.18, :fi_over_nfa => 0.00, :ato => 1.00 } ]
+
 
 # get the financial summary (from all historical 10k's)
 summary = SecEdgar::Helpers.get_all_10ks(ticker)

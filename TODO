@@ -7,6 +7,7 @@ Bugs
 
 Features
 --------------------------------------------------------------------------------
+* Use different exception types so that we can rescue more specifically
 * Make get_all_10k's to just ignore reports it can't parse?
 * Introduce a confidence measure.  I.e., how do the balance sheet classifiers 
   look?  How stable are the financials off of which we're anchoring (e.g., ATO, 

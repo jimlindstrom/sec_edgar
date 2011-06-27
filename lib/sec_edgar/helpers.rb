@@ -16,12 +16,23 @@ module SecEdgar
       files = edgar.get_reports(reports, download_path)
       raise "couldn't get reports for #{ticker}" if files==[] or files.nil?
       
-      ten_k = SecEdgar::AnnualReport.new 
-      ten_k.log = Logger.new('sec_edgar.log')
-      ten_k.log.level = Logger::DEBUG
-      ten_k.parse(files.shift)
-      summary = ten_k.get_summary
-      ten_k = nil
+      summary = nil
+      while summary == nil
+        if files.empty?
+          raise "ERROR: ran out of files to parse..."
+        end
+        ten_k = SecEdgar::AnnualReport.new 
+        ten_k.log = Logger.new('sec_edgar.log')
+        ten_k.log.level = Logger::DEBUG
+        begin
+          cur_file = files.shift
+          ten_k.parse(cur_file)
+          summary = ten_k.get_summary
+          ten_k = nil
+        rescue Exception => e
+          puts "WARNING: Caught exception while parsing #{cur_file}: #{ e } (#{ e.class })!"
+        end
+      end
       
       while !files.empty?
         ten_k2 = SecEdgar::AnnualReport.new 
