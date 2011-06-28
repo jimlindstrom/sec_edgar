@@ -214,9 +214,11 @@ module SecEdgar
       cur_filename = get_single_report_from_scratch(report, save_folder)
 
       # insert the page into the cache
-      fh = File.open(cur_filename, "r") 
-      @cache.insert(report[:url], fh.read)
-      fh.close
+      if !cur_filename.nil?
+        fh = File.open(cur_filename, "r") 
+        @cache.insert(report[:url], fh.read)
+        fh.close
+      end
 
       return cur_filename
 
