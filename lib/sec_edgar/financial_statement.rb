@@ -93,11 +93,24 @@ module SecEdgar
 
     end
 
-    def validates?
-      return false if @report_dates == []
-      return false if @base_multiplier.nil?
+    def fail_if_doesnt_equal(name_of_a, a, b)
+      if a != b
+        msg = "validation fail: #{name_of_a} (#{a}) != b"
+        @log.error(msg)
+        raise ParseError, msg
+      end
+    end
+    def fail_if_equals(name_of_a, a, b)
+      if a == b
+        msg = "validation fail: #{name_of_a} (#{a}) != b"
+        @log.error(msg)
+        raise ParseError, msg
+      end
+    end
 
-      return true
+    def validate
+      fail_if_equals("report_dates",    @report_dates,    [])
+      fail_if_equals("base_multiplier", @base_multiplier, nil)
     end
 
   private

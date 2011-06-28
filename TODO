@@ -23,7 +23,6 @@ Code Quality
   that they'll be accurate post-merge
 * DRY up the parser in QuarterlyReport.  ugh.
 * Refactor a common parent class for the asset/liab/equity classifiers
-* Get rid of crap we're not using: 10q merge; cash flow statements
 
 Packaging
 --------------------------------------------------------------------------------

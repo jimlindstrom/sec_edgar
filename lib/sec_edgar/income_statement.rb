@@ -44,19 +44,19 @@ module SecEdgar
       return false if not calculate_re_net_income
     end
 
-    def validates?
-      return false if @re_financing_income.nil?
-      return false if @re_operating_revenue.nil?
-      return false if @re_gross_margin.nil?
-      return false if @re_operating_expense.nil?
-      return false if @re_operating_income_from_sales_before_tax.nil?
-      return false if @re_other_operating_income_before_tax.nil?
-      return false if @re_operating_income_from_sales_after_tax.nil?
-      return false if @re_operating_income_after_tax.nil?
-      return false if @re_net_financing_income_after_tax.nil?
-      return false if @re_net_income.nil?
+    def validate
+      super
 
-      return super
+      fail_if_equals("re_financing_income",                       @re_financing_income,                       nil)
+      fail_if_equals("re_operating_revenue",                      @re_operating_revenue,                      nil)
+      fail_if_equals("re_gross_margin",                           @re_gross_margin,                           nil)
+      fail_if_equals("re_operating_expense",                      @re_operating_expense,                      nil)
+      fail_if_equals("re_operating_income_from_sales_before_tax", @re_operating_income_from_sales_before_tax, nil)
+      fail_if_equals("re_other_operating_income_before_tax",      @re_other_operating_income_before_tax,      nil)
+      fail_if_equals("re_operating_income_from_sales_after_tax",  @re_operating_income_from_sales_after_tax,  nil)
+      fail_if_equals("re_operating_income_after_tax",             @re_operating_income_after_tax,             nil)
+      fail_if_equals("re_net_financing_income_after_tax",         @re_net_financing_income_after_tax,         nil)
+      fail_if_equals("re_net_income",                             @re_net_income,                             nil)
     end
 
   private

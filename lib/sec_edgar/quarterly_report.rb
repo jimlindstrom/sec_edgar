@@ -67,17 +67,11 @@ module SecEdgar
        /consolidated[ \n\ra-z]*statement[s]*[ \n\r]of[ \n\r]operations/,
        /income[ \n\r]*statement[s]*/ ]
 
-    CASH_FLOW_STMT_REGEXES = 
-      [/consolidated[ \n\rA-Za-z]*statement[s]*[ \n\r]of[ \n\r]cash[ \n\r]flows/,
-       /statement[s]*[ \n\r]of[ \n\r]consolidated[ \n\r]cash[ \n\r]flows/,
-       /cash[ \n\r]flows[ \n\r]statement[s]*/ ]
-
-    attr_accessor :log, :bal_sheet, :inc_stmt, :cash_flow_stmt
+    attr_accessor :log, :bal_sheet, :inc_stmt
   
     def initialize
       @bal_sheet = nil
       @inc_stmt = nil
-      @cash_flow_stmt = nil
     end
 
     def get_summary
@@ -197,7 +191,7 @@ module SecEdgar
         end
       end
       raise ParseError, "Failed to parse balance sheet from #{filename}" if @bal_sheet.nil?
-      raise ParseError, "Balance sheet from #{filename} did not validate" if !@bal_sheet.validates?
+      @bal_sheet.validate
 
       # assumes the regexes are in descending priority. searches document for 
       # each one until you find first one.
@@ -230,37 +224,9 @@ module SecEdgar
         end
       end
       raise ParseError, "Failed to parse income statement from #{filename}" if @inc_stmt.nil?
-      raise ParseError, "Income statement from #{filename} did not validate" if !@inc_stmt.validates?
+      @inc_stmt.validate
 
-      # assumes the regexes are in descending priority. searches document for 
-      # each one until you find first one.
-      cur_regexes = Array.new(CASH_FLOW_STMT_REGEXES)
-      while not cur_regexes.empty?
-        cur_regex = cur_regexes.shift
-        @log.debug("trying to match cash flow statement regex \"#{cur_regex}\"") if @log
-        elems.each do |elem|
-          # match to see if this element contains the regex in question
-          if @cash_flow_stmt.nil? and elem.inner_text.downcase =~ cur_regex
-            @log.debug("matched cash flow stmt regex at tag \"#{elem.inner_text}\"") if @log
-            table_elem = traverse_for_table(elem, SEARCH_DEPTH)
-            if not table_elem.nil? 
-              @log.info("parsing cash flow stmt, at tag \"#{elem.inner_text}\"") if @log
-              @cash_flow_stmt = CashFlowStatement.new
-              @cash_flow_stmt.log = @log if @log
-              if @cash_flow_stmt.parse(table_elem) == false
-                @cash_flow_stmt = nil # discard bogus parse attempts
-              else
-                @log.info("parsing of cash flow stmt succeeded") if @log
-                cur_regexes = [] # done
-              end
-            end
-          end
-        end
-      end
-      raise ParseError, "Failed to parse cash flow statement from #{filename}" if @cash_flow_stmt.nil?
-      raise ParseError, "Cash flow statement from #{filename} did not validate" if !@cash_flow_stmt.validates?
-
-      return false if (@bal_sheet == nil) or (@inc_stmt == nil) or (@cash_flow_stmt == nil)
+      return false if (@bal_sheet == nil) or (@inc_stmt == nil)
       return true
     end
 

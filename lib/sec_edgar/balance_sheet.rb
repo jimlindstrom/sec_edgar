@@ -65,21 +65,21 @@ module SecEdgar
       return net_operational_assets(col_idx) + net_financial_assets(col_idx)
     end
 
-    def validates?
-      return false if @operational_assets.nil?
-      return false if @operational_liabs.nil?
-      return false if @financial_assets.nil?
-      return false if @financial_liabs.nil?
-      return false if @common_equity .nil?
-      return false if @total_oa.nil?
-      return false if @total_fa.nil?
-      return false if @total_ol.nil?
-      return false if @total_fl.nil?
-      return false if @noa.nil?
-      return false if @nfa.nil?
-      return false if @cse.nil?
+    def validate
+      super
 
-      return super
+      fail_if_equals("operational_assets", @operational_assets, nil)
+      fail_if_equals("operational_liabs",  @operational_liabs,  nil)
+      fail_if_equals("financial_assets",   @financial_assets,   nil)
+      fail_if_equals("financial_liabs",    @financial_liabs,    nil)
+      fail_if_equals("common_equity",      @common_equity,      nil)
+      fail_if_equals("total_oa",           @total_oa,           nil)
+      fail_if_equals("total_ol",           @total_ol,           nil)
+      fail_if_equals("total_fa",           @total_fa,           nil)
+      fail_if_equals("total_fl",           @total_fl,           nil)
+      fail_if_equals("noa",                @noa,                nil)
+      fail_if_equals("nfa",                @nfa,                nil)
+      fail_if_equals("cse",                @cse,                nil)
     end
 
   private
