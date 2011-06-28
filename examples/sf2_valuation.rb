@@ -4,6 +4,18 @@ $LOAD_PATH << './lib'
 require 'sec_edgar'
 
 # set up the valuation with forecast data
+ticker = 'GOOG'
+beta = 1.15
+forecast_data = 
+  [ { :revenue_growth => 0.25, :sales_pm => 0.20, :fi_over_nfa => 0.01, :ato => 1.50 },
+    { :revenue_growth => 0.20, :sales_pm => 0.20, :fi_over_nfa => 0.01, :ato => 1.20 },
+    { :revenue_growth => 0.15, :sales_pm => 0.20, :fi_over_nfa => 0.01, :ato => 1.10 },
+    { :revenue_growth => 0.15, :sales_pm => 0.20, :fi_over_nfa => 0.01, :ato => 1.00 },
+    { :revenue_growth => 0.15, :sales_pm => 0.17, :fi_over_nfa => 0.01, :ato => 1.00 },
+    { :revenue_growth => 0.10, :sales_pm => 0.16, :fi_over_nfa => 0.01, :ato => 0.90 },
+    { :revenue_growth => 0.04, :sales_pm => 0.15, :fi_over_nfa => 0.01, :ato => 0.90 } ]
+
+# set up the valuation with forecast data
 ticker = 'INTC'
 beta = 1.12
 forecast_data = 
@@ -32,18 +44,6 @@ forecast_data =
     { :revenue_growth => 0.06, :sales_pm => 0.24, :fi_over_nfa => 0.00, :ato => 1.10 },
     { :revenue_growth => 0.05, :sales_pm => 0.20, :fi_over_nfa => 0.00, :ato => 1.05 },
     { :revenue_growth => 0.04, :sales_pm => 0.18, :fi_over_nfa => 0.00, :ato => 1.00 } ]
-
-# set up the valuation with forecast data
-ticker = 'GOOG'
-beta = 1.15
-forecast_data = 
-  [ { :revenue_growth => 0.25, :sales_pm => 0.20, :fi_over_nfa => 0.01, :ato => 1.50 },
-    { :revenue_growth => 0.20, :sales_pm => 0.20, :fi_over_nfa => 0.01, :ato => 1.20 },
-    { :revenue_growth => 0.15, :sales_pm => 0.20, :fi_over_nfa => 0.01, :ato => 1.10 },
-    { :revenue_growth => 0.15, :sales_pm => 0.20, :fi_over_nfa => 0.01, :ato => 1.00 },
-    { :revenue_growth => 0.15, :sales_pm => 0.17, :fi_over_nfa => 0.01, :ato => 1.00 },
-    { :revenue_growth => 0.10, :sales_pm => 0.16, :fi_over_nfa => 0.01, :ato => 0.90 },
-    { :revenue_growth => 0.04, :sales_pm => 0.15, :fi_over_nfa => 0.01, :ato => 0.90 } ]
 
 
 # get the financial summary (from all historical 10k's)
