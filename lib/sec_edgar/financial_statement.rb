@@ -1,26 +1,75 @@
+module Hpricot
+  class Elem
+
+    # traverse backward (previous siblings) and up (parents) looking for 
+    # nodes who match a given set of regexes
+    def search_tree_reverse(regexes, depth)
+      # see if this node contains strings maching any of the regexes
+      str = self.to_plain_text.downcase 
+      regexes.each do |r|
+        if str =~ r
+          return { :elem => self, :str => str, :regex => r }
+        end
+      end
+    
+      # If we've bottomed out, it's game over
+      return nil if (depth == 0)
+
+      # try a previous node (walking back until you find one that's not a Hpricot::Text
+      prev_node = self.previous
+      while !prev_node.nil?
+        if prev_node.class == Hpricot::Elem 
+          return prev_node.search_tree_reverse(regexes, depth-1)
+        end
+        prev_node = prev_node.previous
+      end
+
+      # last option: go up to the parent
+      return self.parent.search_tree_reverse(regexes, depth-1)
+    end
+
+  end
+end
+
 module SecEdgar
 
   class FinancialStatement
     attr_accessor :log, :name, :rows, :sheet, :num_cols, :report_dates
     attr_accessor :base_multiplier
+
+    BASE_MULTIPLIER_REGEXES =
+      [ /^in (millions|thousands)/,
+        /\(in[ \r\n]*(millions|thousands)/,
+        /\(in.(millions|thousands)/ ]
   
     def initialize
       @report_dates = []
       @rows = []
       @name = ""
     end
-  
-    def parse(edgar_fin_stmt)
-      parse_html(edgar_fin_stmt)
+
+    ###########################################################################
+    # Parsing
+    ###########################################################################
+ 
+    def parse(table_elem)
+      parse_table(table_elem)
       delete_empty_columns
       convert_rows_to_sheetrows
 
-      parse_reporting_dates
-      parse_second_pass_for_base_multiplier(edgar_fin_stmt) if @base_multiplier.nil?
+      if !parse_reporting_dates
+        return false
+      end
+
+      parse_base_multiplier(table_elem)
 
       return true
     end
    
+    ###########################################################################
+    # Debugging, Exporting
+    ###########################################################################
+
     def write_to_csv(filename=nil)
       filename = @name + ".csv" if filename.nil?
       f = File.open(filename, "w")
@@ -37,7 +86,11 @@ module SecEdgar
         puts row.join("~")
       end
     end
-  
+   
+    ###########################################################################
+    # Merging with other financial statements
+    ###########################################################################
+
     def merge(stmt2)
       # print each statement to a file
       [ [ @rows,      "/tmp/merge.1" ],
@@ -82,18 +135,9 @@ module SecEdgar
       end
     end
 
-    def set_base_multiplier(str)
-
-      case str
-      when "millions", "million"
-        @base_multiplier = 1000000
-      when "thousands", "thousand"
-        @base_multiplier = 1000
-      else
-        raise ParseError, "Unknown base multiplier #{str}"
-      end
-
-    end
+    ###########################################################################
+    # Validating sheets to see that they've been properly parsed
+    ###########################################################################
 
     def fail_if_doesnt_equal(name_of_a, a, b)
       if a != b
@@ -118,9 +162,14 @@ module SecEdgar
 
   private
 
-     def parse_html(edgar_fin_stmt)
+    ###########################################################################
+    # Parsing helpers
+    ###########################################################################
 
-      edgar_fin_stmt.children.each do |row_in| 
+    def parse_table(table_elem)
+
+      table_elem.children.each do |row_in| 
+        # FIXME: do this better with hpricot search for TR and TD
         if row_in.is_a? Hpricot::Elem
           row_out = []
           row_in.children.each do |cell_str|
@@ -174,8 +223,6 @@ module SecEdgar
     end
 
     def convert_rows_to_sheetrows
-
-      # convert rows to SheetRows
       @sheet = []
       @rows.each do |r|
         sr = SheetRow.new(@num_cols, 0)
@@ -184,31 +231,47 @@ module SecEdgar
         sr.cols  = r[1..r.length].collect { |x| x.val }
         @sheet.push(sr)
       end
-
     end
 
     def parse_reporting_dates
-      # pull out the date ranges
       @rows[0..10].each do |row|
         row[1..(row.length-1)].each_with_index do |cell, idx|
           if cell.text =~ /([0-9]{4})/ # check later ones too
             @report_dates[idx] = $1
-            puts "looking for report date year in \"#{cell.text}\" (found $1)"
+            #puts "looking for report date year in \"#{cell.text}\" (found $1)"
           else
-            puts "looking for report date year in \"#{cell.text}\" (nothing found)"
+            #puts "looking for report date year in \"#{cell.text}\" (nothing found)"
           end
         end
       end
+      if @report_dates == []
+        @log.warn("couldn't find report dates in #{@name}") if @log
+        return false
+      end
+      return true
     end
 
-    def parse_second_pass_for_base_multiplier(table_elem)
-      str = table_elem.innerHTML.downcase
-      if str.downcase =~ /^in (billions|millions|thousands)/
-        set_base_multiplier($1)
-      elsif str.downcase =~ /\(in (billions|millions|thousands)/
-        set_base_multiplier($1)
-      elsif str.downcase =~ /\((billion|million|thousand)/ # AMD 2003 10-k
-        set_base_multiplier($1)
+    ###########################################################################
+    # Merging with other financial statements
+    ###########################################################################
+
+    def parse_base_multiplier(table_elem)
+      result = table_elem.search_tree_reverse(BASE_MULTIPLIER_REGEXES, 10)
+      if result.nil?
+        return false
+      end
+
+      result[:str] =~ result[:regex]
+
+      case $1
+      when "billions", "billion"
+        @base_multiplier = 1000 * 1000 * 1000
+      when "millions", "million"
+        @base_multiplier = 1000 * 1000
+      when "thousands", "thousand"
+        @base_multiplier = 1000
+      else
+        raise ParseError, "Unknown base multiplier #{str}"
       end
     end
 

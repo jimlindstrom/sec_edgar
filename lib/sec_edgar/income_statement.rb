@@ -168,7 +168,7 @@ module SecEdgar
       end
 
       if state != :done
-        @log.warn("Balance sheet parser state machine.  Unexpected final state, #{state}") if @log
+        @log.warn("Income statement parser state machine.  Unexpected final state, #{state}") if @log
         return false
       end
 
