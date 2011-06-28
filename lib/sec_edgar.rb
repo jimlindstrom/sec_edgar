@@ -5,6 +5,7 @@ require 'naive_bayes'
 require 'lingua/stemmer'
 require 'csv'
 require 'yahoofinance'
+require 'digest/sha1'
 
 require "sec_edgar/version"
 

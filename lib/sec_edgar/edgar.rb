@@ -9,13 +9,46 @@ module SecEdgar
   class ParseError < Exception
   end
 
+  class EdgarCache
+    PAGE_CACHE_FOLDER = '/Users/jimlindstrom/code/sec_edgar/pagecache/'
+
+    def initialize
+    end
+
+    def exists?(key)
+      return FileTest.exists?(key_to_cache_filename(key))
+    end
+
+    def insert(key, value)
+      fh = File.open(key_to_cache_filename(key), "w")
+      fh.write(value)
+      fh.close
+    end
+
+    def lookup(key)
+      fh = File.open(key_to_cache_filename(key), "r")
+      value = fh.read
+      fh.close
+      return value
+    end
+
+  private
+
+    def key_to_cache_filename(key)
+      return PAGE_CACHE_FOLDER + Digest::SHA1.hexdigest(key)
+    end
+
+  end
+
   class Edgar
     AGENT_ALIAS = 'Windows IE 7'
+    PAGE_CACHE_FOLDER = '/Users/jimlindstrom/code/sec_edgar/pagecache/'
 
     attr_accessor :log
     
     def initialize
       @agent = nil
+      @cache = EdgarCache.new
     end
       
     def good_ticker?(ticker)
@@ -152,37 +185,72 @@ module SecEdgar
           "10-K" => "d10k.htm" }
 
       # for each report index
-      agent = create_agent
       reports.each do |report|
         raise TypeError, "unsupported report type #{report[:type]}" if !rept_type_linktext.keys.include?(report[:type])
 
-        page = agent.get('http://www.sec.gov' + report[:url])
-        doc = Hpricot(page.body)
-
-        trs = doc.search("table[@class='tableFile']/tr")
-        trs.each do |tr_item|
-          tds = tr_item.search("td")
-  
-          if !tds[3].nil? and tds[3].innerHTML == report[:type]
-            subpage_url ='http://www.sec.gov' + tds[2].children.first.attributes['href']
-            if subpage_url =~ /htm$/
-              subpage = agent.get(subpage_url)
-    
-              cur_filename = save_folder + report[:date] + ".html"
-              files.push cur_filename
-    
-              fh = File.open(cur_filename, "w") 
-              fh << subpage.body
-              fh.close
-            end
-          end
-        end
+        cur_file = get_single_report(report, save_folder)
+        files.push cur_file if !cur_file.nil?
       end
   
       return files
     end
 
   private
+
+    def get_single_report(report, save_folder)
+
+      # check whether the page is already retrieved, in the cache
+      if @cache.exists?(report[:url])
+
+        cur_filename = save_folder + report[:date] + ".html"
+        fh = File.open(cur_filename, "w") 
+        fh << @cache.lookup(report[:url])
+        fh.close
+        return cur_filename
+
+      end
+
+      # page wasn't in the cache, so retrieve it
+      cur_filename = get_single_report_from_scratch(report, save_folder)
+
+      # insert the page into the cache
+      fh = File.open(cur_filename, "r") 
+      @cache.insert(report[:url], fh.read)
+      fh.close
+
+      return cur_filename
+
+    end
+
+    def get_single_report_from_scratch(report, save_folder)
+
+      agent = create_agent
+      page = agent.get('http://www.sec.gov' + report[:url])
+      doc = Hpricot(page.body)
+
+      trs = doc.search("table[@class='tableFile']/tr")
+      trs.each do |tr_item|
+
+        tds = tr_item.search("td")
+        if !tds[3].nil? and tds[3].innerHTML == report[:type]
+          subpage_url ='http://www.sec.gov' + tds[2].children.first.attributes['href']
+          if subpage_url =~ /htm$/
+            subpage = agent.get(subpage_url)
+  
+            cur_filename = save_folder + report[:date] + ".html"
+  
+            fh = File.open(cur_filename, "w") 
+            fh << subpage.body
+            fh.close
+
+            return cur_filename
+          end
+        end
+
+      end
+
+      return nil
+    end
        
     def create_agent
       return @agent if not @agent.nil?
@@ -192,43 +260,6 @@ module SecEdgar
       @agent.redirection_limit= 5
       return @agent
     end
-
-    # Takes in something like "January 2, 2008" and returns 2008_01_02
-    def parse_date_string(date_str)
-
-      if date_str =~ /([0-9]+)\/([0-9]+)\/([0-9]{4})/
-        $mon  = $1
-        $day  = $2
-        $year = $3
-
-        # construct return string
-        $ret_str = $year + "_" + $mon + "_" + $day
-      elsif date_str.match(/([A-Za-z]+) ([0-9]+), ([0-9]+)/)
-        $mon  = $1
-        $day  = $2
-        $year = $3
-    
-        # convert the month name to a number
-        $months = ["january","february","march","april","may","june","july","august","september","october","november","december"]
-        $mon  = String($months.index{|x| x==$mon.downcase} + 1)
-    
-        # zero-pad the day and month to 2 digits
-        if $mon.length < 2
-          $mon = "0" + $mon
-        end
-        if $day.length < 2
-          $day = "0" + $day
-        end
-    
-        # construct return string
-        $ret_str = $year + "_" + $mon + "_" + $day
-      else
-        raise ParseError, "Unrecognizable date string: #{date_str}"
-      end
-
-      return $ret_str
-    end
-
 
   end
   

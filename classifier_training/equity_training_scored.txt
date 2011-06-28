@@ -6,6 +6,7 @@ CSE acquisitionrelated unearned stock compensation
 CSE additional paidin capital
 CSE additional paidin capital
 CSE classa and class b common stock and additional paidin capital, 0.001 par value per share: 9,000,000 shares authorized 321,301 (classa 250,413, class b 70,888) and par value of 321 (class a 250, class b 71) and 322,127 (classa 252,670, class b 69,457) and par value of 322 (class a 253, class b 69) shares issued and outstanding
+CSE classa and class b common stock and additional paidin capital, 0.001 par value: 9,000,000 shares authorized 317,772 (classa 243,611, class b 74,161) and par value of 318 (class a 244, class b 74) and 318,274 (classa 244,843, class b 73,431) and par value of 318 (class a 245, class b 73) shares issued and outstanding"
 CSE common stock
 CSE common stock and capital in excess of par value
 CSE common stock and paidin capitalshares authorized 24,000 outstanding 8,431 and8,668
