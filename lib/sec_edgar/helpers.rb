@@ -46,7 +46,7 @@ module SecEdgar
           puts "WARNING: #{cur_file}: #{ e } (#{ e.class })!"
         end
       
-        summary.merge(summary2)
+        summary.merge(summary2) if !summary2.nil?
       end
 
       return summary

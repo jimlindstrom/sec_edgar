@@ -5,6 +5,7 @@ module SecEdgar
       super()
       @name = "Cash Flow Statement"
     end
+
     def parse(edgar_fin_stmt)
       super(edgar_fin_stmt)
   
@@ -28,6 +29,11 @@ module SecEdgar
         end
       end
     end
+
+    def validates?
+      return true ## we're not using this yet....
+    end
+
   end
   
 end

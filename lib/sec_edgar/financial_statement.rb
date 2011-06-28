@@ -93,6 +93,13 @@ module SecEdgar
 
     end
 
+    def validates?
+      return false if @report_dates == []
+      return false if @base_multiplier.nil?
+
+      return true
+    end
+
   private
 
      def parse_html(edgar_fin_stmt)
@@ -146,10 +153,8 @@ module SecEdgar
       @num_cols = 0
       Array(0..last_col).reverse.each do |idx|
         if col_filled_count[idx] < min_filled_count
-          @log.debug("Column #{idx} - delete (#{col_filled_count[idx]} < #{min_filled_count})") if @log
           @rows.each { |r| r.delete_at(idx) }
         else
-          @log.debug("Column #{idx} - keep (#{col_filled_count[idx]} >= #{min_filled_count})") if @log
           @num_cols += 1
         end
       end

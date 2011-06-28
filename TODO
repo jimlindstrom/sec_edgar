@@ -1,18 +1,14 @@
 Bugs
 --------------------------------------------------------------------------------
-* Failed to parse IBM, HPQ, ADI, LPSN (base multiplier)
-* Failed to parse CSCO, NVDA (balance sheet)
-* Failed to parse CRM, ORCL (income statement)
-* Failed to parse TXN (traverse for table)
+* not able to handle reports that are in the exhibits
+* not able to handle much variation...
 
 Features
 --------------------------------------------------------------------------------
-* Cache files so we don't have to keep hitting SEC (and waiting...)
 * Introduce a confidence measure.  I.e., how do the balance sheet classifiers 
   look?  How stable are the financials off of which we're anchoring (e.g., ATO, 
   PM, etc.)?
 * Automate the forecast
-* Jettison 10q/10k #merge  (?)
 
 Test Quality/Coverage
 --------------------------------------------------------------------------------
@@ -27,6 +23,7 @@ Code Quality
   that they'll be accurate post-merge
 * DRY up the parser in QuarterlyReport.  ugh.
 * Refactor a common parent class for the asset/liab/equity classifiers
+* Get rid of crap we're not using: 10q merge; cash flow statements
 
 Packaging
 --------------------------------------------------------------------------------

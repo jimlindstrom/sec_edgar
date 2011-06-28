@@ -109,6 +109,10 @@ module SecEdgar
       bsidx = c.collect { |x| a.index(x) } # indices of balance sheet columns
       isidx = c.collect { |x| b.index(x) } # indices of income statement columns
 
+      if bsidx.empty? or isidx.empty?
+        raise ParseError, "bal_sheet dates (#{a.join(',')}) don't overlap with inc_stmt dates (#{b.join(',')})" 
+      end
+
       fss.report_dates = @bal_sheet.report_dates.values_at(*bsidx)
 
       fss.oa  = bscale.call(@bal_sheet.total_oa.cols.values_at(*bsidx))
@@ -193,6 +197,7 @@ module SecEdgar
         end
       end
       raise ParseError, "Failed to parse balance sheet from #{filename}" if @bal_sheet.nil?
+      raise ParseError, "Balance sheet from #{filename} did not validate" if !@bal_sheet.validates?
 
       # assumes the regexes are in descending priority. searches document for 
       # each one until you find first one.
@@ -225,6 +230,7 @@ module SecEdgar
         end
       end
       raise ParseError, "Failed to parse income statement from #{filename}" if @inc_stmt.nil?
+      raise ParseError, "Income statement from #{filename} did not validate" if !@inc_stmt.validates?
 
       # assumes the regexes are in descending priority. searches document for 
       # each one until you find first one.
@@ -252,6 +258,7 @@ module SecEdgar
         end
       end
       raise ParseError, "Failed to parse cash flow statement from #{filename}" if @cash_flow_stmt.nil?
+      raise ParseError, "Cash flow statement from #{filename} did not validate" if !@cash_flow_stmt.validates?
 
       return false if (@bal_sheet == nil) or (@inc_stmt == nil) or (@cash_flow_stmt == nil)
       return true

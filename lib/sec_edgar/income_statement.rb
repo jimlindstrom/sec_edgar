@@ -44,6 +44,21 @@ module SecEdgar
       return false if not calculate_re_net_income
     end
 
+    def validates?
+      return false if @re_financing_income.nil?
+      return false if @re_operating_revenue.nil?
+      return false if @re_gross_margin.nil?
+      return false if @re_operating_expense.nil?
+      return false if @re_operating_income_from_sales_before_tax.nil?
+      return false if @re_other_operating_income_before_tax.nil?
+      return false if @re_operating_income_from_sales_after_tax.nil?
+      return false if @re_operating_income_after_tax.nil?
+      return false if @re_net_financing_income_after_tax.nil?
+      return false if @re_net_income.nil?
+
+      return super
+    end
+
   private
 
     def parse_income_stmt_state_machine
@@ -74,7 +89,7 @@ module SecEdgar
           end
 
         when :reading_cost_of_revenue
-          if row.label.downcase =~ /cost of (revenue|sales)/
+          if row.label.downcase =~ /cost of (revenue|sales)/ and !row.cols[0].nil?
             @cost_of_revenue = row
             @gross_margin = @operating_revenue.clone
             @gross_margin.subtract(@cost_of_revenue)
@@ -90,13 +105,15 @@ module SecEdgar
             next_state = :reading_other_operating_expenses_before_tax
           elsif row.label.downcase =~ /gross margin/
             # ignore
+          elsif row.label.downcase =~ /gross profit/
+            # ignore
           else
             @operating_expenses.push row
             @operating_expense.add(row)
           end
 
         when :reading_other_operating_expenses_before_tax
-          if row.label.downcase =~ /^provision.*for [income ]*tax/
+          if row.label.downcase =~ /provision.*for [income ]*tax/
             @other_operating_income_before_tax = SheetRow.new(@num_cols, 0.0) if @other_operating_income_before_tax.nil?
 
             @operating_income_before_tax = @operating_income_from_sales_before_tax.clone
