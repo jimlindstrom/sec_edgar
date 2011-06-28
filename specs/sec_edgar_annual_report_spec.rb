@@ -32,10 +32,6 @@ describe SecEdgar::AnnualReport do
       @tenk.parse(@good_filename)
       @tenk.inc_stmt.class.should == SecEdgar::IncomeStatement
     end
-    it "creates a cash flow statement if success" do
-      @tenk.parse(@good_filename)
-      @tenk.cash_flow_stmt.class.should == SecEdgar::CashFlowStatement
-    end
   end
 
 end

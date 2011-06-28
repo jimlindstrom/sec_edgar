@@ -28,10 +28,6 @@ shared_examples_for '#parse' do |filename|
       @tenq.parse(@good_filename)
       @tenq.inc_stmt.class.should == SecEdgar::IncomeStatement
     end
-    it "creates a cash flow statement if success (#{filename})" do
-      @tenq.parse(@good_filename)
-      @tenq.cash_flow_stmt.class.should == SecEdgar::CashFlowStatement
-    end
   #end
 
 end

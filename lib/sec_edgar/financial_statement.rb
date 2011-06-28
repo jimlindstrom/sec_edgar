@@ -13,6 +13,8 @@ module SecEdgar
     def parse(edgar_fin_stmt)
       parse_html(edgar_fin_stmt)
       delete_empty_columns
+      convert_rows_to_sheetrows
+
       parse_reporting_dates
       parse_second_pass_for_base_multiplier(edgar_fin_stmt) if @base_multiplier.nil?
 
@@ -95,14 +97,15 @@ module SecEdgar
 
     def fail_if_doesnt_equal(name_of_a, a, b)
       if a != b
-        msg = "validation fail: #{name_of_a} (#{a}) != b"
+        msg = "#{@name} validation fail: #{name_of_a} (#{a}) != b"
         @log.error(msg)
         raise ParseError, msg
       end
     end
+
     def fail_if_equals(name_of_a, a, b)
       if a == b
-        msg = "validation fail: #{name_of_a} (#{a}) != b"
+        msg = "#{@name} validation fail: #{name_of_a} (#{a}) != b"
         @log.error(msg)
         raise ParseError, msg
       end
@@ -145,33 +148,32 @@ module SecEdgar
 
     def delete_empty_columns
 
-      last_col = @rows.collect{ |r| r.length }.max - 1
-
       # figure out how many times each column is actually filled in
-      col_filled_count = (0..last_col).map do |col|
-        col_filled = @rows.collect do |r|
-          if (col < r.length) and (not r[col].empty?)
-            1
-          else
-            0
+      col_filled_count = []
+      (@rows.collect{ |r| r.length }.max).times { col_filled_count.push 0 }
+      @rows.each do |r|
+        r.each_with_index do |c, idx|
+          if !c.empty?
+            col_filled_count[idx] += 1
           end
         end
-        eval col_filled.join("+")
       end
 
       # define a threshold (must be filed in >50% of the time)
       min_filled_count = Integer(col_filled_count.max * 5/10)
 
       # delete each column that isn't sufficiently filled in
-      @num_cols = 0
-      Array(0..last_col).reverse.each do |idx|
+      @num_cols = @rows.collect{ |r| r.length }.max
+      Array(0..(@num_cols-1)).reverse.each do |idx|
         if col_filled_count[idx] < min_filled_count
           @rows.each { |r| r.delete_at(idx) }
-        else
-          @num_cols += 1
+          @num_cols -= 1
         end
       end
-      @num_cols -= 1 # because the first column is just the label
+
+    end
+
+    def convert_rows_to_sheetrows
 
       # convert rows to SheetRows
       @sheet = []
@@ -191,6 +193,9 @@ module SecEdgar
         row[1..(row.length-1)].each_with_index do |cell, idx|
           if cell.text =~ /([0-9]{4})/ # check later ones too
             @report_dates[idx] = $1
+            puts "looking for report date year in \"#{cell.text}\" (found $1)"
+          else
+            puts "looking for report date year in \"#{cell.text}\" (nothing found)"
           end
         end
       end
