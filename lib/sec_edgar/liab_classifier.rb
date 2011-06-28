@@ -32,7 +32,7 @@ module SecEdgar
         when "OL"
           @a.train(:ol, *cur_tokens)
         else
-          raise "unknown class #{cur_class}"
+          raise TypeError, "unknown class #{cur_class}"
         end
       end
   

@@ -6,6 +6,9 @@ end
 
 module SecEdgar
 
+  class ParseError < Exception
+  end
+
   class Edgar
     AGENT_ALIAS = 'Windows IE 7'
 
@@ -151,7 +154,7 @@ module SecEdgar
       # for each report index
       agent = create_agent
       reports.each do |report|
-        raise "unsupported report type #{report[:type]}" if !rept_type_linktext.keys.include?(report[:type])
+        raise TypeError, "unsupported report type #{report[:type]}" if !rept_type_linktext.keys.include?(report[:type])
 
         page = agent.get('http://www.sec.gov' + report[:url])
         doc = Hpricot(page.body)
@@ -220,7 +223,7 @@ module SecEdgar
         # construct return string
         $ret_str = $year + "_" + $mon + "_" + $day
       else
-        raise "Unrecognizable date string: #{date_str}"
+        raise ParseError, "Unrecognizable date string: #{date_str}"
       end
 
       return $ret_str

@@ -90,7 +90,7 @@ module SecEdgar
         when 1000
           bscale = Proc.new { |a| a }
         else
-          raise "unknown multiplier (#{@bal_sheet.base_multiplier})"
+          raise TypeError, "unknown multiplier (#{@bal_sheet.base_multiplier})"
       end
       case @inc_stmt.base_multiplier
         when 1000000
@@ -98,7 +98,7 @@ module SecEdgar
         when 1000
           iscale = Proc.new { |a| a }
         else
-          raise "unknown multiplier (#{@bal_sheet.base_multiplier})"
+          raise TypeError, "unknown multiplier (#{@bal_sheet.base_multiplier})"
       end
 
       # choose which indices to use (not all reports will the same set of dates, or be sorted
@@ -184,7 +184,7 @@ module SecEdgar
                 @log.info("failed to parse balance sheet, resetting to try again.") if @log
                 @bal_sheet = nil # discard bogus parse attempts
               else
-                raise "balance sheet (#{filename}) has no base multiplier" if @bal_sheet.base_multiplier.nil?
+                raise ParseError, "balance sheet (#{filename}) has no base multiplier" if @bal_sheet.base_multiplier.nil?
                 @log.info("parsing of balance sheet succeeded") if @log
                 cur_regexes = [] # done
               end
@@ -192,7 +192,7 @@ module SecEdgar
           end
         end
       end
-      raise "Failed to parse balance sheet from #{filename}" if @bal_sheet.nil?
+      raise ParseError, "Failed to parse balance sheet from #{filename}" if @bal_sheet.nil?
 
       # assumes the regexes are in descending priority. searches document for 
       # each one until you find first one.
@@ -216,7 +216,7 @@ module SecEdgar
               if @inc_stmt.parse(table_elem) == false
                 @inc_stmt = nil # discard bogus parse attempts
               else
-                raise "income statement (#{filename}) has no base multiplier" if @inc_stmt.base_multiplier.nil?
+                raise ParseError, "income statement (#{filename}) has no base multiplier" if @inc_stmt.base_multiplier.nil?
                 @log.info("parsing of income stmt succeeded") if @log
                 cur_regexes = [] # done
               end
@@ -224,7 +224,7 @@ module SecEdgar
           end
         end
       end
-      raise "Failed to parse income statement from #{filename}" if @inc_stmt.nil?
+      raise ParseError, "Failed to parse income statement from #{filename}" if @inc_stmt.nil?
 
       # assumes the regexes are in descending priority. searches document for 
       # each one until you find first one.
@@ -251,7 +251,7 @@ module SecEdgar
           end
         end
       end
-      raise "Failed to parse cash flow statement from #{filename}" if @cash_flow_stmt.nil?
+      raise ParseError, "Failed to parse cash flow statement from #{filename}" if @cash_flow_stmt.nil?
 
       return false if (@bal_sheet == nil) or (@inc_stmt == nil) or (@cash_flow_stmt == nil)
       return true

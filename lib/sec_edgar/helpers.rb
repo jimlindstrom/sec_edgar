@@ -8,18 +8,18 @@ module SecEdgar
       edgar = SecEdgar::Edgar.new
       
       reports = edgar.lookup_reports(ticker)
-      raise "couldn't lookup reports for #{ticker}" if reports==[] or reports.nil?
+      raise SecEdgar::ParseError, "couldn't lookup reports for #{ticker}" if reports==[] or reports.nil?
       reports.keep_if{ |r| r[:type] == rept_type }
       reports.sort! {|a,b| a[:date] <=> b[:date] }
-      raise "No 10-K's found for #{ticker}" if reports==[] or reports.nil?
+      raise SecEdgar::ParseError, "No 10-K's found for #{ticker}" if reports==[] or reports.nil?
       
       files = edgar.get_reports(reports, download_path)
-      raise "couldn't get reports for #{ticker}" if files==[] or files.nil?
+      raise SecEdgar::ParseError, "couldn't get reports for #{ticker}" if files==[] or files.nil?
       
       summary = nil
       while summary == nil
         if files.empty?
-          raise "ERROR: ran out of files to parse..."
+          raise SecEdgar::ParseError, "ERROR: ran out of files to parse..."
         end
         ten_k = SecEdgar::AnnualReport.new 
         ten_k.log = Logger.new('sec_edgar.log')
@@ -29,8 +29,8 @@ module SecEdgar
           ten_k.parse(cur_file)
           summary = ten_k.get_summary
           ten_k = nil
-        rescue Exception => e
-          puts "WARNING: Caught exception while parsing #{cur_file}: #{ e } (#{ e.class })!"
+        rescue SecEdgar::ParseError => e
+          puts "WARNING: #{cur_file}: #{ e } (#{ e.class })!"
         end
       end
       
@@ -38,8 +38,13 @@ module SecEdgar
         ten_k2 = SecEdgar::AnnualReport.new 
         ten_k2.log = Logger.new('sec_edgar.log')
         ten_k2.log.level = Logger::DEBUG
-        ten_k2.parse(files.shift)
-        summary2 = ten_k2.get_summary
+        begin
+          cur_file = files.shift
+          ten_k2.parse(cur_file)
+          summary2 = ten_k2.get_summary
+        rescue SecEdgar::ParseError => e
+          puts "WARNING: #{cur_file}: #{ e } (#{ e.class })!"
+        end
       
         summary.merge(summary2)
       end
@@ -59,7 +64,7 @@ module SecEdgar
       when 'K'
         mkt_cap = mkt_cap * 1000.0 
       else
-        raise "unknown modifier"
+        raise SecEdgar::ParseError, "unknown modifier"
       end
     
       return mkt_cap 

@@ -279,7 +279,7 @@ module SecEdgar
             @total_fa.add(a)
             @nfa.add(a)
           else
-            raise "Unknown class #{ac.classify(a.label)[:class]}"
+            raise TypeError, "Unknown class #{ac.classify(a.label)[:class]}"
           end
         end
       end
@@ -305,7 +305,7 @@ module SecEdgar
             @total_fl.add(l)
             @nfa.subtract(l)
           else
-            raise "Unknown class #{lc.classify(l.label)[:class]}"
+            raise TypeError, "Unknown class #{lc.classify(l.label)[:class]}"
           end
         end
       end
@@ -329,7 +329,7 @@ module SecEdgar
             @common_equity.push(e)
             @cse.add(e)
           else
-            raise "Unknown class #{ec.classify(e.label)[:class]}"
+            raise TypeError, "Unknown class #{ec.classify(e.label)[:class]}"
           end
         end
       end

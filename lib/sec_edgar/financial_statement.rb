@@ -14,7 +14,7 @@ module SecEdgar
       parse_html(edgar_fin_stmt)
       delete_empty_columns
       parse_reporting_dates
-      parse_second_pass_for_base_multiplier
+      parse_second_pass_for_base_multiplier(edgar_fin_stmt) if @base_multiplier.nil?
 
       return true
     end
@@ -83,12 +83,12 @@ module SecEdgar
     def set_base_multiplier(str)
 
       case str
-      when "millions"
+      when "millions", "million"
         @base_multiplier = 1000000
-      when "thousands"
+      when "thousands", "thousand"
         @base_multiplier = 1000
       else
-        raise "Unknown base multiplier #{str}"
+        raise ParseError, "Unknown base multiplier #{str}"
       end
 
     end
@@ -178,19 +178,14 @@ module SecEdgar
       end
     end
 
-    # FIXME: we may not need this....
-    def parse_second_pass_for_base_multiplier
-      # pull out the date ranges
-      @rows[0..10].each do |row|
-        row[1..(row.length-1)].each_with_index do |cell, idx|
-          if cell.text.downcase =~ /^in (billions|millions|thousands)/
-            set_base_multiplier($1)
-          elsif cell.text.downcase =~ /\(in (billions|millions|thousands)/
-            set_base_multiplier($1)
-          elsif cell.text.downcase =~ /\((billion|million|thousand)/ # AMD 2003 10-k
-            set_base_multiplier($1)
-          end
-        end
+    def parse_second_pass_for_base_multiplier(table_elem)
+      str = table_elem.innerHTML.downcase
+      if str.downcase =~ /^in (billions|millions|thousands)/
+        set_base_multiplier($1)
+      elsif str.downcase =~ /\(in (billions|millions|thousands)/
+        set_base_multiplier($1)
+      elsif str.downcase =~ /\((billion|million|thousand)/ # AMD 2003 10-k
+        set_base_multiplier($1)
       end
     end
 

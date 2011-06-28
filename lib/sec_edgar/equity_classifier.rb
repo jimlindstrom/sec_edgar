@@ -32,7 +32,7 @@ module SecEdgar
         when "CSE"
           @a.train(:cse, *cur_tokens)
         else
-          raise "unknown class #{cur_class}"
+          raise TypeError, "unknown class #{cur_class}"
         end
       end
   
