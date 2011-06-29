@@ -28,9 +28,9 @@ module SecEdgar
       @other_income_after_tax             = nil
     end
 
-    def parse(edgar_fin_stmt)
+    def parse(table_elem)
       # pull the table into rows (akin to CSV)
-      return false if not super(edgar_fin_stmt)
+      return false if not super(table_elem)
 
       # pull out the basic statement
       return false if not parse_income_stmt_state_machine
@@ -65,7 +65,7 @@ module SecEdgar
       
       state = :waiting_for_revenues
       @sheet.each do |row|
-        @log.debug("income statement parser.  Cur label: #{row.label}") if @log
+        @log.debug("  income statement parser.  Cur label: #{row.label}") if @log
         next_state = nil
         case state
         when :waiting_for_revenues
@@ -113,7 +113,7 @@ module SecEdgar
           end
 
         when :reading_other_operating_expenses_before_tax
-          if row.label.downcase =~ /provision.*for [income ]*tax/
+          if row.label.downcase =~ /^provision.*for [income ]*tax/ # the "^" here prevents "income before provision for ..." from matching.
             @other_operating_income_before_tax = SheetRow.new(@num_cols, 0.0) if @other_operating_income_before_tax.nil?
 
             @operating_income_before_tax = @operating_income_from_sales_before_tax.clone
@@ -162,7 +162,7 @@ module SecEdgar
         end
 
         if !next_state.nil?
-          @log.debug("Income statement parser.  Switching to state: #{next_state}") if @log
+          @log.debug("  Income statement parser.  Switching to state: #{next_state}") if @log
           state = next_state
         end
       end

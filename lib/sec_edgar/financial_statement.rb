@@ -54,16 +54,12 @@ module SecEdgar
  
     def parse(table_elem)
       parse_table(table_elem)
+      return false if !parse_reporting_dates
+
       delete_empty_columns
       convert_rows_to_sheetrows
 
-      if !parse_reporting_dates
-        return false
-      end
-
-      parse_base_multiplier(table_elem)
-
-      return true
+      return parse_base_multiplier(table_elem)
     end
    
     ###########################################################################
@@ -215,8 +211,11 @@ module SecEdgar
       @num_cols = @rows.collect{ |r| r.length }.max
       Array(0..(@num_cols-1)).reverse.each do |idx|
         if col_filled_count[idx] < min_filled_count
+          ## @log.debug("  deleting column #{idx} (cols filled: #{col_filled_count[idx]} <  threshold: #{min_filled_count}") if @log
           @rows.each { |r| r.delete_at(idx) }
           @num_cols -= 1
+        else
+          ## @log.debug("  keeping  column #{idx} (cols filled: #{col_filled_count[idx]} >= threshold: #{min_filled_count}") if @log
         end
       end
 
@@ -234,21 +233,24 @@ module SecEdgar
     end
 
     def parse_reporting_dates
-      @rows[0..10].each do |row|
+      @rows[0..20].each do |row|
+        ## @log.debug("  looking for report date year (ignoring column 0: \"#{row[0].text}\"") if @log
         row[1..(row.length-1)].each_with_index do |cell, idx|
           if cell.text =~ /([0-9]{4})/ # check later ones too
-            @report_dates[idx] = $1
-            #puts "looking for report date year in \"#{cell.text}\" (found $1)"
+            @report_dates.push $1
+            ## @log.debug("  looking for report date year in \"#{cell.text}\" (found $1)") if @log
           else
-            #puts "looking for report date year in \"#{cell.text}\" (nothing found)"
+            ## @log.debug("  looking for report date year in \"#{cell.text}\" (nothing found)") if @log
           end
         end
+      
+        if !@report_dates.empty?
+          return true
+        end
       end
-      if @report_dates == []
-        @log.warn("couldn't find report dates in #{@name}") if @log
-        return false
-      end
-      return true
+      
+      @log.warn("couldn't find report dates in #{@name}") if @log
+      return false
     end
 
     ###########################################################################

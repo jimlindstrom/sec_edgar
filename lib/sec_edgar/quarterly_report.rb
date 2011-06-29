@@ -79,6 +79,8 @@ module SecEdgar
 
     def parse(filename)
   
+      @log.info("") if @log
+      @log.info("") if @log
       @log.info("parsing 10q from #{filename}") if @log
 
       begin
@@ -94,7 +96,7 @@ module SecEdgar
       while !table_elems.empty?
         elem = table_elems.shift
 
-        if @bal_sheet.nil? #and elem.innerHTML =~ /[Aa]sset/ # some simple filter so that we don't scan more tables than we need to
+        if @bal_sheet.nil? and elem.innerHTML =~ /[Aa]sset/ # some simple filter so that we don't scan more tables than we need to
           @log.info("parsing balance sheet at next table") if @log
           @bal_sheet = BalanceSheet.new
           @bal_sheet.log = @log if @log

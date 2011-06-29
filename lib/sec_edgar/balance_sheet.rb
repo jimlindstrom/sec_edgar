@@ -34,12 +34,10 @@ module SecEdgar
       @common_equity = []
     end
 
-    def parse(edgar_fin_stmt)
+    def parse(table_elem)
       # pull the table into rows (akin to CSV)
-      return false if not super(edgar_fin_stmt)
+      return false if not super(table_elem)
   
-      # text-matching to pull out dates, net amounts, etc.
-
       # pull apart assets, liabilities, equity (as originally stated)
       return false if not parse_assets_liabs_and_equity
       return false if not classify_assets
@@ -91,7 +89,7 @@ module SecEdgar
     def parse_assets_liabs_and_equity
       state = :waiting_for_cur_assets
       @sheet.each do |row|
-        @log.debug("balance sheet parser.  Cur label: #{row.label}") if @log
+        @log.debug("  balance sheet parser.  Cur label: #{row.label}") if @log
         next_state = nil
         case state
         when :waiting_for_cur_assets
@@ -105,7 +103,6 @@ module SecEdgar
 
         when :reading_current_assets
           if row.label.downcase =~ /total current assets/
-            @log.debug("balance sheet parser. matched total current assets: #{row.label}") if @log
             next_state = :reading_non_current_assets
           elsif row.label.downcase =~ /total cash.*/
             # don't save the totals line
@@ -183,7 +180,7 @@ module SecEdgar
         end
 
         if !next_state.nil?
-          @log.debug("balance sheet parser.  Switching to state: #{next_state}") if @log
+          @log.debug("  balance sheet parser.  Switching to state: #{next_state}") if @log
           state = next_state
         end
       end

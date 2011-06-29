@@ -26,8 +26,8 @@ forecast_data =
     { :revenue_growth => 0.04, :sales_pm => 0.17, :fi_over_nfa => 0.01, :ato => 1.00 } ]
 
 # set up the valuation with forecast data
-ticker = 'MSFT'
-beta = 1.05
+ticker = 'CRM'
+beta = 1.22
 forecast_data = 
   [ { :revenue_growth => 0.08, :sales_pm => 0.26, :fi_over_nfa => 0.00, :ato => 1.20 },
     { :revenue_growth => 0.07, :sales_pm => 0.25, :fi_over_nfa => 0.00, :ato => 1.15 },
@@ -36,8 +36,8 @@ forecast_data =
     { :revenue_growth => 0.04, :sales_pm => 0.18, :fi_over_nfa => 0.00, :ato => 1.00 } ]
 
 # set up the valuation with forecast data
-ticker = 'CRM'
-beta = 1.22
+ticker = 'MSFT'
+beta = 1.05
 forecast_data = 
   [ { :revenue_growth => 0.08, :sales_pm => 0.26, :fi_over_nfa => 0.00, :ato => 1.20 },
     { :revenue_growth => 0.07, :sales_pm => 0.25, :fi_over_nfa => 0.00, :ato => 1.15 },
