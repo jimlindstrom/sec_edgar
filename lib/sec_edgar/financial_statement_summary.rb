@@ -103,23 +103,23 @@ module SecEdgar
         @report_dates.push String(cur_year) + "E"
 
         # forecast revenue
-        @revenue_growth.push f[:revenue_growth]
-        @operating_revenue.push @operating_revenue.last * (1.0 + f[:revenue_growth])
+        @revenue_growth.push f["revenue_growth"]
+        @operating_revenue.push @operating_revenue.last * (1.0 + f["revenue_growth"])
 
         # forecast core OI
-        @sales_pm.push f[:sales_pm]
-        @oi_from_sales_after_tax.push @operating_revenue.last * f[:sales_pm]
+        @sales_pm.push f["sales_pm"]
+        @oi_from_sales_after_tax.push @operating_revenue.last * f["sales_pm"]
 
         # forecast financing income
-        @fi_over_nfa.push f[:fi_over_nfa]
-        @financing_income.push @nfa.last * f[:fi_over_nfa]
+        @fi_over_nfa.push f["fi_over_nfa"]
+        @financing_income.push @nfa.last * f["fi_over_nfa"]
 
         # forecast earnings
         @net_income.push (@oi_from_sales_after_tax.last + @financing_income.last)
 
         # forecast balance sheet
-        @sales_over_noa.push f[:ato]
-        @noa.push @operating_revenue.last / f[:ato]
+        @sales_over_noa.push f["ato"]
+        @noa.push @operating_revenue.last / f["ato"]
 
         @cse.push @cse.last + @net_income.last
 
@@ -135,7 +135,7 @@ module SecEdgar
       end
 
       # calculate continuing value
-      cv = @re_oi.last * (1 + forecast_data.last[:revenue_growth]) / (rho_f - (1.0 + forecast_data.last[:revenue_growth]))
+      cv = @re_oi.last * (1 + forecast_data.last["revenue_growth"]) / (rho_f - (1.0 + forecast_data.last["revenue_growth"]))
 
       v_enterprise_0 = sum_pv_re_oi + cv
       v_cse_0 = v_enterprise_0 + @nfa.last
