@@ -151,7 +151,7 @@ describe SecEdgar::BalanceSheet do
 
   describe "#financial_liabs" do
     it "shouldn't contain any common equity" do
-      @fin_stmt.common_equity.each do |e|
+      @fin_stmt.financial_liabs.each do |e|
         e.label.downcase.should_not match /common stock/
       end
     end

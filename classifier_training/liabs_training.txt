@@ -1,3 +1,1335 @@
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income
+income taxes payable
+other accrued liabilities
+
+
+
+longterm income taxes payable
+longterm debt
+longterm deferred tax liabilities
+other longterm liabilities
+contingencies (note 24)
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+income taxes payable
+other accrued liabilities
+
+
+
+longterm income taxes payable
+longterm debt
+longterm deferred tax liabilities
+other longterm liabilities
+contingencies (note 24)
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+income taxes payable
+other accrued liabilities
+
+
+
+longterm income taxes payable
+longterm debt
+longterm deferred tax liabilities
+other longterm liabilities
+contingencies (note 23)
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+income taxes payable
+other accrued liabilities
+
+
+
+longterm income taxes payable
+longterm debt
+longterm deferred tax liabilities
+other longterm liabilities
+contingencies (note 21)
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+
+longterm income taxes payable
+longterm debt
+other longterm liabilities
+contingencies (note 24)
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+
+
+
+longterm income taxes payable
+longterm debt
+other longterm liabilities
+contingencies (note 23)
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+
+
+
+longterm income taxes payable
+longterm debt
+other longterm liabilities
+contingencies (note 20)
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm income taxes payable
+deferred tax liabilities
+longterm debt
+other longterm liabilities
+contingencies (note 18)
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm income taxes payable
+deferred tax liabilities
+longterm debt
+other longterm liabilities
+contingencies (note 18)
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm income taxes payable
+deferred tax liabilities
+longterm debt
+other longterm liabilities
+contingencies (note 16)
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm income taxes payable
+deferred tax liabilities
+longterm debt
+other longterm liabilities
+contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm income taxes payable
+deferred tax liabilities
+longterm debt
+other longterm liabilities
+contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm income taxes payable
+deferred tax liabilities
+longterm debt
+other longterm liabilities
+contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm debt
+deferred tax liabilities
+other longterm liabilities
+contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm debt
+deferred tax liabilities
+other longterm liabilities
+contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm debt
+deferred tax liabilities
+other longterm liabilities
+contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm debt
+deferred tax liabilities
+commitments and contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm debt
+deferred tax liabilities
+commitments and contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm debt
+deferred tax liabilities
+commitments and contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm debt
+deferred tax liabilities
+commitments and contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm debt
+deferred tax liabilities
+commitments and contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm debt
+deferred tax liabilities
+commitments and contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+
+longterm debt
+deferred tax liabilities
+commitments and contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+longterm debt
+deferred tax liabilities
+commitments and contingencies
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+longterm debt
+deferred tax liabilities
+commitments and contingencies
+other current assets
+
+total current assets
+
+
+property, plant and equipment
+less accumulated depreciation
+
+property, plant and equipment, net
+marketable strategic equity securities
+other longterm investments
+goodwill
+other assets
+
+total assets
+
+
+liabilities and stockholders' equity
+current liabilities:
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+total current liabilities
+
+longterm debt
+deferred tax liabilities
+other current assets
+
+total current assets
+
+property, plant and equipment
+less accumulated depreciation
+
+property, plant and equipment, net
+marketable strategic equity securities
+other longterm investments
+goodwill
+other assets
+
+total assets
+
+
+liabilities and stockholders' equity
+current liabilities:
+shortterm debt
+accounts payable
+accrued compensation and benefits
+accrued advertising
+deferred income on shipments to distributors
+other accrued liabilities
+income taxes payable
+
+total current liabilities
+
+longterm debt
+deferred tax liabilities
+shortterm debt
+accounts payable
+accrued compensation and benefits
+deferred income on shipments to distributors
+accrued advertising
+other accrued liabilities
+income taxes payable
+
+
+longterm debt
+deferred tax liabilities
+shortterm debt
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other current liabilities
+
+
+
+longterm debt
+income taxes payable
+deferred revenue
+other longterm liabilities
+
+
+
+commitments and contingencies (note 12)
+equity:
+shortterm debt
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other current liabilities
+
+
+
+longterm debt
+income taxes payable
+deferred revenue
+other longterm liabilities
+
+
+
+commitments and contingencies (note 11)
+equity:
+shortterm debt
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other current liabilities
+
+
+
+longterm debt
+income taxes payable
+deferred revenue
+other longterm liabilities
+
+
+
+commitments and contingencies (note 11)
+equity:
+shortterm debt
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other current liabilities
+
+
+
+longterm debt
+income taxes payable
+deferred revenue
+other longterm liabilities
+
+
+
+
+commitments and contingencies (note 11)
+equity:
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other current liabilities
+
+
+
+longterm debt
+income taxes payable
+deferred revenue
+other longterm liabilities
+
+
+
+
+commitments and contingencies (note 11)
+equity:
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other current liabilities
+
+
+
+longterm debt
+income taxes payable
+deferred revenue
+other longterm liabilities
+
+
+
+
+commitments and contingencies (note 11)
+equity:
+current portion of longterm debt
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other current liabilities
+
+
+
+longterm debt
+income taxes payable
+deferred revenue
+other longterm liabilities
+
+
+
+
+minority interest
+current portion of longterm debt
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other current liabilities
+
+
+
+longterm debt
+income taxes payable
+deferred revenue
+other longterm liabilities
+
+
+
+
+minority interest
+current portion of longterm debt
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other current liabilities
+
+
+
+longterm debt
+income taxes payable
+deferred revenue
+other longterm liabilities
+
+
+
+
+minority interest
+current portion of longterm debt
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other current liabilities
+
+
+
+longterm debt
+income taxes payable
+deferred revenue
+other longterm liabilities
+
+
+
+
+minority interest
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other current liabilities
+
+
+
+longterm debt
+income taxes payable
+deferred revenue
+other longterm liabilities
+
+
+
+
+minority interest
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other current liabilities
+
+
+
+longterm debt
+income taxes payable
+deferred revenue
+other longterm liabilities
+
+
+
+
+minority interest
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other accrued liabilities
+
+
+
+longterm debt
+deferred revenue
+other longterm liabilities
+
+
+
+
+minority interest
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other accrued liabilities
+
+longterm debt
+deferred revenue
+other longterm liabilities
+
+
+minority interest
+
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other accrued liabilities
+
+longterm debt
+deferred revenue
+other longterm liabilities
+
+
+minority interest
+
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other accrued liabilities
+
+
+longterm debt
+deferred revenue
+other longterm liabilities
+
+
+
+minority interest
+
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other accrued liabilities
+
+deferred revenue
+
+
+minority interest
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other accrued liabilities
+
+deferred revenue
+
+
+minority interest
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other accrued liabilities
+
+deferred revenue
+
+
+commitments and contingencies (note 8)
+minority interest
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other accrued liabilities
+
+deferred revenue
+
+
+commitments and contingencies (note 8)
+
+minority interest
+
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other accrued liabilities
+
+deferred revenue
+
+
+commitments and contingencies (note 8)
+
+minority interest
+
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other accrued liabilities
+restructuring liabilities
+
+deferred revenue
+
+
+commitments and contingencies (note 6)
+
+minority interest
+
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other accrued liabilities
+restructuring liabilities
+
+deferred revenue
+
+
+commitments and contingencies (note 6)
+
+minority interest
+
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other accrued liabilities
+restructuring liabilities
+
+deferred revenue
+
+
+
+commitments and contingencies (note 6)
+
+minority interest
+
+accounts payable
+income taxes payable
+accrued compensation
+deferred revenue
+other accrued liabilities
+restructuring liabilities
+
+deferred revenue
+
+
+commitments and contingencies (note 6)
+minority interest
+shortterm borrowings
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including income taxes
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued pension benefits (n)
+accrued other postretirement benefits
+other noncurrent liabilities and deferred credits
+liabilities of operations held for sale (c)
+
+
+
+commitments and contingencies (g)
+
+equity
+shortterm borrowings
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including income taxes
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued pension benefits (p)
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+liabilities of operations held for sale (c)
+
+
+
+commitments and contingencies (i)
+
+convertible securities of subsidiary (g)
+
+equity
+shortterm borrowings
+commercial paper
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including income taxes
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued pension benefits (o)
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+liabilities of operations held for sale (c)
+
+
+
+commitments and contingencies (h)
+
+convertible securities of subsidiary (g)
+
+equity
+shortterm borrowings
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including income taxes
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued pension benefits (o)
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+liabilities of operations held for sale (c)
+
+
+
+commitments and contingencies (h)
+
+convertible securities of subsidiary (g)
+
+equity
+shortterm borrowings (h)
+commercial paper
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including income taxes
+fair value of derivative contracts (p)
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year (h)
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (c)
+
+
+
+commitments and contingencies (i)
+
+equity
+shortterm borrowings (h)
+commercial paper
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+fair value of derivative contracts (p)
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year (h)
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (c)
+
+
+
+commitments and contingencies (i)
+
+equity
+shortterm borrowings
+commercial paper
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (d)
+
+
+
+minority interests
+
+
+commitments and contingencies (j)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+commercial paper
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+
+longterm debt, less amount due within one year
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (d)
+
+
+
+minority interests
+
+
+commitments and contingencies (j)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+commercial paper
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (d)
+
+
+minority interests
+
+commitments and contingencies (j)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+commercial paper (c)
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year (c)
+
+
+commercial paper (c)
+longterm debt, less amount due within one year (c)
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (h)
+
+
+
+minority interests
+
+
+commitments and contingencies (k)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+commercial paper (c)
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year (c)
+
+
+commercial paper (c)
+longterm debt, less amount due within one year (c)
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (h)
+
+
+
+minority interests
+
+
+commitments and contingencies (k)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+commercial paper (c)
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year (c)
+
+
+commercial paper (c)
+longterm debt, less amount due within one year (c)
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (h)
+
+
+
+minority interests
+
+
+commitments and contingencies (k)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+commercial paper
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+
+longterm debt, less amount due within one year
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (h)
+
+
+
+minority interests
+
+
+commitments and contingencies (k)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+commercial paper
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (h)
+
+
+minority interests
+
+commitments and contingencies (k)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+commercial paper
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (h)
+
+
+minority interests
+
+commitments and contingencies (k)
+
+shareholders equity
+preferred stock
+shortterm borrowings (i)
+commercial paper
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (d)
+
+
+minority interests
+
+commitments and contingencies (j)
+shareholders equity
+preferred stock
+shortterm borrowings (i)
+commercial paper
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year (i)
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (d)
+
+
+minority interests
+
+commitments and contingencies (j)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+commercial paper
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued pension benefits
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (d)
+
+
+minority interests
+
+commitments and contingencies (i)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year (b)
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (e)
+
+
+minority interests
+
+commitments and contingencies (h)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year (b)
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (e)
+
+
+minority interests
+
+commitments and contingencies (h)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (d)
+
+
+minority interests
+
+commitments and contingencies (g)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits (h)
+deferred income taxes
+liabilities of operations held for sale (d)
+
+
+minority interests
+
+commitments and contingencies (i)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits (h)
+deferred income taxes
+liabilities of operations held for sale (d)
+
+
+
+minority interests
+
+
+commitments and contingencies (i)
+
+shareholders equity
+preferred stock
+shortterm borrowings
+accounts payable, trade
+accrued compensation and retirement costs
+taxes, including taxes on income
+other current liabilities
+longterm debt due within one year
+
+
+longterm debt, less amount due within one year
+accrued postretirement benefits
+other noncurrent liabilities and deferred credits
+deferred income taxes
+liabilities of operations held for sale (d)
+
+
+
+minority interests
+
+
+commitments and contingencies (g)
+
+shareholders equity
+preferred stock
 accounts payable
 shortterm debt
 accrued compensation
@@ -13,6 +1345,291 @@ other longterm liabilities
 
 commitments and contingencies
 accounts payable
+shortterm debt
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm debt
+longterm unearned revenue
+deferred income taxes
+other longterm liabilities
+
+commitments and contingencies
+accounts payable
+shortterm debt
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm debt
+longterm unearned revenue
+deferred income taxes
+other longterm liabilities
+
+commitments and contingencies
+accounts payable
+shortterm debt
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm debt
+longterm unearned revenue
+deferred income taxes
+other longterm liabilities
+commitments and contingencies
+accounts payable
+shortterm debt
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm debt
+longterm unearned revenue
+deferred income taxes
+other longterm liabilities
+commitments and contingencies
+accounts payable
+shortterm debt
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm debt
+longterm unearned revenue
+deferred income taxes
+other longterm liabilities
+commitments and contingencies
+accounts payable
+shortterm debt
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+shortterm debt
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+shortterm debt
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+securities lending payable
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingenciessee note 8
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingenciessee note 8
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+common stock dividend
+other
+
+longterm unearned revenue
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+other
+
+longterm unearned revenue
+deferred income taxes
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+other
+
+longterm unearned revenue
+deferred income taxes
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+other
+
+longterm unearned revenue
+deferred income taxes
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation
+income taxes
+shortterm unearned revenue
+other
+
+longterm unearned revenue
+deferred income taxes
+other longterm liabilities
+
+commitments and contingencies
+
+accounts payable
 accrued expenses and other current liabilities
 deferred revenue
 convertible senior notes, net (note 2)
@@ -26,6 +1643,257 @@ deferred revenue, noncurrent
 temporary equity (note 2)
 
 accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+
+0.75 convertible senior notes due 2015, net
+income taxes payable, noncurrent
+longterm lease liabilities and other
+deferred revenue, noncurrent
+
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+
+0.75 convertible senior notes due 2015, net
+income taxes payable, noncurrent
+longterm lease liabilities and other
+deferred revenue, noncurrent
+
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+
+0.75 convertible senior notes due 2015, net
+income taxes payable, noncurrent
+longterm lease liabilities and other
+deferred revenue, noncurrent
+
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+
+income taxes payable, noncurrent
+longterm lease liabilities and other
+deferred revenue, noncurrent
+
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+
+income taxes payable, noncurrent
+longterm lease liabilities and other
+deferred revenue, noncurrent
+
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+
+income taxes payable, noncurrent
+longterm lease liabilities and other
+deferred revenue, noncurrent
+
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+
+income taxes payable, noncurrent
+longterm lease abandonment liability and other
+deferred revenue, noncurrent
+minority interest
+
+
+commitments and contingencies
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+
+income taxes payable, noncurrent
+longterm lease abandonment liability and other
+deferred revenue, noncurrent
+minority interest
+
+
+commitments and contingencies
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+
+income taxes payable, noncurrent
+longterm lease abandonment liability and other
+deferred revenue, noncurrent
+minority interest
+
+
+commitments and contingencies
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+
+income taxes payable, noncurrent
+longterm lease abandonment liability and other
+minority interest
+
+
+commitments and contingencies
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+
+income taxes payable, noncurrent
+longterm lease abandonment liability and other
+minority interest
+
+
+commitments and contingencies
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+
+income taxes payable, noncurrent
+longterm lease abandonment liability and other
+minority interest
+
+commitments and contingencies
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred income taxes
+deferred revenue
+current portion of capital lease obligations
+
+capital lease obligations, net of current portion
+longterm lease abandonment liability and other
+minority interest
+
+
+commitments and contingencies
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred income taxes
+deferred revenue
+current portion of capital lease obligations
+
+capital lease obligations, net of current portion
+longterm lease abandonment liability and other
+minority interest
+
+
+commitments and contingencies
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred income taxes
+deferred revenue
+current portion of capital lease obligations
+
+capital lease obligations, net of current portion
+longterm lease abandonment liability and other
+deferred income taxes, noncurrent
+minority interest
+
+
+commitments and contingencies
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+current portion of capital lease obligations
+
+capital lease obligations, net of current portion
+longterm lease abandonment liability and other
+minority interest
+
+
+commitments and contingencies
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+current portion of capital lease obligation
+
+capital lease obligations, net of current portion
+longterm lease abandonment liability and other
+minority interest
+
+
+commitments and contingencies
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+current portion of capital lease obligation
+
+
+capital lease obligations, net of current portion
+longterm lease abandonment liability and other
+minority interest
+
+
+commitments and contingencies
+
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+current portion of capital lease obligation
+
+
+capital lease obligations, net of current portion
+longterm lease abandonment liability and other
+minority interest
+
+
+commitments and contingencies
+
+convertible preferred stock
+stockholders equity (deficit):
+accounts payable
+accrued expenses and other current liabilities
+income taxes payable
+deferred revenue
+current portion of capital lease obligation
+
+
+capital lease obligations, net of current portion
+longterm lease abandonment liability and other
+minority interest
+
+
+commitments and contingencies
+
+convertible preferred stock
+stockholders equity (deficit):
+accounts payable
 shortterm debt
 accrued compensation and benefits
 accrued expenses and other current liabilities
@@ -38,23 +1906,237 @@ deferred revenue, noncurrent
 income taxes payable, noncurrent
 other longterm liabilities
 accounts payable
+shortterm debt
+accrued compensation and benefits
 accrued expenses and other current liabilities
+accrued revenue share
+securities lending payable
 deferred revenue
 
-longterm deferred revenue
-capital lease and other longterm liabilities
-deferred and other longterm tax liabilities, net
-
-commitments and contingencies (note 11)
-shortterm debt
+deferred revenue, noncurrent
+income taxes payable, noncurrent
+other longterm liabilities
 accounts payable
 accrued compensation and benefits
-accrued advertising
-deferred income on shipments to distributors
-other accrued liabilities
+accrued expenses and other current liabilities
+securities lending payable
+accrued revenue share
+deferred revenue
+
+deferred revenue, noncurrent
+income taxes payable, noncurrent
+other longterm liabilities
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable, net
+
+deferred revenue, noncurrent
+income taxes payable, net, noncurrent
+other longterm liabilities
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable, net
+
+deferred revenue, noncurrent
+income taxes payable, net, noncurrent
+deferred income taxes, net, noncurrent
+other longterm liabilities
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable, net
+
+deferred revenue, noncurrent
+income taxes payable, net, noncurrent
+deferred income taxes, net, noncurrent
+other longterm liabilities
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable, net
+
+deferred revenue, noncurrent
+income taxes payable, net, noncurrent
+deferred income taxes, net, noncurrent
+other longterm liabilities
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
 income taxes payable
 
-
-longterm debt
-deferred tax liabilities
+deferred revenue, noncurrent
+deferred income taxes, net, noncurrent
+income taxes payable, noncurrent
+other longterm liabilities
 commitments and contingencies
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable, net
+
+deferred revenue, noncurrent
+deferred income taxes, net, noncurrent
+income taxes payable, noncurrent
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable
+
+deferred revenue, noncurrent
+income taxes payable, noncurrent
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+
+deferred revenue, longterm
+deferred income taxes, net
+income taxes payable, longterm
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable
+
+deferred revenue, longterm
+deferred income taxes, net
+income taxes payable, longterm
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable
+
+deferred revenue, longterm
+deferred income taxes, net
+income taxes payable, longterm
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable
+
+deferred revenue, longterm
+deferred income taxes, net
+other longterm liabilities
+commitments and contingencies
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable
+
+deferred revenue, longterm
+deferred income taxes, net
+other longterm liabilities
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable
+
+deferred revenue, longterm
+liability for stock options exercised early, longterm
+deferred income taxes, net
+other longterm liabilities
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable
+current portion of equipment leases
+
+deferred revenue, longterm
+liability for stock options exercised early, longterm
+deferred income taxes, net
+other longterm liabilities
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+current portion of equipment leases
+
+deferred revenue, longterm
+liability for stock options exercised early, longterm
+deferred income taxes, net
+other longterm liabilities
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+current portion of equipment leases
+
+deferred revenue, longterm
+liability for stock options exercised early, longterm
+other longterm liabilities
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable
+current portion of equipment leases
+
+longterm portion of equipment leases
+deferred revenue, longterm
+liability for stock options exercised early, longterm
+deferred income taxes
+other longterm liabilities
+
+commitments and contingencies
+
+redeemable convertible preferred stock warrant
+
+accounts payable
+accrued compensation and benefits
+accrued expenses and other current liabilities
+accrued revenue share
+deferred revenue
+income taxes payable
+current portion of equipment leases
+
+longterm portion of equipment leases
+deferred revenue, longterm
+liability for stock options exercised early, longterm
+deferred income taxes
+other longterm liabilities
+
+commitments and contingencies
+
+redeemable convertible preferred stock warrant
+

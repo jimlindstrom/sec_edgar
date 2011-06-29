@@ -1,3 +1,1282 @@
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 33,453 (32,582 as of december25, 2010)
+marketable equity securities
+other longterm investments
+goodwill
+identified intangible assets, net
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 31,919 (30,597 as of december26, 2009)
+marketable equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 31,472 (30,597 as of december26, 2009)
+marketable equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 30,935 (30,597 as of december26, 2009)
+marketable equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 31,261 (30,544 as of december27, 2008)
+marketable equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 30,956 (30,544 as of december27, 2008)
+marketable equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 31,195 (30,544 as of december27, 2008)
+marketable equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 30,342 (29,134 as of december29, 2007)
+marketable equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 29,810 (29,134 as of december29, 2007)
+marketable equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 30,260 (29,134 as of december29, 2007)
+marketable equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 29,982 (29,482 at december30, 2006)
+marketable strategic equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 29,662 (29,482 at december30, 2006)
+marketable strategic equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 30,293 (29,482 at december30, 2006)
+marketable strategic equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 28,937 (27,021 at december31, 2005)
+marketable strategic equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 28,365 (27,021 at december31, 2005)
+marketable strategic equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 27,786 (27,021 at december31, 2005)
+marketable strategic equity securities
+other longterm investments
+goodwill
+other longterm assets
+
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+total current assets
+
+property, plant and equipment, net of accumulated depreciation of 26,303 (24,065 at december25, 2004)
+marketable strategic equity securities
+other longterm investments
+goodwill
+other assets
+
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 25,705 (24,065 at december 25, 2004)
+marketable strategic equity securities
+other longterm investments
+goodwill
+other assets
+
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 24,938 (24,065 at december 25, 2004)
+marketable strategic equity securities
+other longterm investments
+goodwill
+other assets
+
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 24,214 (22,031 at december 27, 2003)
+marketable strategic equity securities
+other longterm investments
+goodwill
+other assets
+
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 23,560 (22,031 at december 27, 2003)
+marketable strategic equity securities
+other longterm investments
+goodwill
+other assets
+
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 22,903 (22,031 at december 27, 2003)
+marketable strategic equity securities
+other longterm investments
+goodwill
+other assets
+
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+
+property, plant and equipment, net of accumulated depreciation of 21,512 (19,065 at december 28, 2002)
+marketable strategic equity securities
+other longterm investments
+goodwill
+other assets
+
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+property, plant and equipment, net of accumulated depreciation of 20,634 (19,065 at december 28, 2002)
+longterm investments
+goodwill
+other assets
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories
+deferred tax assets
+other current assets
+
+property, plant and equipment, net of accumulated depreciation of 19,816 (19,065 at december 28, 2002)
+longterm investments
+goodwill
+other assets
+
+(in millions)
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories:
+raw materials
+work in process
+finished goods
+
+
+(in millions)
+assets
+current assets:
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories:
+raw materials
+work in process
+finished goods
+
+cash and cash equivalents
+shortterm investments
+trading assets
+accounts receivable, net
+inventories:
+raw materials
+work in process
+finished goods
+
+
+
+deferred tax assets
+other current assets
+
+
+property, plant and equipment
+less accumulated depreciation
+
+property, plant and equipment, net
+marketable strategic equity securities
+other longterm investments
+goodwill, net
+other acquisitionrelated intangibles, net
+other assets
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 200 at april30, 2011 and 235 at july31, 2010
+inventories
+deferred tax assets
+other current assets
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 205 at january29, 2011 and 235 at july31, 2010
+inventories
+deferred tax assets
+other current assets
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 191 at october30, 2010 and 235 at july31, 2010
+inventories
+deferred tax assets
+other current assets
+
+
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 216 at may1, 2010 and july25, 2009
+inventories
+deferred tax assets
+other current assets
+
+
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 240 at january23, 2010 and 216 at july25, 2009
+inventories
+deferred tax assets
+other current assets
+
+
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 216 at october24, 2009 and at july25, 2009
+inventories
+deferred tax assets
+other current assets
+
+
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 203 at april25, 2009 and 177 at july26, 2008
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 230 at january24, 2009 and 177 at july26, 2008
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 191 at october25, 2008 and 177 at july26, 2008
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 183 at april26, 2008 and 166 at july28, 2007
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 185 at january26, 2008 and 166 at july28, 2007
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 179 at october27, 2007 and 166 at july28, 2007
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 172 at april28, 2007 and 175 at july29, 2006
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 169 at january27, 2007 and 175 at july29, 2006
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 180 at october28, 2006 and 175 at july29, 2006
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 180 at april29, 2006 and 162 at july30, 2005
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 171 at january28, 2006 and 162 at july30, 2005
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+cash and cash equivalents
+investments
+accounts receivable, net of allowance for doubtful accounts of 173 at october29, 2005 and 162 at july30, 2005
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+cash and cash equivalents
+shortterm investments
+accounts receivable, net of allowance for doubtful accounts of 175 at april 30, 2005 and 179 at july 31, 2004
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+investments
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+cash and cash equivalents
+shortterm investments
+accounts receivable, net of allowance for doubtful accounts of 176 at january 29, 2005 and 179 at july 31, 2004
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+investments
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+cash and cash equivalents
+shortterm investments
+accounts receivable, net of allowance for doubtful accounts of 179 at october 30, 2004 and july 31, 2004
+inventories
+deferred tax assets
+prepaid expenses and other current assets
+
+investments
+property and equipment, net
+goodwill
+purchased intangible assets, net
+other assets
+
+cash and cash equivalents
+shortterm investments
+accounts receivable, net of allowance for doubtful accounts of 188 at may 1, 2004 and 183 at july 26, 2003
+inventories
+deferred tax assets
+lease receivables, net
+prepaid expenses and other current assets
+
+investments
+property and equipment, net
+goodwill
+purchased intangible assets, net
+lease receivables, net
+other assets
+
+cash and cash equivalents
+shortterm investments
+accounts receivable, net of allowance for doubtful accounts of 189 at january 24, 2004 and 183 at july 26, 2003
+inventories
+deferred tax assets
+lease receivables, net
+prepaid expenses and other current assets
+
+investments
+property and equipment, net
+goodwill
+purchased intangible assets, net
+lease receivables, net
+other assets
+
+cash and cash equivalents
+shortterm investments
+accounts receivable, net of allowance for doubtful accounts of 180 at october 25, 2003 and 183 at july 26, 2003
+inventories
+deferred tax assets
+lease receivables, net
+prepaid expenses and other current assets
+
+investments
+property and equipment, net
+goodwill
+purchased intangible assets, net
+lease receivables, net
+other assets
+
+cash and cash equivalents
+shortterm investments
+accounts receivable, net of allowance for doubtful accounts of 274 at april 26, 2003 and 335 at july 27, 2002
+inventories
+deferred tax assets
+lease receivables, net
+prepaid expenses and other current assets
+
+investments
+property and equipment, net
+goodwill
+purchased intangible assets, net
+lease receivables, net
+other assets
+
+cash and cash equivalents
+receivables from customers, less allowances of 45 in 2011 and 2010
+other receivables
+inventories (f)
+prepaid expenses and other current assets
+
+
+
+properties, plants, and equipment
+less: accumulated depreciation, depletion, and amortization
+
+properties, plants, and equipment, net
+
+goodwill
+investments
+deferred income taxes
+other noncurrent assets
+assets held for sale (c)
+
+cash and cash equivalents
+receivables from customers, less allowances of 57 in 2010 and 70 in 2009
+other receivables
+inventories (f)
+prepaid expenses and other current assets
+
+
+
+properties, plants, and equipment
+less: accumulated depreciation, depletion, and amortization
+
+properties, plants, and equipment, net
+
+goodwill
+investments
+deferred income taxes
+other noncurrent assets
+assets held for sale (c)
+
+cash and cash equivalents
+receivables from customers, less allowances of 56 in 2010 and 70 in 2009
+other receivables
+inventories (f)
+prepaid expenses and other current assets
+
+
+
+properties, plants, and equipment
+less: accumulated depreciation, depletion, and amortization
+
+properties, plants, and equipment, net
+
+goodwill
+investments
+deferred income taxes
+other noncurrent assets
+assets held for sale (c)
+
+cash and cash equivalents
+receivables from customers, less allowances of 61 in 2010 and 70 in 2009
+other receivables
+inventories (f)
+prepaid expenses and other current assets
+
+
+
+properties, plants, and equipment
+less: accumulated depreciation, depletion, and amortization
+
+properties, plants, and equipment, net
+
+goodwill
+investments
+deferred income taxes
+other noncurrent assets
+assets held for sale (c)
+
+cash and cash equivalents
+receivables from customers, less allowances of 74 in 2009 and 65 in 2008
+other receivables
+inventories (f)
+fair value of hedged aluminum
+prepaid expenses and other current assets
+
+
+
+properties, plants, and equipment
+less: accumulated depreciation, depletion, and amortization
+
+properties, plants, and equipment, net
+
+goodwill
+investments (e and g)
+deferred income taxes
+other assets
+assets held for sale (c)
+
+cash and cash equivalents
+receivables from customers, less allowances of 70 in 2009 and 65 in 2008
+other receivables
+inventories (f)
+fair value of hedged aluminum
+prepaid expenses and other current assets
+
+
+
+properties, plants, and equipment
+less: accumulated depreciation, depletion, and amortization
+
+properties, plants, and equipment, net
+
+goodwill
+investments (e and g)
+deferred income taxes
+other assets
+assets held for sale (c)
+
+cash and cash equivalents
+receivables from customers, less allowances of 57 in 2008 and 72 in 2007
+other receivables
+inventories (g)
+prepaid expenses and other current assets
+
+
+
+properties, plants, and equipment
+less: accumulated depreciation, depletion, and amortization
+
+properties, plants, and equipment, net
+
+goodwill
+investments (h)
+other assets
+assets held for sale (d)
+
+cash and cash equivalents
+receivables from customers, less allowances of 65 in 2008 and 72 in 2007
+other receivables
+inventories (g)
+prepaid expenses and other current assets
+
+
+
+properties, plants, and equipment
+less: accumulated depreciation, depletion, and amortization
+
+properties, plants, and equipment, net
+
+goodwill
+investments (h)
+other assets
+assets held for sale (d)
+
+cash and cash equivalents
+receivables from customers, less allowances of 70 in 2008 and 72 in 2007
+other receivables
+inventories (g)
+prepaid expenses and other current assets
+
+
+properties, plants, and equipment
+less: accumulated depreciation, depletion, and amortization
+
+properties, plants, and equipment, net
+
+goodwill
+investments (h)
+other assets
+assets held for sale (d)
+
+cash and cash equivalents
+receivables from customers, less allowances of 72 in 2007 and 68 in 2006
+other receivables
+inventories (j)
+fair value of derivative contracts
+prepaid expenses and other current assets
+
+
+
+properties, plants, and equipment
+less: accumulated depreciation, depletion, and amortization
+
+properties, plants, and equipment, net
+
+goodwill
+investments (o)
+other assets
+assets held for sale (h)
+
+cash and cash equivalents
+receivables from customers, less allowances of 66 in 2007 and 75 in 2006
+other receivables
+inventories (j)
+fair value of derivative contracts
+prepaid expenses and other current assets
+
+
+
+properties, plants, and equipment
+less: accumulated depreciation, depletion, and amortization
+
+properties, plants, and equipment, net
+
+goodwill
+investments
+other assets
+assets held for sale (h)
+
+cash and cash equivalents
+receivables from customers, less allowances of 71 in 2007 and 75 in 2006
+other receivables
+inventories (j)
+fair value of derivative contracts
+prepaid expenses and other current assets
+
+
+
+properties, plants, and equipment
+less: accumulated depreciation, depletion, and amortization
+
+properties, plants, and equipment, net
+
+goodwill
+investments
+other assets
+assets held for sale (h)
+
+cash and cash equivalents
+receivables from customers, less allowances of 84 in 2006 and 75 in 2005
+other receivables
+inventories (j)
+fair value of derivative contracts
+prepaid expenses and other current assets
+
+
+
+properties, plants, and equipment, at cost
+less: accumulated depreciation, depletion, and amortization
+
+net properties, plants, and equipment
+
+goodwill
+investments
+other assets
+assets held for sale (h)
+
+cash and cash equivalents
+receivables from customers, less allowances of 85 in 2006 and 80 in 2005
+other receivables
+inventories (j)
+fair value of derivative contracts
+prepaid expenses and other current assets
+
+
+properties, plants, and equipment, at cost
+less: accumulated depreciation, depletion, and amortization
+
+net properties, plants, and equipment
+
+goodwill
+investments
+other assets
+assets held for sale (h)
+
+cash and cash equivalents
+receivables from customers, less allowances of 81 in 2006 and 80 in 2005
+other receivables
+inventories (j)
+fair value of derivative contracts
+prepaid expenses and other current assets
+
+
+properties, plants, and equipment, at cost
+less: accumulated depreciation, depletion, and amortization
+
+net properties, plants, and equipment
+
+goodwill
+investments
+other assets
+assets held for sale (h)
+
+cash and cash equivalents
+receivables from customers, less allowances of 82 in 2005 and 86 in 2004
+other receivables
+inventories (h)
+deferred income taxes
+prepaid expenses and other current assets
+
+
+properties, plants, and equipment, at cost
+less: accumulated depreciation, depletion, and amortization
+
+net properties, plants, and equipment
+
+goodwill
+investments (c)
+other assets
+assets held for sale (d)
+
+cash and cash equivalents
+receivables from customers, less allowances of 79 in 2005 and 87 in 2004
+other receivables
+inventories (h)
+deferred income taxes
+prepaid expenses and other current assets
+
+
+properties, plants, and equipment, at cost
+less: accumulated depreciation, depletion, and amortization
+
+net properties, plants, and equipment
+
+goodwill
+investments (c)
+other assets (i)
+assets held for sale (d)
+
+cash and cash equivalents
+receivables from customers, less allowances of 81 in 2005 and 87 in 2004
+other receivables
+inventories (h)
+deferred income taxes
+prepaid expenses and other current assets
+
+
+properties, plants, and equipment, at cost
+less: accumulated depreciation, depletion, and amortization
+
+net properties, plants, and equipment
+
+goodwill
+investments
+other assets
+assets held for sale (d)
+
+cash and cash equivalents
+receivables from customers, less allowances of 97 in 2004 and 105 in 2003
+other receivables
+inventories (g)
+deferred income taxes
+prepaid expenses and other current assets
+
+
+properties, plants, and equipment, at cost
+less: accumulated depreciation, depletion, and amortization
+
+net properties, plants, and equipment
+
+goodwill
+other assets
+assets held for sale (e)
+
+cash and cash equivalents
+receivables from customers, less allowances of 103 in 2004 and 105 in 2003
+other receivables
+inventories (g)
+deferred income taxes
+prepaid expenses and other current assets
+
+
+properties, plants, and equipment, at cost
+less: accumulated depreciation, depletion, and amortization
+
+net properties, plants, and equipment
+
+goodwill
+other assets
+assets held for sale (e)
+
+cash and cash equivalents
+receivables from customers, less allowances of 116 in 2004 and 105 in 2003
+other receivables
+inventories (f)
+deferred income taxes
+prepaid expenses and other current assets
+
+
+properties, plants, and equipment, at cost
+less: accumulated depreciation, depletion, and amortization
+
+net properties, plants, and equipment
+
+goodwill
+other assets
+assets held for sale (d)
+
+cash and cash equivalents
+receivables from customers, less allowances of 104 in 2003 and 120 in 2002
+other receivables
+inventories (g)
+deferred income taxes
+prepaid expenses and other current assets
+
+
+properties, plants and equipment, at cost
+less: accumulated depreciation, depletion and amortization
+
+net properties, plants and equipment
+
+goodwill
+other assets
+assets held for sale (d)
+
+cash and cash equivalents
+receivables from customers, less allowances of 111 in 2003 and 120 in 2002
+other receivables
+inventories (g)
+deferred income taxes
+prepaid expenses and other current assets
+
+
+properties, plants and equipment, at cost
+less: accumulated depreciation, depletion and amortization
+
+net properties, plants and equipment
+
+goodwill
+other assets
+assets held for sale (d)
+
+cash and cash equivalents
+receivables from customers, less allowances of 127 in 2003 and 120 in 2002
+other receivables
+inventories (f)
+deferred income taxes
+prepaid expenses and other current assets
+
+
+
+properties, plants and equipment, at cost
+less: accumulated depreciation, depletion and amortization
+
+net properties, plants and equipment
+
+
+goodwill
+other assets
+assets held for sale (d)
+
 cash and cash equivalents
 shortterm investments (including securities loaned of 1,171and 62)
 
@@ -7,6 +1286,405 @@ deferred income taxes
 other
 
 property and equipment, net of accumulated depreciation of 9,564 and 8,629
+equity and other investments
+goodwill
+intangible assets, net
+other longterm assets
+
+cash and cash equivalents
+shortterm investments (including securities loaned of 982and 62)
+
+accounts receivable, net of allowance for doubtful accounts of 317 and 375
+inventories
+deferred income taxes
+other
+
+property and equipment, net of accumulated depreciation of 9,279 and 8,629
+equity and other investments
+goodwill
+intangible assets, net
+other longterm assets
+
+cash and cash equivalents
+shortterm investments (including securities loaned of 683 and 62)
+
+accounts receivable, net of allowance for doubtful accounts of 312 and 375
+inventories
+deferred income taxes
+other
+
+property and equipment, net of accumulated depreciation of 8,942 and 8,629
+equity and other investments
+goodwill
+intangible assets, net
+other longterm assets
+
+cash and cash equivalents
+shortterm investments (including securities loaned of 2,480 and 1,540)
+
+accounts receivable, net of allowance for doubtful accounts of 381and 451
+inventories
+deferred income taxes
+other
+
+property and equipment, net of accumulated depreciation of 8,393 and 7,547
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and cash equivalents
+shortterm investments (including securities loaned of 2,654 and 1,540)
+
+accounts receivable, net of allowance for doubtful accounts of 506 and 451
+inventories
+deferred income taxes
+other
+
+property and equipment, net of accumulated depreciation of 8,170 and 7,547
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and cash equivalents
+shortterm investments (including securities pledged as collateral of 3,261 and 1,540)
+
+accounts receivable, net of allowance for doubtful accounts of 436 and 451
+inventories
+deferred income taxes
+other
+
+property and equipment, net of accumulated depreciation of 7,853 and 7,547
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and cash equivalents
+shortterm investments (including securities pledged as collateral of 1,445 and 2,491)
+
+accounts receivable, net of allowance for doubtful accounts of 242 and 153
+inventories
+deferred income taxes
+other
+
+property and equipment, net of accumulated depreciation of 7,236 and 6,302
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and cash equivalents
+shortterm investments (including securities pledged as collateral of 417 and 2,491)
+
+accounts receivable, net of allowance for doubtful accounts of 254 and 153
+inventories
+deferred income taxes
+other
+
+property and equipment, net of accumulated depreciation of 6,959 and 6,302
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and cash equivalents
+shortterm investments (including securities pledged as collateral of 1,011 and 2,491)
+
+accounts receivable, net of allowance for doubtful accounts of 168 and 153
+inventories
+deferred income taxes
+other
+
+property and equipment, net of accumulated depreciation of 6,622 and 6,302
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and cash equivalents
+shortterm investments (including securities pledged as collateral of 2,318 and 2,356)
+
+accounts receivable, net of allowance for doubtful accounts of 147 and 117
+inventories
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and cash equivalents
+shortterm investments (including securities pledged as collateral of 1,984 and 2,356)
+
+accounts receivable, net of allowance for doubtful accounts of 149 and 117
+inventories, net
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments (including securities pledged as collateral of 2,696 and 2,356)
+
+accounts receivable, net of allowance for doubtful accounts of 133 and 117
+inventories
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments (including securities pledged as collateral of 2,758 and 3,065)
+
+accounts receivable, net of allowance for doubtful accounts of 141 and 142
+inventories, net
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments (including securities pledged as collateral of 2,473 and 3,065)
+
+accounts receivable, net of allowance for doubtful accounts of 136 and 142
+inventories, net
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments (including securities pledged as collateral of 3,580 and 3,065)
+
+accounts receivable, net of allowance for doubtful accounts of 143 and 142
+inventories, net
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments (including securities pledged as collateral of 1,311 and 0)
+
+accounts receivable, net of allowance for doubtful accounts of 172 and 171
+inventories, net
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments
+
+accounts receivable, net of allowance for doubtful accounts of 208 and 171
+inventories, net
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments
+
+accounts receivable, net of allowance for doubtful accounts of 151 and 171
+inventories
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments
+
+accounts receivable, net of allowances of 166 and 177
+inventories
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments
+
+accounts receivable, net of allowances of 166 and 211
+inventories
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments
+
+accounts receivable, net of allowances of 166 and 176
+inventories
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investment
+
+accounts receivable, net of allowance for doubtful accounts of 242 and 157
+inventories
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments
+
+accounts receivable, net of allowance for doubtful accounts of 242 and 187
+inventories
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments
+
+accounts receivable, net of allowance for doubtful accounts of 242 and 193
+inventories
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments
+
+accounts receivable, net of allowance for doubtful accounts of 209 and 206
+inventories
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+other longterm assets
+
+cash and equivalents
+shortterm investments
+
+accounts receivable, net of allowance for doubtful accounts of 209 and 254
+inventories
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+deferred income taxes
+other longterm assets
+
+cash and equivalents
+shortterm investments
+
+accounts receivable, net of allowance for doubtful accounts of 209 and 218
+inventories
+deferred income taxes
+other
+
+property and equipment, net
+equity and other investments
+goodwill
+intangible assets, net
+other longterm assets
+
+cash and equivalents
+shortterm investments
+
+accounts receivable, net of allowance for doubtful accounts of 174 and 216
+deferred income taxes
+other
+
+property and equipment, net
 equity and other investments
 goodwill
 intangible assets, net
@@ -28,6 +1706,291 @@ goodwill
 other assets, net
 
 cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+capitalized software, net
+goodwill
+other assets, net
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+capitalized software, net
+goodwill
+other assets, net
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+capitalized software, net
+goodwill
+other assets, net
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+capitalized software, net
+goodwill
+other assets, net
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+capitalized software, net
+goodwill
+other assets, net
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+capitalized software, net
+goodwill
+other assets, net
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+capitalized software, net
+goodwill
+other assets, net
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+capitalized software, net
+goodwill
+other assets, net
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+capitalized software, net
+goodwill
+other assets, net
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+capitalized software
+goodwill
+other assets
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+capitalized software
+goodwill
+other assets
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+capitalized software
+goodwill
+other assets
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+goodwill
+other assets
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+goodwill
+other assets
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+goodwill
+other assets
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+deferred income taxes
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+restricted cash
+fixed assets, net
+deferred commissions, noncurrent
+deferred income taxes, noncurrent
+other assets
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+prepaid expenses and other current assets
+
+marketable securities, noncurrent
+restricted cash
+fixed assets, net
+deferred commissions, noncurrent
+other assets
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable, net
+deferred commissions
+prepaid expenses and other current assets
+
+
+marketable securities, noncurrent
+restricted cash
+fixed assets, net
+deferred commissions, noncurrent
+other assets
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable
+deferred commissions
+prepaid expenses and other current assets
+
+
+marketable securities, noncurrent
+restricted cash
+fixed assets, net
+deferred commissions, noncurrent
+other assets
+
+cash and cash equivalents
+shortterm marketable securities
+accounts receivable
+deferred commissions
+prepaid expenses and other current assets
+
+
+marketable securities, noncurrent
+restricted cash
+fixed assets, net
+deferred commissions, noncurrent
+other assets
+
+cash and cash equivalents
 marketable securities
 
 accounts receivable, net of allowance of 101 and 133
@@ -44,29 +2007,267 @@ intangible assets, net
 goodwill
 
 cash and cash equivalents
-shortterm marketable debt securities
-accounts receivable, net
-prepaid expenses and other current assets
+marketable securities
 
-longterm marketable debt securities
+accounts receivable, net of allowance of 79 and 65
+receivable under reverse repurchase agreements
+deferred income taxes, net
+income taxes receivable, net
+prepaid revenue share, expenses and other assets
+
+prepaid revenue share, expenses and other assets, noncurrent
+deferred income taxes, net, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 79 and 56
+deferred income taxes, net
+income taxes receivable, net
+prepaid revenue share, expenses and other assets
+
+prepaid revenue share, expenses and other assets, noncurrent
+deferred income taxes, net, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 79 and 62
+deferred income taxes, net
+income taxes receivable, net
+prepaid revenue share, expenses and other assets
+
+prepaid revenue share, expenses and other assets, noncurrent
+deferred income taxes, net, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 80,086 and 89,637
+deferred income taxes, net
+income taxes receivable, net
+prepaid revenue share, expenses and other assets
+
+prepaid revenue share, expenses and other assets, noncurrent
+deferred income taxes, net, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 80,086 and 93,025
+deferred income taxes, net
+income taxes receivable, net
+prepaid revenue share, expenses and other assets
+
+prepaid revenue share, expenses and other assets, noncurrent
+deferred income taxes, net, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 80,086 and 112,511
+deferred income taxes, net
+prepaid revenue share, expenses and other assets
+
+prepaid revenue share, expenses and other assets, noncurrent
+deferred income taxes, net, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 32,887 and 75,259
+deferred income taxes, net
+income taxes receivable, net
+prepaid revenue share, expenses and other assets
+
+prepaid revenue share, expenses and other assets, noncurrent
+deferred income taxes, net, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 32,887 and 67,326
+deferred income taxes, net
+income taxes receivable, net
+prepaid revenue share, expenses and other assets
+
+prepaid revenue share, expenses and other assets, noncurrent
+deferred income taxes, net, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 32,887 and 50,278
+deferred income taxes, net
+income taxes receivable
+prepaid revenue share, expenses and other assets
+
+prepaid revenue share, expenses and other assets, noncurrent
+deferred income taxes, net, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 16,914 and 38,130
+deferred income taxes, net
+prepaid revenue share, expenses and other assets
+
+prepaid revenue share, expenses and other assets, noncurrent
+deferred income taxes, net, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 16,914 and 26,747
+deferred income taxes, net
+prepaid revenue share, expenses and other assets
+
+prepaid revenue share, expenses and other assets, noncurrent
+deferred income taxes, net, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 16,914 and 18,562
+deferred income taxes, net
+prepaid revenue share, expenses and other assets
+
+prepaid revenue share, expenses and other assets, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 14,852 and 20,870
+deferred income taxes, net
+prepaid revenue share, expenses and other assets
+
+deferred income taxes, net, noncurrent
+prepaid revenue share, expenses and other assets, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 14,852 and 13,891
+deferred income taxes, net
+prepaid revenue share, expenses and other assets
+
+deferred income taxes, net, noncurrent
+prepaid revenue share, expenses and other assets, noncurrent
+nonmarketable equity securities
+property and equipment, net
+intangible assets, net
+goodwill
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 14,852 and 15,604
+deferred income taxes, net
+prepaid revenue share, expenses and other assets
+
 property and equipment, net
 goodwill
 intangible assets, net
-other longterm assets
-investments in equity interests
+prepaid revenue share, expenses and other assets, noncurrent
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 3,962 and 7,926
+income taxes receivable
+deferred income taxes
+prepaid revenue share, expenses and other assets
+
+property and equipment, net
+goodwill
+intangible assets, net
+deferred income taxes, noncurrent
+prepaid revenue share, expenses and other assets, noncurrent
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 3,962 and 4,812
+income taxes receivable
+deferred income taxes
+prepaid revenue share, expenses and other assets
+
+property and equipment, net
+goodwill
+intangible assets, net
+deferred income taxes, noncurrent
+prepaid revenue share, expenses and other assets, noncurrent
+
+cash and cash equivalents
+marketable securities
+accounts receivable, net of allowance of 3,962 and 4,452
+income taxes receivable
+deferred income taxes
+prepaid revenue share, expenses and other assets
+
+property and equipment, net
+goodwill
+intangible assets, net
+deferred income taxes, noncurrent
+prepaid revenue share, expenses and other assets, noncurrent
 
 cash and cash equivalents
 shortterm investments
-trading assets
-accounts receivable, net
-inventories
-deferred tax assets
-other current assets
+accounts receivable, net of allowance of 4,670 and 4,559
+income taxes receivable
+deferred income taxes
+prepaid revenue share, expenses and other assets
 
-
-property, plant and equipment, net of accumulated depreciation of 25,705 (24,065 at december 25, 2004)
-marketable strategic equity securities
-other longterm investments
+property and equipment, net
 goodwill
-other assets
+intangible assets, net
+prepaid revenue share, expenses and other assets, noncurrent
+
+cash and cash equivalents
+shortterm investments
+accounts receivable, net of allowance of 4,670 and 5,611
+income taxes receivable
+deferred income taxes
+prepaid revenue share, expenses and other assets
+
+property and equipment, net
+goodwill
+intangible assets, net
+prepaid revenue share, expenses and other assets, noncurrent
 

@@ -40,7 +40,8 @@ module SecEdgar
     BASE_MULTIPLIER_REGEXES =
       [ /^in (millions|thousands)/,
         /\(in[ \r\n]*(millions|thousands)/,
-        /\(in.(millions|thousands)/ ]
+        /\(in.(millions|thousands)/,
+        /\(unaudited, in.(millions|thousands)/ ]
   
     def initialize
       @report_dates = []
@@ -168,21 +169,23 @@ module SecEdgar
         # FIXME: do this better with hpricot search for TR and TD
         if row_in.is_a? Hpricot::Elem
           row_out = []
-          row_in.children.each do |cell_str|
-            # in case there's a "colspan" - parse it and push some blank cells
-            if cell_str.is_a? Hpricot::Elem
-              if !cell_str.attributes['colspan'].nil? and cell_str.attributes['colspan'] =~ /\d/
-                Integer(cell_str.attributes['colspan']).times do
-                  cell = Cell.new { |c| c.log = @log }
-                  cell.parse("") # not sure if this is needed
-                  row_out.push(cell)
+          if !row_in.children.nil?
+            row_in.children.each do |cell_str|
+              # in case there's a "colspan" - parse it and push some blank cells
+              if cell_str.is_a? Hpricot::Elem
+                if !cell_str.attributes['colspan'].nil? and cell_str.attributes['colspan'] =~ /\d/
+                  Integer(cell_str.attributes['colspan']).times do
+                    cell = Cell.new { |c| c.log = @log }
+                    cell.parse("") # not sure if this is needed
+                    row_out.push(cell)
+                  end
                 end
               end
+  
+              cell = Cell.new { |c| c.log = @log }
+              cell.parse( String(cell_str.to_plain_text) )
+              row_out.push(cell)
             end
-
-            cell = Cell.new { |c| c.log = @log }
-            cell.parse( String(cell_str.to_plain_text) )
-            row_out.push(cell)
           end
 
           @rows.push(row_out) if !row_out.empty?
@@ -262,6 +265,7 @@ module SecEdgar
     def parse_base_multiplier(table_elem)
       result = table_elem.search_tree_reverse(BASE_MULTIPLIER_REGEXES, 10)
       if result.nil?
+        @log.debug("couldn't find base multiplier") if @log
         return false
       end
 

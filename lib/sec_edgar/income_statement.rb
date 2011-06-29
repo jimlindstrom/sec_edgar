@@ -99,6 +99,7 @@ module SecEdgar
 
         when :reading_operating_expenses
           if ( row.label.downcase =~ /(^total|^operating expense[s]*$)/ ) or
+             ( row.label.downcase =~ /(^operating costs and expenses$)/ ) or
              ( ( row.label == "" ) and !row.cols[0].nil? and !row.cols[1].nil? ) # AMD 2003 10-K has blank instead of the total
             @operating_income_from_sales_before_tax = @gross_margin.clone
             @operating_income_from_sales_before_tax.subtract(@operating_expense)

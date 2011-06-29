@@ -1,5 +1,7 @@
 Bugs
 --------------------------------------------------------------------------------
+* assets training examples include garbage like "(in millions)", "assets", "current assets:", etc.
+* not able to handle TD indentation, vs spacing indentation
 * not able to handle reports that are in the exhibits
 * not able to handle much variation...
 
@@ -8,6 +10,8 @@ Features
 * Introduce a confidence measure.  I.e., how do the balance sheet classifiers 
   look?  How stable are the financials off of which we're anchoring (e.g., ATO, 
   PM, etc.)?
+* Parse "Net income attributable to noncontrolling interests" (which occurs 
+  after the "Net Income" line).  See, e.g., Yahoo's 2011 Q1 (Mar 31) 10-Q
 * Automate the forecasting
 
 Test Quality/Coverage
