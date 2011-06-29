@@ -50,8 +50,13 @@ module SecEdgar
       fss.cse = bscale.call(@bal_sheet.cse.cols.values_at(*bsidx))
 
       fss.composition_ratio = @bal_sheet.noa.cols.values_at(*bsidx).zip(@bal_sheet.cse.cols.values_at(*bsidx)).collect { |x,y| x/y }
-      fss.noa_growth = [nil] + calc_growth_rates(@bal_sheet.noa.cols.values_at(*bsidx))
-      fss.cse_growth = [nil] + calc_growth_rates(@bal_sheet.cse.cols.values_at(*bsidx))
+      if bsidx.length > 1
+        fss.noa_growth = [nil] + calc_growth_rates(@bal_sheet.noa.cols.values_at(*bsidx))
+        fss.cse_growth = [nil] + calc_growth_rates(@bal_sheet.cse.cols.values_at(*bsidx))
+      else
+        fss.noa_growth = [nil] 
+        fss.cse_growth = [nil] 
+      end
 
       fss.operating_revenue       = iscale.call(@inc_stmt.re_operating_revenue.cols.values_at(*isidx))
       fss.gross_margin            = iscale.call(@inc_stmt.re_gross_margin.cols.values_at(*isidx))
@@ -67,9 +72,15 @@ module SecEdgar
       fss.ni_over_sales = calc_ratios(@inc_stmt.re_net_income.cols.values_at(*isidx),                            @inc_stmt.re_operating_revenue.cols.values_at(*isidx))
 
       fss.sales_over_noa = calc_ratios(iscale.call(@inc_stmt.re_operating_revenue.cols.values_at(*isidx)), bscale.call(@bal_sheet.noa.cols.values_at(*bsidx)))
-      fss.revenue_growth = [nil] + calc_growth_rates(@inc_stmt.re_operating_revenue.cols.values_at(*isidx))
-      fss.core_oi_growth = [nil] + calc_growth_rates(@inc_stmt.re_operating_income_from_sales_after_tax.cols.values_at(*isidx))
-      fss.oi_growth      = [nil] + calc_growth_rates(@inc_stmt.re_operating_income_after_tax.cols.values_at(*isidx))
+      if isidx.length > 1
+        fss.revenue_growth = [nil] + calc_growth_rates(@inc_stmt.re_operating_revenue.cols.values_at(*isidx))
+        fss.core_oi_growth = [nil] + calc_growth_rates(@inc_stmt.re_operating_income_from_sales_after_tax.cols.values_at(*isidx))
+        fss.oi_growth      = [nil] + calc_growth_rates(@inc_stmt.re_operating_income_after_tax.cols.values_at(*isidx))
+      else
+        fss.revenue_growth = [nil]
+        fss.core_oi_growth = [nil]
+        fss.oi_growth      = [nil]
+      end
       fss.fi_over_nfa    = calc_ratios(iscale.call(@inc_stmt.re_net_financing_income_after_tax.cols.values_at(*isidx)), bscale.call(@bal_sheet.nfa.cols.values_at(*bsidx)))
       fss.re_oi          = [nil] + calc_reois(iscale.call(@inc_stmt.re_operating_income_after_tax.cols.values_at(*isidx)), bscale.call(@bal_sheet.noa.cols.values_at(*bsidx)))
 
