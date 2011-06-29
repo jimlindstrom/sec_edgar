@@ -3,8 +3,9 @@
 $LOAD_PATH << './lib'
 require 'sec_edgar'
 
-@tickers = ['MSFT','CRM','GOOG','YHOO','INTC']
-@download_path = "/tmp/"
+@tickers = ['MSFT','CRM','GOOG','YHOO','INTC','CSCO','ORCL','WMT','SAP','PFE','LLY','XOM','INTU','F','AA']
+
+@filenames = []
 
 @liabs = []
 @assets = []
@@ -13,16 +14,20 @@ require 'sec_edgar'
 @log = Logger.new('sec_edgar.log')
 @log.level = Logger::DEBUG
 
-@tickers.each do |cur_ticker|
-  puts "Parsing #{cur_ticker}"
+@download_path = "/tmp/"
+@tickers.each do |ticker|
+  puts "Downloading 10q's for #{ticker}"
   @edgar = SecEdgar::Edgar.new
   @edgar.log = @log
-  @filenames = @edgar.download_10q_reports(cur_ticker, @download_path)
+  @filenames.concat(@edgar.download_10q_reports(ticker, @download_path))
+end
 
+@filenames.each do |filename|
+  puts "Parsing #{filename}"
   @tenq = SecEdgar::QuarterlyReport.new
   @tenq.log = @log
-  ret = @tenq.parse(@filenames.first) 
-  #raise "parse fail" if ret == false
+  ret = @tenq.parse(filename)
+  raise "parse fail" if ret == false
   @fin_stmt = @tenq.bal_sheet
   raise "parse fail" if @fin_stmt.nil?
 

@@ -4,7 +4,7 @@ module SecEdgar
     attr_accessor :log, :text, :val, :flags
 
     def initialize
-      @text = nil
+      @text = "" ## nil
       @val = nil
       @flags = {}
     end

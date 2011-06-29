@@ -185,7 +185,7 @@ module SecEdgar
             row_out.push(cell)
           end
 
-          @rows.push(row_out)
+          @rows.push(row_out) if !row_out.empty?
         end
       end
 
@@ -224,11 +224,13 @@ module SecEdgar
     def convert_rows_to_sheetrows
       @sheet = []
       @rows.each do |r|
-        sr = SheetRow.new(@num_cols, 0)
-        sr.label = r[0].text
-        sr.flags = r[0].flags
-        sr.cols  = r[1..r.length].collect { |x| x.val }
-        @sheet.push(sr)
+        if r.length > 0
+          sr = SheetRow.new(@num_cols, 0)
+          sr.label = r[0].text
+          sr.flags = r[0].flags
+          sr.cols  = r[1..r.length].collect { |x| x.val }
+          @sheet.push(sr)
+        end
       end
     end
 

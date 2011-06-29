@@ -69,7 +69,7 @@ module SecEdgar
         next_state = nil
         case state
         when :waiting_for_revenues
-          if row.label.downcase =~ /(net sales|net revenue|revenue)/
+          if row.label.downcase =~ /(sales|revenue)/
             if row.cols[0].nil? #  there's a list of individual revenue line items cominng
               next_state = :reading_revenues
             else # there's no lst of revenues coming, just the total on this line
@@ -89,7 +89,7 @@ module SecEdgar
           end
 
         when :reading_cost_of_revenue
-          if row.label.downcase =~ /cost of (revenue|sales)/ and !row.cols[0].nil?
+          if row.label.downcase =~ /(cost of revenue|cost of sales|cost of goods sold)/ and !row.cols[0].nil?
             @cost_of_revenue = row
             @gross_margin = @operating_revenue.clone
             @gross_margin.subtract(@cost_of_revenue)
@@ -113,7 +113,10 @@ module SecEdgar
           end
 
         when :reading_other_operating_expenses_before_tax
-          if row.label.downcase =~ /^provision.*for [income ]*tax/ # the "^" here prevents "income before provision for ..." from matching.
+          if row.label.downcase =~ /^provision.*for [income ]*tax/ or 
+             row.label.downcase =~ /^\(benefit\) provision.*for [income ]*tax/ or
+             row.label.downcase =~ /^\(provision\) benefit.*for [income ]*tax/ or
+             row.label.downcase =~ /^benefit \(provision\).*for [income ]*tax/
             @other_operating_income_before_tax = SheetRow.new(@num_cols, 0.0) if @other_operating_income_before_tax.nil?
 
             @operating_income_before_tax = @operating_income_from_sales_before_tax.clone

@@ -8,7 +8,7 @@ describe SecEdgar::AnnualReport do
 
   before(:each) do
     @bogus_filename = "/tmp/ao0gqq34q34g"
-    @good_filename = "specs/testvectors/2010_12_31.html"
+    @good_filename = "specs/testvectors/google/2010_12_31.html"
     @tenk = SecEdgar::AnnualReport.new
     @tenk.log = Logger.new('sec_edgar.log')
     @tenk.log.level = Logger::DEBUG

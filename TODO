@@ -8,12 +8,14 @@ Features
 * Introduce a confidence measure.  I.e., how do the balance sheet classifiers 
   look?  How stable are the financials off of which we're anchoring (e.g., ATO, 
   PM, etc.)?
-* Automate the forecast
+* Automate the forecasting
 
 Test Quality/Coverage
 --------------------------------------------------------------------------------
 * Increase the number of companies/years tested in balance sheet specs
 * Revisit the shared financial statement specs.  Get rid of them?
+* Use metaprogramming to periodically change the tests to use a different set of
+  companies
 
 Code Quality
 --------------------------------------------------------------------------------

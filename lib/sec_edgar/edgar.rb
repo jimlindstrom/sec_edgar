@@ -15,6 +15,8 @@ module SecEdgar
     def initialize
     end
 
+    # FIXME: this assumes that 
+
     def exists?(key)
       return FileTest.exists?(key_to_cache_filename(key))
     end
@@ -32,10 +34,8 @@ module SecEdgar
       return value
     end
 
-  private
-
     def key_to_cache_filename(key)
-      return PAGE_CACHE_FOLDER + Digest::SHA1.hexdigest(key)
+      return PAGE_CACHE_FOLDER + Digest::SHA1.hexdigest(key) + ".html"
     end
 
   end
@@ -201,13 +201,7 @@ module SecEdgar
 
       # check whether the page is already retrieved, in the cache
       if @cache.exists?(report[:url])
-
-        cur_filename = save_folder + report[:date] + ".html"
-        fh = File.open(cur_filename, "w") 
-        fh << @cache.lookup(report[:url])
-        fh.close
-        return cur_filename
-
+        return @cache.key_to_cache_filename(report[:url])
       end
 
       # page wasn't in the cache, so retrieve it
