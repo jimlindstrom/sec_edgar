@@ -3,3 +3,10 @@
 Gemfile.lock
 pkg/*
 pagecache
+file.csv
+sec_edgar.log
+summary.csv
+*.swp
+.DS_Store
+examples/forecasts/intel.yaml
+examples/forecasts/microsoft.yaml

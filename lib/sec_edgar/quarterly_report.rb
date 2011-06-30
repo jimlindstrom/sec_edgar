@@ -102,6 +102,9 @@ module SecEdgar
         return false
       end      
 
+      attempted_to_parse_bal_sheet = false
+      attempted_to_parse_inc_stmt  = false
+
       table_elems = doc.search("table")
       @bal_sheet = nil
       while !table_elems.empty?
@@ -111,6 +114,7 @@ module SecEdgar
           @log.info("parsing balance sheet at next table") if @log
           @bal_sheet = BalanceSheet.new
           @bal_sheet.log = @log if @log
+          attempted_to_parse_bal_sheet = true
 
           if @bal_sheet.parse(elem) == false
             @log.info("failed to parse balance sheet, resetting to try again.") if @log
@@ -124,6 +128,7 @@ module SecEdgar
           @log.info("parsing income statement at next table") if @log
           @inc_stmt = IncomeStatement.new
           @inc_stmt.log = @log if @log
+          attempted_to_parse_inc_stmt = true
 
           if @inc_stmt.parse(elem) == false
             @log.info("failed to parse income statement, resetting to try again.") if @log
@@ -135,9 +140,11 @@ module SecEdgar
 
       end
 
+      raise ParseError, "Failed to find balance sheet " if !attempted_to_parse_bal_sheet
       raise ParseError, "Failed to parse balance sheet from #{filename}" if @bal_sheet.nil?
       @bal_sheet.validate
 
+      raise ParseError, "Failed to find inc stmt" if !attempted_to_parse_inc_stmt
       raise ParseError, "Failed to parse income statement from #{filename}" if @inc_stmt.nil?
       @inc_stmt.validate
 
