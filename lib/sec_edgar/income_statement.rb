@@ -90,7 +90,11 @@ module SecEdgar
           end
 
         when :reading_cost_of_revenue
-          if row.label.downcase =~ /(cost of revenue|cost of sales|cost of goods sold)/ and !row.cols[0].nil?
+          if !row.cols[0].nil? and
+             ( row.label.downcase =~ /cost[s]* of revenue/ or
+               row.label.downcase =~ /cost[s]* of sales/ or
+               row.label.downcase =~ /cost[s]* of goods sold/ or
+               row.label.downcase =~ /cost[s]* of products sold/ )
             @cost_of_revenue = row
             @gross_margin = @operating_revenue.clone
             @gross_margin.subtract(@cost_of_revenue)
