@@ -81,7 +81,8 @@ module SecEdgar
           end
 
         when :reading_revenues
-          if row.label.downcase =~ /total/
+          if row.label.downcase =~ /total/ or
+             row.label.downcase =~ /cost of revenue/
             @operating_revenue = row
             next_state = :reading_cost_of_revenue
           else
@@ -95,11 +96,26 @@ module SecEdgar
             @gross_margin.subtract(@cost_of_revenue)
             next_state = :reading_operating_expenses
             @operating_expense = SheetRow.new(@num_cols, 0.0)
+          elsif row.label.downcase =~ /gross profit/
+            # FIXME: untested (test with ACLS)
+            @gross_margin = row
+            next_state = :reading_operating_expenses
+            @operating_expense = SheetRow.new(@num_cols, 0.0)
+          else
+            # FIXME: untested (test with ACLS)
+            if @cost_of_revenue.nil?
+              @cost_of_revenue = row
+            else
+              @cost_of_revenue.add(row)
+            end
           end
 
         when :reading_operating_expenses
-          if ( row.label.downcase =~ /(^total|^operating expense[s]*$)/ ) or
-             ( row.label.downcase =~ /(^operating costs and expenses$)/ ) or
+          if ( row.label.downcase =~ /^total/ ) or
+             ( row.label.downcase =~ /^operating expense[s]*/ ) or
+             ( row.label.downcase =~ /^operating income/ ) or
+             ( row.label.downcase =~ /^income.*from operations/ ) or
+             ( row.label.downcase =~ /^operating costs and expenses/ ) or
              ( ( row.label == "" ) and !row.cols[0].nil? and !row.cols[1].nil? ) # AMD 2003 10-K has blank instead of the total
             @operating_income_from_sales_before_tax = @gross_margin.clone
             @operating_income_from_sales_before_tax.subtract(@operating_expense)
@@ -117,7 +133,10 @@ module SecEdgar
           if row.label.downcase =~ /^provision.*for [income ]*tax/ or 
              row.label.downcase =~ /^\(benefit\) provision.*for [income ]*tax/ or
              row.label.downcase =~ /^\(provision\) benefit.*for [income ]*tax/ or
-             row.label.downcase =~ /^benefit \(provision\).*for [income ]*tax/
+             row.label.downcase =~ /^provision for.*[income ]*tax/ or
+             row.label.downcase =~ /^benefit \(provision\).*for [income ]*tax/ or
+             row.label.downcase =~ /^income tax[es]* benefit/ or
+             row.label.downcase =~ /^income tax[es]* \(expense\)/
             @other_operating_income_before_tax = SheetRow.new(@num_cols, 0.0) if @other_operating_income_before_tax.nil?
 
             @operating_income_before_tax = @operating_income_from_sales_before_tax.clone
@@ -142,7 +161,10 @@ module SecEdgar
           end
 
         when :reading_other_incomes_after_tax
-          if row.label.downcase =~ /net income/
+          if row.label.downcase =~ /^net income/ or
+             row.label.downcase =~ /^net earnings/ or
+             row.label.downcase =~ /^net \(loss\) income/ or
+             row.label.downcase =~ /^net loss/
             @other_income_after_tax = SheetRow.new(@num_cols, nil) if @other_income_after_tax.nil?
             @net_income = @operating_income_after_tax.clone  ### FIXME: THIS SECTION SEEMS WRONG
             @net_income.add(@other_income_after_tax)

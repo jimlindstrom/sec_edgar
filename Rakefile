@@ -13,7 +13,7 @@ namespace :test do
 
     sh "./bin/create_specs_for_all_nasdaq_tech.rb #{num_tests}"
     out_file = "/tmp/ag083t01304g8h1g430j134j"
-    sh "rm sec_edgar.log"
+    sh "if [ -f sec_edgar.log ]; then rm sec_edgar.log; fi"
     sh "rspec -c -fd /tmp/sec_edgar_parsing_spec.rb | tee #{out_file}"
 
     puts "\nMost common failures:"
@@ -28,7 +28,7 @@ namespace :test do
     end
 
     sh "./bin/create_specs_for_single_company.rb #{ticker}"
-    sh "rm sec_edgar.log"
+    sh "if [ -f sec_edgar.log ]; then rm sec_edgar.log; fi"
     sh "rspec -c -fd /tmp/sec_edgar_parsing_spec.rb"
   end
 
