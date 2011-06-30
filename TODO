@@ -7,6 +7,10 @@ Bugs
 Features
 --------------------------------------------------------------------------------
 * Cache the finding of reports
+* Use classifiers todo state transitions?
+* Update the classifiers to do word digrams/trigrams, to see if word ordering 
+  improves upon accuracy.  Use other features, too, like # of rows in the 
+  current section, so far; absence/presence of values; etc
 * Introduce a confidence measure.  I.e., how do the balance sheet classifiers 
   look?  How stable are the financials off of which we're anchoring (e.g., ATO, 
   PM, etc.)?

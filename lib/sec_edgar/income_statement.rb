@@ -111,18 +111,20 @@ module SecEdgar
           end
 
         when :reading_operating_expenses
-          if ( row.label.downcase =~ /^total/ ) or
-             ( row.label.downcase =~ /^operating expense[s]*/ ) or
-             ( row.label.downcase =~ /^operating income/ ) or
-             ( row.label.downcase =~ /^income.*from operations/ ) or
-             ( row.label.downcase =~ /^operating costs and expenses/ ) or
+          if ( ( @operating_expenses.length > 1 ) and
+               ( row.label.downcase =~ /^total/ or
+                 row.label.downcase =~ /^operating expense[s]*/ or
+                 row.label.downcase =~ /^operating costs and expenses/ or
+                 row.label.downcase =~ /^operating income/ or
+                 row.label.downcase =~ /^income.*from operations/ or
+                 row.label.downcase =~ /^operating costs and expenses/ ) ) or
              ( ( row.label == "" ) and !row.cols[0].nil? and !row.cols[1].nil? ) # AMD 2003 10-K has blank instead of the total
             @operating_income_from_sales_before_tax = @gross_margin.clone
             @operating_income_from_sales_before_tax.subtract(@operating_expense)
             next_state = :reading_other_operating_expenses_before_tax
-          elsif row.label.downcase =~ /gross margin/
-            # ignore
-          elsif row.label.downcase =~ /gross profit/
+          elsif row.label == "" or
+                row.label.downcase =~ /gross margin/ or
+                row.label.downcase =~ /gross profit/
             # ignore
           else
             @operating_expenses.push row
@@ -135,8 +137,10 @@ module SecEdgar
              row.label.downcase =~ /^\(provision\) benefit.*for [income ]*tax/ or
              row.label.downcase =~ /^provision for.*[income ]*tax/ or
              row.label.downcase =~ /^benefit \(provision\).*for [income ]*tax/ or
-             row.label.downcase =~ /^income tax[es]* benefit/ or
-             row.label.downcase =~ /^income tax[es]* \(expense\)/
+             #row.label.downcase =~ /^income tax[es]* benefit/ or
+             #row.label.downcase =~ /^income tax[es]* \(expense\)/ or
+             #row.label.downcase =~ /^income tax[es]* provision/
+             row.label.downcase =~ /^income tax/
             @other_operating_income_before_tax = SheetRow.new(@num_cols, 0.0) if @other_operating_income_before_tax.nil?
 
             @operating_income_before_tax = @operating_income_from_sales_before_tax.clone
