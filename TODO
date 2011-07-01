@@ -1,12 +1,12 @@
 Bugs
 --------------------------------------------------------------------------------
 * assets training examples include garbage like "(in millions)", "assets", "current assets:", etc.
-* not able to handle TD indentation, vs spacing indentation
+* not able to handle TD indentation, vs spacing indentation (Attempted.  Not sure if it's working...)
 * not able to handle reports that are in the exhibits
+* not able to handle reports that have tables split across pages
 
 Features
 --------------------------------------------------------------------------------
-* Cache the finding of reports
 * Use classifiers todo state transitions?
 * Update the classifiers to do word digrams/trigrams, to see if word ordering 
   improves upon accuracy.  Use other features, too, like # of rows in the 

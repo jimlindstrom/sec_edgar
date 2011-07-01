@@ -3,6 +3,7 @@
 Gemfile.lock
 pkg/*
 pagecache
+indexcache
 file.csv
 sec_edgar.log
 summary.csv

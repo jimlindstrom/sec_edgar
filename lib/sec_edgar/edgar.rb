@@ -1,54 +1,14 @@
-class String
-    def remove_non_ascii(replacement="")
-        self.gsub(/[\u0080-\u00ff]/,replacement)
-    end
-end
-
 module SecEdgar
-
-  class ParseError < Exception
-  end
-
-  class EdgarCache
-    PAGE_CACHE_FOLDER = '/Users/jimlindstrom/code/sec_edgar/pagecache/'
-
-    def initialize
-    end
-
-    # FIXME: this assumes that 
-
-    def exists?(key)
-      return FileTest.exists?(key_to_cache_filename(key))
-    end
-
-    def insert(key, value)
-      fh = File.open(key_to_cache_filename(key), "w")
-      fh.write(value)
-      fh.close
-    end
-
-    def lookup(key)
-      fh = File.open(key_to_cache_filename(key), "r")
-      value = fh.read
-      fh.close
-      return value
-    end
-
-    def key_to_cache_filename(key)
-      return PAGE_CACHE_FOLDER + Digest::SHA1.hexdigest(key) + ".html"
-    end
-
-  end
 
   class Edgar
     AGENT_ALIAS = 'Windows IE 7'
-    PAGE_CACHE_FOLDER = '/Users/jimlindstrom/code/sec_edgar/pagecache/'
 
     attr_accessor :log
     
     def initialize
       @agent = nil
-      @cache = EdgarCache.new
+      @page_cache = PageCache.new
+      @index_cache = IndexCache.new
     end
       
     def good_ticker?(ticker)
@@ -135,6 +95,23 @@ module SecEdgar
     end
     
     def lookup_reports(ticker)
+      # check whether the reports for this ticker has already retrieved, in the cache
+      if @index_cache.exists?(ticker)
+        return @index_cache.lookup(ticker)
+      end
+
+      # reports for this ticker wasn't in the cache, so retrieve them
+      reports = lookup_reports_from_scratch(ticker)
+
+      # insert this set of reports into the cache
+      if !reports.nil?
+        @index_cache.insert(ticker, reports)
+      end
+
+      return reports
+    end
+
+    def lookup_reports_from_scratch(ticker)
       @log.info("Looking up reports for #{ticker}") if @log
       if !good_ticker?(ticker)
         @log.error("#{ticker} is not a good ticker") if @log
@@ -200,8 +177,8 @@ module SecEdgar
     def get_single_report(report, save_folder)
 
       # check whether the page is already retrieved, in the cache
-      if @cache.exists?(report[:url])
-        return @cache.key_to_cache_filename(report[:url])
+      if @page_cache.exists?(report[:url])
+        return @page_cache.key_to_cache_filename(report[:url])
       end
 
       # page wasn't in the cache, so retrieve it
@@ -210,7 +187,7 @@ module SecEdgar
       # insert the page into the cache
       if !cur_filename.nil?
         fh = File.open(cur_filename, "r") 
-        @cache.insert(report[:url], fh.read)
+        @page_cache.insert(report[:url], fh.read)
         fh.close
       end
 

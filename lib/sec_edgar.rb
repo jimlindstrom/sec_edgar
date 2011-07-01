@@ -9,6 +9,9 @@ require 'digest/sha1'
 
 require "sec_edgar/version"
 
+require "sec_edgar/parse_error.rb"
+require "sec_edgar/page_cache.rb"
+require "sec_edgar/index_cache.rb"
 require "sec_edgar/edgar.rb"
 require "sec_edgar/cell.rb"
 require "sec_edgar/sheet_row.rb"

@@ -66,8 +66,6 @@ module SecEdgar
     def validate
       super
 
-      write_to_csv("bs_post.csv")
-
       fail_if_equals("operational_assets", @operational_assets, nil)
       fail_if_equals("operational_liabs",  @operational_liabs,  nil)
       fail_if_equals("financial_assets",   @financial_assets,   nil)
