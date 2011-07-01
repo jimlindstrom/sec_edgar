@@ -120,6 +120,7 @@ module SecEdgar
                  row.label.downcase =~ /^operating expense[s]*/ or
                  row.label.downcase =~ /^operating costs and expenses/ or
                  row.label.downcase =~ /^operating income/ or
+                 row.label.downcase =~ /^operating \(loss\)/ or
                  row.label.downcase =~ /^income.*from operations/ or
                  row.label.downcase =~ /^operating costs and expenses/ ) ) or
              ( ( row.label == "" ) and !row.cols[0].nil? and !row.cols[1].nil? ) # AMD 2003 10-K has blank instead of the total
@@ -137,7 +138,7 @@ module SecEdgar
 
         when :reading_other_operating_expenses_before_tax
           if row.label.downcase =~ /^provision.*for [income ]*tax/ or 
-             row.label.downcase =~ /^\(benefit\) provision.*for [income ]*tax/ or
+             row.label.downcase =~ /^\(benefit.*\) provision.*for [income ]*tax/ or
              row.label.downcase =~ /^\(provision\) benefit.*for [income ]*tax/ or
              row.label.downcase =~ /^provision for.*[income ]*tax/ or
              row.label.downcase =~ /^benefit \(provision\).*for [income ]*tax/ or

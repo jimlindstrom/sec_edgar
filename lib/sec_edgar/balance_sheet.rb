@@ -95,7 +95,7 @@ module SecEdgar
         when :waiting_for_cur_assets
           if row.label.downcase =~ /current assets[:]*/
             next_state = :reading_current_assets
-          elsif !row.cols[0].nil? 
+          elsif row.label != "" and !row.cols[0].nil? 
             # if the values have started and we didn't see 'current ...', assume this stmt doesn't break out cur/non-cur
             @log.info("balance sheet parser. this stmt doesn't break out current assets...") if @log
             next_state = :reading_non_current_assets
