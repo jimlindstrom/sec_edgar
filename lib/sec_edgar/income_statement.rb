@@ -57,6 +57,11 @@ module SecEdgar
       fail_if_equals("re_operating_income_after_tax",             @re_operating_income_after_tax,             nil)
       fail_if_equals("re_net_financing_income_after_tax",         @re_net_financing_income_after_tax,         nil)
       fail_if_equals("re_net_income",                             @re_net_income,                             nil)
+
+      fail_if_doesnt_equal("re_operating_revenue.index(nils)",    @re_operating_revenue.cols.index(nil),      nil)
+
+      fail_if_doesnt_equal("re_operating_revenue.length",         @re_operating_revenue.cols.length,          @re_gross_margin.cols.length)
+      fail_if_doesnt_equal("re_operating_revenue.length",         @re_operating_revenue.cols.length,          @re_gross_margin.cols.length)
     end
 
   private

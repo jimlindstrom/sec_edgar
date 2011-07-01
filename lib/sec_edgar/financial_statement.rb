@@ -71,7 +71,7 @@ module SecEdgar
       filename = @name + ".csv" if filename.nil?
       f = File.open(filename, "w")
       @rows.each do |row|
-        f.puts row.join("~")
+        f.puts row.collect{ |r| r.text }.join("~")
       end
       f.close
     end
@@ -171,20 +171,23 @@ module SecEdgar
           row_out = []
           if !row_in.children.nil?
             row_in.children.each do |cell_str|
+
+              # parse the contents of this cell
+              cell = Cell.new { |c| c.log = @log }
+              cell.parse( String(cell_str.to_plain_text) )
+              row_out.push(cell)
+
               # in case there's a "colspan" - parse it and push some blank cells
               if cell_str.is_a? Hpricot::Elem
                 if !cell_str.attributes['colspan'].nil? and cell_str.attributes['colspan'] =~ /\d/
-                  Integer(cell_str.attributes['colspan']).times do
+                  (Integer(cell_str.attributes['colspan'])-1).times do
                     cell = Cell.new { |c| c.log = @log }
                     cell.parse("") # not sure if this is needed
                     row_out.push(cell)
                   end
                 end
               end
-  
-              cell = Cell.new { |c| c.log = @log }
-              cell.parse( String(cell_str.to_plain_text) )
-              row_out.push(cell)
+
             end
           end
 
@@ -194,23 +197,20 @@ module SecEdgar
 
     end
 
-    def delete_empty_columns
-
-      # figure out how many times each column is actually filled in
+    def get_col_filled_count
       col_filled_count = []
       (@rows.collect{ |r| r.length }.max).times { col_filled_count.push 0 }
       @rows.each do |r|
         r.each_with_index do |c, idx|
-          if !c.empty?
+          if !c.nil? and !c.empty?
             col_filled_count[idx] += 1
           end
         end
       end
+      return col_filled_count
+    end
 
-      # define a threshold (must be filed in >50% of the time)
-      min_filled_count = Integer(col_filled_count.max * 5/10)
-
-      # delete each column that isn't sufficiently filled in
+    def delete_cols_if_less_full_than_threshold(col_filled_count, min_filled_count)
       @num_cols = @rows.collect{ |r| r.length }.max
       Array(0..(@num_cols-1)).reverse.each do |idx|
         if col_filled_count[idx] < min_filled_count
@@ -221,7 +221,40 @@ module SecEdgar
           ## @log.debug("  keeping  column #{idx} (cols filled: #{col_filled_count[idx]} >= threshold: #{min_filled_count}") if @log
         end
       end
+    end
 
+    def delete_empty_columns
+
+      # delete completely empty columns
+      col_filled_count = get_col_filled_count
+      min_filled_count = 1
+      delete_cols_if_less_full_than_threshold(col_filled_count, min_filled_count)
+
+      # some sheets use separate TDs/cols to indent.  Undo this
+      prevcol      = 0
+      max_col_jump = 4
+      @rows.each do |r|
+        if r[0].nil? or r[0].empty?
+          indices = Array((0+1)..(prevcol+max_col_jump))
+          while !indices.empty?
+            idx = indices.shift
+            if !r[idx].nil? and !r[idx].empty?
+              tmp     = r[0] 
+              r[0]    = r[idx]
+              r[idx]  = tmp
+              indices = [] # done
+              prevcol = idx
+            end
+          end
+        else
+          prevcol = 0
+        end
+      end
+
+      # delete those with less than 30% of cells filled in
+      col_filled_count = get_col_filled_count
+      min_filled_count = Integer(col_filled_count.max * 3/10)
+      delete_cols_if_less_full_than_threshold(col_filled_count, min_filled_count)
     end
 
     def convert_rows_to_sheetrows

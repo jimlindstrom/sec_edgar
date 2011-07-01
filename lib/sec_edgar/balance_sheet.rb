@@ -66,6 +66,8 @@ module SecEdgar
     def validate
       super
 
+      write_to_csv("bs_post.csv")
+
       fail_if_equals("operational_assets", @operational_assets, nil)
       fail_if_equals("operational_liabs",  @operational_liabs,  nil)
       fail_if_equals("financial_assets",   @financial_assets,   nil)
@@ -78,6 +80,9 @@ module SecEdgar
       fail_if_equals("noa",                @noa,                nil)
       fail_if_equals("nfa",                @nfa,                nil)
       fail_if_equals("cse",                @cse,                nil)
+
+      fail_if_doesnt_equal("noa.length",   @noa.cols.length,    @nfa.cols.length)
+      fail_if_doesnt_equal("cse.length",   @cse.cols.length,    @noa.cols.length)
     end
 
   private
