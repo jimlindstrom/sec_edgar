@@ -136,18 +136,26 @@ module SecEdgar
     # Validating sheets to see that they've been properly parsed
     ###########################################################################
 
-    def fail_if_doesnt_equal(name_of_a, a, b)
+    def fail_if_doesnt_equal(name_of_a, a, b, str=nil)
       if a != b
         msg = "#{@name} validation fail: #{name_of_a} (#{a}) != b"
         @log.error(msg)
+        @log.error("Note: #{str}") if !str.nil?
+        filename = @name + String(Integer(Time.now.to_f))+".csv"
+        @log.error("see #{filename}")
+        write_to_csv(filename)
         raise ParseError, msg
       end
     end
 
-    def fail_if_equals(name_of_a, a, b)
+    def fail_if_equals(name_of_a, a, b, str=nil)
       if a == b
         msg = "#{@name} validation fail: #{name_of_a} (#{a}) != b"
         @log.error(msg)
+        @log.error("Note: #{str}") if !str.nil?
+        filename = @name + String(Integer(Time.now.to_f))+".csv"
+        @log.error("see #{filename}")
+        write_to_csv(filename)
         raise ParseError, msg
       end
     end
@@ -231,29 +239,28 @@ module SecEdgar
       delete_cols_if_less_full_than_threshold(col_filled_count, min_filled_count)
 
       # some sheets use separate TDs/cols to indent.  Undo this
-      prevcol      = 0
-      max_col_jump = 4
+      max_col = 1
       @rows.each do |r|
         if r[0].nil? or r[0].empty?
-          indices = Array((0+1)..(prevcol+max_col_jump))
+          indices = Array(1..max_col)
           while !indices.empty?
             idx = indices.shift
-            if !r[idx].nil? and !r[idx].empty?
-              tmp     = r[0] 
-              r[0]    = r[idx]
-              r[idx]  = tmp
+            if !r[idx].nil? and !r[idx].empty? 
+              if r[idx].val.nil?  # only swap columns if it doesn't parse as a number
+                tmp     = r[0] 
+                r[0]    = r[idx]
+                r[idx]  = tmp
+                max_col = [idx+1, max_col].max
+              end
               indices = [] # done
-              prevcol = idx
             end
           end
-        else
-          prevcol = 0
         end
       end
 
       # delete those with less than 30% of cells filled in
       col_filled_count = get_col_filled_count
-      min_filled_count = Integer(col_filled_count.max * 3/10)
+      min_filled_count = Integer(col_filled_count.max * 0.60)
       delete_cols_if_less_full_than_threshold(col_filled_count, min_filled_count)
     end
 
