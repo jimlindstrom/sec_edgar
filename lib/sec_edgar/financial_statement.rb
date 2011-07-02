@@ -38,10 +38,10 @@ module SecEdgar
     attr_accessor :base_multiplier
 
     BASE_MULTIPLIER_REGEXES =
-      [ /^in (millions|thousands)/,
-        /\(in[ \r\n]*(millions|thousands)/,
-        /\(in.(millions|thousands)/,
-        /\(unaudited, in.(millions|thousands)/ ]
+      [ /^in (millions|thousands|000s)/,
+        /\(in[ \r\n]*(millions|thousands|000s)/,
+        /\(in.(millions|thousands|000s)/,
+        /\(unaudited, in.(millions|thousands|000s)/ ]
   
     def initialize
       @report_dates = []
@@ -316,7 +316,7 @@ module SecEdgar
         @base_multiplier = 1000 * 1000 * 1000
       when "millions", "million"
         @base_multiplier = 1000 * 1000
-      when "thousands", "thousand"
+      when "thousands", "thousand", "000s"
         @base_multiplier = 1000
       else
         raise ParseError, "Unknown base multiplier #{str}"
