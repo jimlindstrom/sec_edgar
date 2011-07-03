@@ -1,9 +1,7 @@
 # sec_edgar_income_statement_spec.rb
 
 $LOAD_PATH << './lib'
-$LOAD_PATH << './specs'
 require 'sec_edgar'
-require 'sec_edgar_financial_statement_shared' # shared examples foor SecEdgar::FinancialStatement
 
 describe SecEdgar::IncomeStatement do
 
@@ -142,31 +140,29 @@ describe SecEdgar::IncomeStatement do
     end
   end
 
-  let(:create_fin_stmt) do
-
-    @bogus_filename = "/tmp/ao0gqq34q34g"
-
-    # load a primary one
-    @good_filename = "specs/testvectors/google/2010_03_31.html"
-
-    @tenq = SecEdgar::QuarterlyReport.new
-    @tenq.log = Logger.new('sec_edgar.log')
-    @tenq.log.level = Logger::DEBUG
-    @tenq.parse(@good_filename)
-    @fin_stmt = @tenq.inc_stmt
-
-    # load a second one (to test merging, etc)
-    @good_filename2 = "specs/testvectors/google/2011_03_31.html"
-
-    @tenq2 = SecEdgar::QuarterlyReport.new
-    @tenq2.log = Logger.new('sec_edgar.log')
-    @tenq2.log.level = Logger::DEBUG
-    @tenq2.parse(@good_filename2)
-    @fin_stmt2 = @tenq2.inc_stmt
-
-  end
-
-  ## it_should_behave_like 'SecEdgar::FinancialStatement' ## RE-ENABLE THIS LATER
+#  let(:create_fin_stmt) do
+#
+#    @bogus_filename = "/tmp/ao0gqq34q34g"
+#
+#    # load a primary one
+#    @good_filename = "specs/testvectors/google/2010_03_31.html"
+#
+#    @tenq = SecEdgar::QuarterlyReport.new
+#    @tenq.log = Logger.new('sec_edgar.log')
+#    @tenq.log.level = Logger::DEBUG
+#    @tenq.parse(@good_filename)
+#    @fin_stmt = @tenq.inc_stmt
+#
+#    # load a second one (to test merging, etc)
+#    @good_filename2 = "specs/testvectors/google/2011_03_31.html"
+#
+#    @tenq2 = SecEdgar::QuarterlyReport.new
+#    @tenq2.log = Logger.new('sec_edgar.log')
+#    @tenq2.log.level = Logger::DEBUG
+#    @tenq2.parse(@good_filename2)
+#    @fin_stmt2 = @tenq2.inc_stmt
+#
+#  end
 
   describe "#base_multiplier" do
     it "returns the base multiplier (e.g., 'in millions' or 'in thousands') for the statement" do

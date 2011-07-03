@@ -110,7 +110,7 @@ module SecEdgar
       while !table_elems.empty?
         elem = table_elems.shift
 
-        if @bal_sheet.nil? and elem.innerHTML =~ /[Aa]sset/ # some simple filter so that we don't scan more tables than we need to
+        if @bal_sheet.nil? and elem.innerHTML.downcase =~ /asset/ # some simple filter so that we don't scan more tables than we need to
           @log.info("parsing balance sheet at next table") if @log
           @bal_sheet = BalanceSheet.new
           @bal_sheet.log = @log if @log
@@ -124,7 +124,7 @@ module SecEdgar
           end
         end
 
-        if @inc_stmt.nil? and elem.innerHTML =~ /[Ii]ncome/ # some simple filter so that we don't scan more tables than we need to
+        if @inc_stmt.nil? and elem.innerHTML.downcase =~ /(income|earnings)/ # some simple filter so that we don't scan more tables than we need to
           @log.info("parsing income statement at next table") if @log
           @inc_stmt = IncomeStatement.new
           @inc_stmt.log = @log if @log

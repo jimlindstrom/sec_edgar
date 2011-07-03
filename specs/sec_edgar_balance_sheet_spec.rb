@@ -1,9 +1,7 @@
 # sec_edgar_balance_sheet_spec.rb
 
 $LOAD_PATH << './lib'
-$LOAD_PATH << './specs'
 require 'sec_edgar'
-require 'sec_edgar_financial_statement_shared' # shared examples foor SecEdgar::FinancialStatement
 
 describe SecEdgar::BalanceSheet do
 
@@ -35,8 +33,6 @@ describe SecEdgar::BalanceSheet do
   before(:all) do
     create_fin_stmt
   end
-
-  it_should_behave_like 'SecEdgar::FinancialStatement'
 
   ##############################################################################
   # Header Information

@@ -186,6 +186,8 @@ module SecEdgar
               row_out.push(cell)
 
               # in case there's a "colspan" - parse it and push some blank cells
+              # we push these AFTER the cell, assuming most of these are left-
+              # justified, and any content is really in the 1st column
               if cell_str.is_a? Hpricot::Elem
                 if !cell_str.attributes['colspan'].nil? and cell_str.attributes['colspan'] =~ /\d/
                   (Integer(cell_str.attributes['colspan'])-1).times do

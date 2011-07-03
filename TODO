@@ -1,9 +1,13 @@
 Bugs
 --------------------------------------------------------------------------------
-* assets training examples include garbage like "(in millions)", "assets", "current assets:", etc.
-* not able to handle TD indentation, vs spacing indentation (Attempted.  Not sure if it's working...)
-* not able to handle reports that are in the exhibits
-* not able to handle reports that have tables split across pages
+* bad columns are getting deleted.  Due to shifting?  Or to columns containing 
+  bogus data?  Or to not making a distinction between label columns and data 
+  columns?
+* Assets training examples include garbage like "(in millions)", "assets", 
+  "current assets:", etc.
+* Some income statements aren't as explicit about breaking out COGS
+* Not able to handle reports that are in the exhibits
+* Not able to handle reports that have tables split across pages
 
 Features
 --------------------------------------------------------------------------------
