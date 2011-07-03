@@ -41,7 +41,6 @@ module SecEdgar
       [ /^in[ \r\n]*(millions|thousands|000s)/,
         /\((millions|thousands|000s)[ \r\n]*except/,
         /\(in[ \r\n]*(millions|thousands|000s)/,
-        /\(in[ \r\n]*(millions|thousands|000s)/,
         /\(amounts[,]*[ \r\n]*in[ \r\n]*(millions|thousands|000s)/,
         /\(dollars[,]*[ \r\n]*in[ \r\n]*(millions|thousands|000s)/,
         /\(unaudited[,]*[ \r\n]*in[ \r\n]*(millions|thousands|000s)/ ]
@@ -141,7 +140,7 @@ module SecEdgar
 
     def fail_if_doesnt_equal(name_of_a, a, b, str=nil)
       if a != b
-        msg = "#{@name} validation fail: #{name_of_a} (#{a}) != b"
+        msg = "#{@name} validation fail: #{name_of_a} (#{a}) != b (#{b})"
         @log.error(msg)
         @log.error("Note: #{str}") if !str.nil?
         filename = @name + String(Integer(Time.now.to_f))+".csv"
@@ -153,7 +152,7 @@ module SecEdgar
 
     def fail_if_equals(name_of_a, a, b, str=nil)
       if a == b
-        msg = "#{@name} validation fail: #{name_of_a} (#{a}) != b"
+        msg = "#{@name} validation fail: #{name_of_a} (#{a}) != b (#{b})"
         @log.error(msg)
         @log.error("Note: #{str}") if !str.nil?
         filename = @name + String(Integer(Time.now.to_f))+".csv"

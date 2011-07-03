@@ -598,6 +598,65 @@ describe SecEdgar::IncomeStatement do
     end
   end
 
+#  context "when given revenue total, COGS total, gross margin total, and operating expenses (ALTR)" do
+#    describe "#re_operating_revenue" do
+#      filename = "/Users/jimlindstrom/code/sec_edgar/pagecache/c089089d40881e8393495a68229d0bce7e5767e8.html"
+#      @ten_q = SecEdgar::QuarterlyReport.new
+#      @ten_q.log = Logger.new('sec_edgar.log')
+#      @ten_q.log.level = Logger::DEBUG
+#      @ten_q.parse(filename)
+#
+#      @ten_q.inc_stmt.re_operating_revenue.cols[0].should be_within(0.1).of(1367224)
+#    end
+#    describe "#cost_of_revenue" do
+#      filename = "/Users/jimlindstrom/code/sec_edgar/pagecache/c089089d40881e8393495a68229d0bce7e5767e8.html"
+#      @ten_q = SecEdgar::QuarterlyReport.new
+#      @ten_q.log = Logger.new('sec_edgar.log')
+#      @ten_q.log.level = Logger::DEBUG
+#      @ten_q.parse(filename)
+#
+#      @ten_q.inc_stmt.cost_of_revenue.cols[0].should be_within(0.1).of(449750)
+#    end
+#    describe "#gross_margin" do
+#      filename = "/Users/jimlindstrom/code/sec_edgar/pagecache/c089089d40881e8393495a68229d0bce7e5767e8.html"
+#      @ten_q = SecEdgar::QuarterlyReport.new
+#      @ten_q.log = Logger.new('sec_edgar.log')
+#      @ten_q.log.level = Logger::DEBUG
+#      @ten_q.parse(filename)
+#
+#      @ten_q.inc_stmt.gross_margin.cols[0].should be_within(0.1).of(917474)
+#    end
+#  end
+#
+#  context "when given itemized revenue, itemized COGS, gross margin total, and an operating expenses label (ADVS)" do
+#    describe "#re_operating_revenue" do
+#      filename = "/Users/jimlindstrom/code/sec_edgar/pagecache/90331e9255590bbcf8836069d9cebff65dbe0294.html"
+#      @ten_q = SecEdgar::QuarterlyReport.new
+#      @ten_q.log = Logger.new('sec_edgar.log')
+#      @ten_q.log.level = Logger::DEBUG
+#      @ten_q.parse(filename)
+#
+#      @ten_q.inc_stmt.re_operating_revenue.cols[0].should be_within(0.1).of(215303)
+#    end
+#    describe "#cost_of_revenue" do
+#      filename = "/Users/jimlindstrom/code/sec_edgar/pagecache/90331e9255590bbcf8836069d9cebff65dbe0294.html"
+#      @ten_q = SecEdgar::QuarterlyReport.new
+#      @ten_q.log = Logger.new('sec_edgar.log')
+#      @ten_q.log.level = Logger::DEBUG
+#      @ten_q.parse(filename)
+#
+#      @ten_q.inc_stmt.cost_of_revenue.cols[0].should be_within(0.1).of(67890)
+#    end
+#    describe "#gross_margin" do
+#      filename = "/Users/jimlindstrom/code/sec_edgar/pagecache/90331e9255590bbcf8836069d9cebff65dbe0294.html"
+#      @ten_q = SecEdgar::QuarterlyReport.new
+#      @ten_q.log = Logger.new('sec_edgar.log')
+#      @ten_q.log.level = Logger::DEBUG
+#      @ten_q.parse(filename)
+#
+#      @ten_q.inc_stmt.cost_of_revenue.cols[0].should be_within(0.1).of(147413)
+#    end
+#  end
 
 end
  

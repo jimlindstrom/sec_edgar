@@ -87,7 +87,8 @@ module SecEdgar
 
         when :reading_revenues
           if row.label.downcase =~ /total/ or
-             row.label.downcase =~ /cost of revenue/
+             row.label.downcase =~ /cost of revenue/ or
+            (row.label.downcase == "" and !row.cols[0].nil?)
             @operating_revenue = row
             next_state = :reading_cost_of_revenue
           else
@@ -105,6 +106,11 @@ module SecEdgar
             @gross_margin.subtract(@cost_of_revenue)
             next_state = :reading_operating_expenses
             @operating_expense = SheetRow.new(@num_cols, 0.0)
+          elsif row.cols[0].nil? and
+               (row.label.downcase =~ /^expenses:/ or
+                row.label.downcase =~ /^costs and expenses:/ or
+                row.label.downcase =~ /^operating expenses:/ )
+            next_state = :reading_cost_of_revenue_in_operating_expenses
           elsif row.label.downcase =~ /gross profit/
             # FIXME: untested (test with ACLS)
             @gross_margin = row
@@ -119,14 +125,38 @@ module SecEdgar
             end
           end
 
+        when :reading_cost_of_revenue_in_operating_expenses
+          if row.label.downcase =~ /cost[s]* of/ 
+            if @cost_of_revenue.nil?
+              @cost_of_revenue = row
+            else
+              @cost_of_revenue.add(row)
+            end
+          elsif !row.cols[0].nil?
+            @gross_margin = @operating_revenue.clone
+            if @cost_of_revenue.nil?
+              @cost_of_revenue = SheetRow.new(@num_cols-1, 0.0)
+              @log.debug("numcols: #{@num_cols}") if @log
+            else
+              @gross_margin.subtract(@cost_of_revenue)
+            end
+
+            @operating_expense = row
+            @operating_expenses.push row
+            next_state = :reading_operating_expenses
+          end
+
         when :reading_operating_expenses
           if ( ( @operating_expenses.length > 1 ) and
                ( row.label.downcase =~ /^total/ or
                  row.label.downcase =~ /^operating expense[s]*/ or
                  row.label.downcase =~ /^operating costs and expenses/ or
                  row.label.downcase =~ /^operating income/ or
+                 row.label.downcase =~ /^operating loss/ or
                  row.label.downcase =~ /^operating \(loss\)/ or
                  row.label.downcase =~ /^income.*from operations/ or
+                 row.label.downcase =~ /^earnings before.*tax/ or
+                 row.label.downcase =~ /^income before.*tax/ or
                  row.label.downcase =~ /^operating costs and expenses/ ) ) or
              ( ( row.label == "" ) and !row.cols[0].nil? and !row.cols[1].nil? ) # AMD 2003 10-K has blank instead of the total
             @operating_income_from_sales_before_tax = @gross_margin.clone
