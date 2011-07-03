@@ -82,7 +82,9 @@ describe SecEdgar::QuarterlyReport do
       @tenq.parse(filename)
       @tenq.inc_stmt.base_multiplier.should == 1
     end
+  end
 
+  context "when base multiplier is not given and false positives exist elsewhere" do
     it "assumes a base multiplier of one (ALOT)" do
       filename="/Users/jimlindstrom/code/sec_edgar/pagecache/8e4fa9c2610fcb4342736ed5db17ce7226dfade2.html"
 

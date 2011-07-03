@@ -38,10 +38,13 @@ module SecEdgar
     attr_accessor :base_multiplier
 
     BASE_MULTIPLIER_REGEXES =
-      [ /^in (millions|thousands|000s)/,
+      [ /^in[ \r\n]*(millions|thousands|000s)/,
+        /\((millions|thousands|000s)[ \r\n]*except/,
         /\(in[ \r\n]*(millions|thousands|000s)/,
-        /\(in.(millions|thousands|000s)/,
-        /\(unaudited, in.(millions|thousands|000s)/ ]
+        /\(in[ \r\n]*(millions|thousands|000s)/,
+        /\(amounts[,]*[ \r\n]*in[ \r\n]*(millions|thousands|000s)/,
+        /\(dollars[,]*[ \r\n]*in[ \r\n]*(millions|thousands|000s)/,
+        /\(unaudited[,]*[ \r\n]*in[ \r\n]*(millions|thousands|000s)/ ]
   
     def initialize
       @report_dates = []
@@ -305,10 +308,13 @@ module SecEdgar
     ###########################################################################
 
     def parse_base_multiplier(table_elem)
-      result = table_elem.search_tree_reverse(BASE_MULTIPLIER_REGEXES, 10)
+      result = table_elem.search_tree_reverse(BASE_MULTIPLIER_REGEXES, 5)
       if result.nil?
-        @log.debug("couldn't find base multiplier") if @log
-        return false
+        # FIXME: this is dangerous because it assumes that our regexes are 
+        # exhaustive and our parsing is perfect
+        @log.info("couldn't find base multiplier, assuming 1") if @log
+        @base_multiplier = 1
+        return true
       end
 
       result[:str] =~ result[:regex]
@@ -321,8 +327,10 @@ module SecEdgar
       when "thousands", "thousand", "000s"
         @base_multiplier = 1000
       else
-        raise ParseError, "Unknown base multiplier #{str}"
+        raise ParseError, "Unknown base multiplier #{result[:str]}"
       end
+      @log.debug("base multiplier found (#{@base_multiplier}; \"#{result[:str]}\" =~ \"#{result[:regex]}\"") if @log
+      return true
     end
 
   end

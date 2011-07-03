@@ -15,6 +15,8 @@ module SecEdgar
           bscale = Proc.new { |a| a.collect { |x| x*1000.0 } }
         when 1000
           bscale = Proc.new { |a| a }
+        when 1
+          bscale = Proc.new { |a| a.collect { |x| x/1000.0 } }
         else
           raise TypeError, "unknown multiplier (#{@bal_sheet.base_multiplier})"
       end
@@ -23,6 +25,8 @@ module SecEdgar
           iscale = Proc.new { |a| a.collect { |x| x*1000.0 } }
         when 1000
           iscale = Proc.new { |a| a }
+        when 1
+          iscale = Proc.new { |a| a.collect { |x| x/1000.0 } }
         else
           raise TypeError, "unknown multiplier (#{@bal_sheet.base_multiplier})"
       end

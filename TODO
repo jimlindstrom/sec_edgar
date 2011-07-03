@@ -1,5 +1,7 @@
 Bugs
 --------------------------------------------------------------------------------
+* traversing upward for base multiplier is sometimes going out of control and
+  finding matches way below the table (e.g., ALOT should be 1 but is getting 1000)
 * bad columns are getting deleted.  Due to shifting?  Or to columns containing 
   bogus data?  Or to not making a distinction between label columns and data 
   columns?
@@ -31,6 +33,7 @@ Test Quality/Coverage
 
 Code Quality
 --------------------------------------------------------------------------------
+* FSS should be in dollars, not $000s
 * Think through whether merge should use original year's reported values, or 
   their possible restatement in later years
 * Shift some calculations from QuarterlyReport to FinancialStatementSummary, so 
