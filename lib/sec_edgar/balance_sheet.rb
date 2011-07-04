@@ -98,6 +98,8 @@ module SecEdgar
         when :waiting_for_cur_assets
           if row.label.downcase =~ /current assets[:]*/
             next_state = :reading_current_assets
+          elsif row.label.downcase =~ /^\(.*(thousand|million|000).*\)$/ 
+            # it's the base multiplier line.  ignore
           elsif row.label != "" and !row.cols[0].nil? 
             # if the values have started and we didn't see 'current ...', assume this stmt doesn't break out cur/non-cur
             @log.info("balance sheet parser. this stmt doesn't break out current assets...") if @log
@@ -115,11 +117,9 @@ module SecEdgar
           end
 
         when :reading_non_current_assets
-          if row.label.downcase =~ /total assets/
-            next_state = :waiting_for_cur_liabs
-            @total_assets = row
-          elsif row.label.downcase == '' and !row.cols[0].nil? and !row.cols[1].nil? 
-            # ... because, AMD 2003 10-k has a blank where you'd expect to see the total
+          if row.label.downcase =~ /total assets/ or
+             row.label.downcase =~ /^total$/ or
+             (row.label.gsub(/[^A-Za-z0-9]*/, "") == "" and !row.cols[0].nil? )
             next_state = :waiting_for_cur_liabs
             @total_assets = row
           else
@@ -159,7 +159,9 @@ module SecEdgar
           end
 
         when :reading_shareholders_equity
-          if row.label.downcase =~ /total.*(share|stock)holders.*equity/
+          if row.label.downcase =~ /total.*(share|stock)holders.*equity/ or
+             row.label.downcase =~ /^(share|stock)holders.*equity:/ or
+             (row.label.gsub(/[^A-Za-z0-9]*/, "") == "" and !row.cols[0].nil? )
             next_state = :done
             @total_equity = row
           else
@@ -168,11 +170,9 @@ module SecEdgar
 
         when :done
           # FIXME: this should be a 2nd-to-last state and should THEN go to done...
-          if row.label.downcase =~ /total liabilities and.*equity/
-            @total_liabs = row.clone
-            @total_liabs.subtract(@total_equity)
-          elsif row.label.downcase == '' and !row.cols[0].nil? and !row.cols[1].nil? 
-            # ... because, AMD 2003 10-k has a blank where you'd expect to see the total
+          if row.label.downcase =~ /total liabilities and.*equity/ or
+             row.label.downcase =~ /^total$/ or
+             (row.label.gsub(/[^A-Za-z0-9]*/, "") == "" and !row.cols[0].nil? )
             @total_liabs = row.clone
             @total_liabs.subtract(@total_equity)
           end

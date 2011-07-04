@@ -56,10 +56,14 @@ module SecEdgar
     ###########################################################################
  
     def parse(table_elem)
+      ts = String(Time.now.to_f)
+
       parse_table(table_elem)
+      #write_to_csv("a_#{ts}_.csv")
       return false if !parse_reporting_dates
 
       delete_empty_columns
+      #write_to_csv("b_#{ts}_.csv")
       convert_rows_to_sheetrows
 
       return parse_base_multiplier(table_elem)
@@ -175,36 +179,35 @@ module SecEdgar
 
     def parse_table(table_elem)
 
-      table_elem.children.each do |row_in| 
-        # FIXME: do this better with hpricot search for TR and TD
-        if row_in.is_a? Hpricot::Elem
-          row_out = []
-          if !row_in.children.nil?
-            row_in.children.each do |cell_str|
+      trs = table_elem.search("tr")
+      trs.each do |tr_item|
+        row_out = []
 
-              # parse the contents of this cell
-              cell = Cell.new { |c| c.log = @log }
-              cell.parse( String(cell_str.to_plain_text) )
-              row_out.push(cell)
+        tds = tr_item.search("th")
+        tds += tr_item.search("td") # FIXME there's probably a safer, one-line version that doesn't risk re-ordering them.
+        tds.each do |td_item|
 
-              # in case there's a "colspan" - parse it and push some blank cells
-              # we push these AFTER the cell, assuming most of these are left-
-              # justified, and any content is really in the 1st column
-              if cell_str.is_a? Hpricot::Elem
-                if !cell_str.attributes['colspan'].nil? and cell_str.attributes['colspan'] =~ /\d/
-                  (Integer(cell_str.attributes['colspan'])-1).times do
-                    cell = Cell.new { |c| c.log = @log }
-                    cell.parse("") # not sure if this is needed
-                    row_out.push(cell)
-                  end
-                end
+          # parse the contents of this cell
+          cell = Cell.new { |c| c.log = @log }
+          cell.parse( String(td_item.to_plain_text) )
+          row_out.push(cell)
+
+          # in case there's a "colspan" - parse it and push some blank cells
+          # we push these AFTER the cell, assuming most of these are left-
+          # justified, and any content is really in the 1st of the spanned columns
+          if !td_item.attributes['colspan'].nil?
+            if td_item.attributes['colspan'] =~ /\d+/
+              colspan = Integer(td_item.attributes['colspan'])
+              (colspan-1).times do
+                cell = Cell.new { |c| c.log = @log }
+                cell.parse("") # FIXME: not sure if this is needed
+                row_out.push(cell)
               end
-
             end
           end
 
-          @rows.push(row_out) if !row_out.empty?
         end
+        @rows.push(row_out) if !row_out.empty?
       end
 
     end
