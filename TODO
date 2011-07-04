@@ -2,18 +2,13 @@ Bugs
 --------------------------------------------------------------------------------
 * traversing upward for base multiplier is sometimes going out of control and
   finding matches way below the table (e.g., ALOT should be 1 but is getting 1000)
-* bad columns are getting deleted.  Due to shifting?  Or to columns containing 
-  bogus data?  Or to not making a distinction between label columns and data 
-  columns?
 * Assets training examples include garbage like "(in millions)", "assets", 
   "current assets:", etc.
-* Some income statements aren't as explicit about breaking out COGS
 * Not able to handle reports that are in the exhibits
 * Not able to handle reports that have tables split across pages
 
 Features
 --------------------------------------------------------------------------------
-* Use classifiers todo state transitions?
 * Update the classifiers to do word digrams/trigrams, to see if word ordering 
   improves upon accuracy.  Use other features, too, like # of rows in the 
   current section, so far; absence/presence of values; etc

@@ -5,7 +5,6 @@ module SecEdgar
       @s = Lingua::Stemmer.new
   
       if do_training
-        # FIXME: this needs rewritten so that it doesn't rely on an external file.  Turn it into an eval'able file?
         retrain
       end
     end
@@ -19,7 +18,8 @@ module SecEdgar
   private
   
     def retrain
-      fh = File.new("classifier_training/equity_training_scored.txt", "r")
+      filename = Pathname.new(__FILE__).dirname.parent.parent + "classifier_training/equity_training_scored.txt"
+      fh = File.new(filename, "r")
       fh.readlines.each do |cur_line|
       
         cur_tokens = cur_line.split(' ')

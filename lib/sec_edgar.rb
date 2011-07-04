@@ -1,3 +1,4 @@
+require 'pathname'
 require 'mechanize'
 require 'hpricot'
 require 'logger'
