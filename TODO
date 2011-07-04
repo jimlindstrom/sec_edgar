@@ -1,5 +1,7 @@
 Bugs
 --------------------------------------------------------------------------------
+* INTC summary has crazy growth rates.  Need to re-calc in FSS?
+* NVDA summary makes it look like a victim of base multiplier bug
 * traversing upward for base multiplier is sometimes going out of control and
   finding matches way below the table (e.g., ALOT should be 1 but is getting 1000)
 * Assets training examples include garbage like "(in millions)", "assets", 

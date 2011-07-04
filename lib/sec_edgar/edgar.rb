@@ -9,8 +9,13 @@ module SecEdgar
       @agent = nil
       @page_cache = PageCache.new
       @index_cache = IndexCache.new
+      @summary_cache = SummaryCache.new
     end
-      
+
+    ############################################################################
+    # Basic info
+    ############################################################################
+     
     def good_ticker?(ticker)
       # first search for the company in question
       agent = create_agent
@@ -24,16 +29,83 @@ module SecEdgar
 
       return !form.nil?
     end
-    
-    def get_fin_stmts(ticker, save_folder)
-      return nil if not good_ticker?(ticker)
+     
+    ############################################################################
+    # Download all 10-K's, merge into FinancialStatementSummary and return it
+    ############################################################################
 
-      reports  = get_10q_reports(ticker, save_folder)
-      reports += get_10k_reports(ticker, save_folder)
-      return reports
+    def get_summary_of_10ks(ticker) 
+      # check whether the summary for this ticker has already retrieved, in the cache
+      if @summary_cache.exists?(ticker)
+        return @summary_cache.lookup(ticker)
+      end
+
+      # reports for this ticker wasn't in the cache, so retrieve them
+      summary = get_summary_of_10ks_from_scratch(ticker)
+
+      # insert this set of reports into the cache
+      if !summary.nil?
+        @summary_cache.insert(ticker, summary)
+      end
+
+      return summary
     end
 
-    def get_10q_reports(ticker, save_folder)
+    def get_summary_of_10ks_from_scratch(ticker) 
+      rept_type = '10-K'
+      download_path = "/tmp/"
+      
+      reports = lookup_reports(ticker)
+      raise ParseError, "couldn't lookup reports for #{ticker}" if reports==[] or reports.nil?
+      reports.keep_if{ |r| r[:type] == rept_type }
+      reports.sort! {|a,b| a[:date] <=> b[:date] }
+      raise ParseError, "No 10-K's found for #{ticker}" if reports==[] or reports.nil?
+      
+      files = get_reports(reports, download_path)
+      raise ParseError, "couldn't get reports for #{ticker}" if files==[] or files.nil?
+      
+      summary = nil
+      while summary == nil
+        if files.empty?
+          raise ParseError, "ERROR: ran out of files to parse..."
+        end
+        ten_k = AnnualReport.new 
+        ten_k.log = Logger.new('sec_edgar.log')
+        ten_k.log.level = Logger::DEBUG
+        begin
+          cur_file = files.shift
+          ten_k.parse(cur_file)
+          summary = ten_k.get_summary
+          ten_k = nil
+        rescue ParseError => e
+          puts "WARNING: #{cur_file}: #{ e } (#{ e.class })!"
+        end
+      end
+      
+      while !files.empty?
+        ten_k2 = AnnualReport.new 
+        ten_k2.log = Logger.new('sec_edgar.log')
+        ten_k2.log.level = Logger::DEBUG
+        begin
+          cur_file = files.shift
+          ten_k2.parse(cur_file)
+          summary2 = ten_k2.get_summary
+        rescue ParseError => e
+          puts "WARNING: #{cur_file}: #{ e } (#{ e.class })!"
+        end
+      
+        summary.merge(summary2) if !summary2.nil?
+      end
+
+      return summary
+    end
+   
+    ############################################################################
+    # get_* retrieve the 10q's or 10k's, parse them, and return an array of 
+    # AnnualReport's or QuarterlyReport's
+    ############################################################################
+
+    def get_10q_reports(ticker, save_folder) # FIXME: get rid of 'save_folder' and just use /tmp'
       reports = []
 
       @log.info("Getting 10q reports for #{ticker}") if @log
@@ -48,7 +120,7 @@ module SecEdgar
       return reports
     end
 
-    def get_10k_reports(ticker, save_folder)
+    def get_10k_reports(ticker, save_folder) # FIXME: get rid of 'save_folder' and just use /tmp'
       reports = []
 
       @log.info("Getting 10k reports for #{ticker}") if @log
@@ -62,10 +134,14 @@ module SecEdgar
       end
       return reports
     end
+ 
+    ############################################################################
+    # download_* retrieve the 10q's or 10k's and save them into a folder
+    ############################################################################
 
     # returns list of files downloaded
     # returns nil if bad ticker
-    def download_10q_reports(ticker, save_folder)
+    def download_10q_reports(ticker, save_folder) # FIXME: should be private?
       @log.info("Downloading 10q reports for #{ticker}") if @log
       return nil if not good_ticker?(ticker)
 
@@ -79,7 +155,7 @@ module SecEdgar
  
     # returns list of files downloaded
     # returns nil if bad ticker
-    def download_10k_reports(ticker, save_folder)
+    def download_10k_reports(ticker, save_folder) # FIXME: should be private?
       @log.info("Downloading 10k reports for #{ticker}") if @log
       if !good_ticker?(ticker)
         @log.error("#{ticker} is not a good ticker") if @log
@@ -93,7 +169,12 @@ module SecEdgar
       report_files = get_reports(reports, save_folder)
       return report_files
     end
-    
+     
+    ############################################################################
+    # these look up the company's reports and return an array of hashes that
+    # describe each report's date, type, and URL.
+    ############################################################################
+
     def lookup_reports(ticker)
       # check whether the reports for this ticker has already retrieved, in the cache
       if @index_cache.exists?(ticker)
@@ -111,7 +192,7 @@ module SecEdgar
       return reports
     end
 
-    def lookup_reports_from_scratch(ticker)
+    def lookup_reports_from_scratch(ticker) # FIXME: should be private?
       @log.info("Looking up reports for #{ticker}") if @log
       if !good_ticker?(ticker)
         @log.error("#{ticker} is not a good ticker") if @log
@@ -152,8 +233,8 @@ module SecEdgar
 
       return reports
     end
-
-    def get_reports(reports, save_folder)
+     
+    def get_reports(reports, save_folder) # FIXME: should be private?
       @log.info("Getting reports") if @log
       files = []
 

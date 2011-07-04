@@ -36,10 +36,11 @@ end
 
 namespace :cache do
 
-  desc "Removes all downloaded reports from the page cache"
+  desc "Removes all downloaded reports from the caches"
   task :clean do
     sh "rm pagecache/*"
     sh "rm indexcache/*"
+    sh "rm summarycache/*"
   end
 
 end

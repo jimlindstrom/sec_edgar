@@ -82,67 +82,70 @@ module SecEdgar
 
     end
 
-    def simple_valuation(g_1, g_2, g_long, rho_f)
-      oi_0 = @oi_from_sales_after_tax.last
-      oi_1 = oi_0 * (1.0 + g_1)
-
-      v_noa_0 = oi_1 * (1.0 / (rho_f - 1.0)) * ((g_2 - g_long)/(rho_f - g_long))
-      v_nfa_0 = @nfa.last
-      v_e_0 = v_noa_0 + v_nfa_0
-
-      return v_e_0
+    def write_to_yaml(filename)
+      fh = File.open(filename, "w")
+      fh.puts(@report_dates.to_s)
+      fh.puts(@oa.to_s)
+      fh.puts(@ol.to_s)
+      fh.puts(@noa.to_s)
+      fh.puts(@fa.to_s)
+      fh.puts(@fl.to_s)
+      fh.puts(@nfa.to_s)
+      fh.puts(@cse.to_s)
+      fh.puts(@composition_ratio.to_s)
+      fh.puts(@noa_growth.to_s)
+      fh.puts(@cse_growth.to_s)
+      fh.puts(@operating_revenue.to_s)
+      fh.puts(@gross_margin.to_s)
+      fh.puts(@oi_from_sales_after_tax.to_s)
+      fh.puts(@oi_after_tax.to_s)
+      fh.puts(@financing_income.to_s)
+      fh.puts(@net_income.to_s)
+      fh.puts(@gm.to_s)
+      fh.puts(@sales_pm.to_s)
+      fh.puts(@pm.to_s)
+      fh.puts(@fi_over_sales.to_s)
+      fh.puts(@ni_over_sales.to_s)
+      fh.puts(@sales_over_noa.to_s)
+      fh.puts(@revenue_growth.to_s)
+      fh.puts(@core_oi_growth.to_s)
+      fh.puts(@oi_growth.to_s)
+      fh.puts(@fi_over_nfa.to_s)
+      fh.puts(@re_oi.to_s)
+      fh.close
     end
 
-    def sf2_valuation(forecast_data, rho_f, thousands_of_shares)
-      cur_year = Integer(@report_dates.last)
-      yrs_to_discount = 0
-      sum_pv_re_oi = 0.0
-
-      forecast_data.each do |f|
-        cur_year += 1
-        @report_dates.push String(cur_year) + "E"
-
-        # forecast revenue
-        @revenue_growth.push f["revenue_growth"]
-        @operating_revenue.push @operating_revenue.last * (1.0 + f["revenue_growth"])
-
-        # forecast core OI
-        @sales_pm.push f["sales_pm"]
-        @oi_from_sales_after_tax.push @operating_revenue.last * f["sales_pm"]
-
-        # forecast financing income
-        @fi_over_nfa.push f["fi_over_nfa"]
-        @financing_income.push @nfa.last * f["fi_over_nfa"]
-
-        # forecast earnings
-        @net_income.push (@oi_from_sales_after_tax.last + @financing_income.last)
-
-        # forecast balance sheet
-        @sales_over_noa.push f["ato"]
-        @noa.push @operating_revenue.last / f["ato"]
-
-        @cse.push @cse.last + @net_income.last
-
-        @nfa.push @cse.last - @noa.last
-
-        # calculate residual operating income
-        @re_oi.push @oi_from_sales_after_tax.last - ((rho_f - 1.0) * @noa.last(2).first )
-
-        # discount things
-        yrs_to_discount += 1
-        pv_re_oi = @re_oi.last / (rho_f ** yrs_to_discount)
-        sum_pv_re_oi += pv_re_oi
-      end
-
-      # calculate continuing value
-      cv = @re_oi.last * (1 + forecast_data.last["revenue_growth"]) / (rho_f - (1.0 + forecast_data.last["revenue_growth"]))
-
-      v_enterprise_0 = sum_pv_re_oi + cv
-      v_cse_0 = v_enterprise_0 + @nfa.last
-
-      v_cse_share_0 = v_cse_0 / thousands_of_shares
-      return v_cse_share_0 
-
+    def read_from_yaml(filename)
+      fh = File.open(filename, "r")
+      @report_dates = eval fh.gets
+      @oa = eval fh.gets
+      @ol = eval fh.gets
+      @noa = eval fh.gets
+      @fa = eval fh.gets
+      @fl = eval fh.gets
+      @nfa = eval fh.gets
+      @cse = eval fh.gets
+      @composition_ratio = eval fh.gets
+      @noa_growth = eval fh.gets
+      @cse_growth = eval fh.gets
+      @operating_revenue = eval fh.gets
+      @gross_margin = eval fh.gets
+      @oi_from_sales_after_tax = eval fh.gets
+      @oi_after_tax = eval fh.gets
+      @financing_income = eval fh.gets
+      @net_income = eval fh.gets
+      @gm = eval fh.gets
+      @sales_pm = eval fh.gets
+      @pm = eval fh.gets
+      @fi_over_sales = eval fh.gets
+      @ni_over_sales = eval fh.gets
+      @sales_over_noa = eval fh.gets
+      @revenue_growth = eval fh.gets
+      @core_oi_growth = eval fh.gets
+      @oi_growth = eval fh.gets
+      @fi_over_nfa = eval fh.gets
+      @re_oi = eval fh.gets
+      fh.close
     end
 
     def to_csv(filename)

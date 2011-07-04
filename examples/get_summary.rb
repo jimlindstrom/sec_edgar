@@ -19,10 +19,3 @@ ten_k.parse(files.first)
 
 summary = ten_k.get_summary
 
-g_1        = 1.15
-g_2        = 1.10
-g_long     = 1.04
-rho_f      = 1.10
-num_shares = 322250.0
-per_share_valuation = summary.simple_valuation(g_1, g_2, g_long, rho_f) / num_shares
-

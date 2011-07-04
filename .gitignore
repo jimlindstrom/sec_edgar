@@ -2,8 +2,9 @@
 .bundle
 Gemfile.lock
 pkg/*
-pagecache
-indexcache
+pagecache/*
+indexcache/*
+summarycache/*
 file.csv
 sec_edgar.log
 summary.csv
