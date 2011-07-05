@@ -11,22 +11,16 @@ Bugs
 
 Features
 --------------------------------------------------------------------------------
+* Cache aging (refresh at some point)
 * Update the classifiers to do word digrams/trigrams, to see if word ordering 
   improves upon accuracy.  Use other features, too, like # of rows in the 
   current section, so far; absence/presence of values; etc
-* Introduce a confidence measure.  I.e., how do the balance sheet classifiers 
-  look?  How stable are the financials off of which we're anchoring (e.g., ATO, 
-  PM, etc.)?
 * Parse "Net income attributable to noncontrolling interests" (which occurs 
   after the "Net Income" line).  See, e.g., Yahoo's 2011 Q1 (Mar 31) 10-Q
-* Automate the forecasting
 
 Test Quality/Coverage
 --------------------------------------------------------------------------------
 * Increase the number of companies/years tested in balance sheet specs
-* Revisit the shared financial statement specs.  Get rid of them?
-* Use metaprogramming to periodically change the tests to use a different set of
-  companies
 
 Code Quality
 --------------------------------------------------------------------------------
@@ -39,4 +33,5 @@ Code Quality
 
 Packaging
 --------------------------------------------------------------------------------
-
+* Get rid of remaining absolute pathnames
+* Add an install script (download test vectors, etc, etc)

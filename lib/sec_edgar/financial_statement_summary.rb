@@ -39,6 +39,113 @@ module SecEdgar
     def initialize
     end
 
+    ###########################################################################
+    # Validating sheets to see that they've been properly parsed
+    ###########################################################################
+
+    def fail_if_doesnt_equal(name_of_a, a, b, str=nil)
+      if a.class == Float or b.class == Float
+        pct_delta = ( a - b) / ( (a+b)/2 )
+        if pct_delta > 0.01 or pct_delta < -0.01
+          not_equal = true
+        else
+          not_equal = false
+        end
+      else
+        not_equal = a != b
+      end
+      if not_equal
+        msg = "#{@name} validation fail: #{name_of_a} (#{a}) != b (#{b})"
+        @log.error(msg)
+        @log.error("Note: #{str}") if !str.nil?
+        filename = @name + String(Integer(Time.now.to_f))+".csv"
+        @log.error("see #{filename}")
+        write_to_csv(filename)
+        raise ParseError, msg
+      end
+    end
+
+    def fail_if_equals(name_of_a, a, b, str=nil)
+      if a.class == Float or b.class == Float
+        pct_delta = ( a - b) / ( (a+b)/2 )
+        if pct_delta > 0.01 or pct_delta < -0.01
+          equals = false
+        else
+          equals = true
+        end
+      else
+        equals = a == b
+      end
+      if equals
+        msg = "#{@name} validation fail: #{name_of_a} (#{a}) != b (#{b})"
+        @log.error(msg)
+        @log.error("Note: #{str}") if !str.nil?
+        filename = @name + String(Integer(Time.now.to_f))+".csv"
+        @log.error("see #{filename}")
+        write_to_csv(filename)
+        raise ParseError, msg
+      end
+    end
+
+    def fail_if_less_than(name_of_a, a, b, str=nil)
+      if a < b
+        msg = "#{@name} validation fail: #{name_of_a} (#{a}) !< b (#{b})"
+        @log.error(msg)
+        @log.error("Note: #{str}") if !str.nil?
+        filename = @name + String(Integer(Time.now.to_f))+".csv"
+        @log.error("see #{filename}")
+        write_to_csv(filename)
+        raise ParseError, msg
+      end
+    end
+
+    def fail_if_greater_than(name_of_a, a, b, str=nil)
+      if a > b
+        msg = "#{@name} validation fail: #{name_of_a} (#{a}) !> b (#{b})"
+        @log.error(msg)
+        @log.error("Note: #{str}") if !str.nil?
+        filename = @name + String(Integer(Time.now.to_f))+".csv"
+        @log.error("see #{filename}")
+        write_to_csv(filename)
+        raise ParseError, msg
+      end
+    end
+
+    def validate
+      # balance sheet validations
+      fail_if_doesnt_equal("noa.length", @noa.length, @nfa.length)
+      fail_if_doesnt_equal("noa.length", @noa.length, @cse.length)
+      @noa.length.times do |idx|
+        fail_if_doesnt_equal("cse[#{idx}]", @cse[idx], @noa[idx]+@nfa[idx])
+      end
+
+      # growth rate validations
+      @noa_growth.length.times do |idx|
+        if !@noa_growth[idx].nil?
+          fail_if_less_than(   "@noa_growth[#{idx}]", @noa_growth[idx], -100) # -1000% growth
+          fail_if_greater_than("@noa_growth[#{idx}]", @noa_growth[idx],  100) # +1000% growth
+        end
+      end
+      @cse_growth.length.times do |idx|
+        if !@cse_growth[idx].nil?
+          fail_if_less_than(   "@cse_growth[#{idx}]", @cse_growth[idx], -100) # -1000% growth
+          fail_if_greater_than("@cse_growth[#{idx}]", @cse_growth[idx],  100) # +1000% growth
+        end
+      end
+      @revenue_growth.length.times do |idx|
+        if !@revenue_growth[idx].nil?
+          fail_if_less_than(   "@revenue_growth[#{idx}]", @revenue_growth[idx], -100) # -1000% growth
+          fail_if_greater_than("@revenue_growth[#{idx}]", @revenue_growth[idx],  100) # +1000% growth
+        end
+      end
+      @sales_over_noa.length.times do |idx|
+        if !@sales_over_noa[idx].nil?
+          fail_if_less_than(   "@sales_over_noa[#{idx}]", @sales_over_noa[idx], -100)
+          fail_if_greater_than("@sales_over_noa[#{idx}]", @sales_over_noa[idx],  100)
+        end
+      end
+    end
+
     def merge(fss2)
 
       # choose which indices to use (not all reports will the same set of dates, or be sorted
@@ -82,7 +189,7 @@ module SecEdgar
 
     end
 
-    def write_to_yaml(filename)
+    def write_to_yaml(filename) # FIXME: This isn't technically yaml...
       fh = File.open(filename, "w")
       fh.puts(@report_dates.to_s)
       fh.puts(@oa.to_s)
