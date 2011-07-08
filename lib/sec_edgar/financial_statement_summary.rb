@@ -36,7 +36,10 @@ module SecEdgar
     attr_accessor :fi_over_nfa
     attr_accessor :re_oi # ReOI (at 10%)
 
+    attr_accessor :extra_csv_rows
+
     def initialize
+      @extra_csv_rows = []
     end
 
     ###########################################################################
@@ -306,6 +309,10 @@ module SecEdgar
         csv << ["  FI / NFA",        ] + @fi_over_nfa
         csv << ["  ReOI (at 10%)",   ] + @re_oi
         csv << [""]
+
+        @extra_csv_rows.each do |row|
+          csv << row
+        end
 
       end
     end
