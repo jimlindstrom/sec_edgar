@@ -1,7 +1,7 @@
 module SecEdgar
 
   class PageCache
-    PAGE_CACHE_FOLDER = '~/.sec_edgar/pagecache/'
+    PAGE_CACHE_FOLDER = File.expand_path '~/.sec_edgar/pagecache/'
 
     def initialize
     end

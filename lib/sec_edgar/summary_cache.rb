@@ -1,7 +1,7 @@
 module SecEdgar
 
   class SummaryCache
-    SUMMARY_CACHE_FOLDER = '~/.sec_edgar/summarycache/'
+    SUMMARY_CACHE_FOLDER = File.expand_path '~/.sec_edgar/summarycache/'
 
     def initialize
     end
