@@ -10,6 +10,7 @@ require 'digest/sha1'
 require "sec_edgar/version"
 
 require "sec_edgar/parse_error.rb"
+require "sec_edgar/cache.rb"
 require "sec_edgar/page_cache.rb"
 require "sec_edgar/summary_cache.rb"
 require "sec_edgar/index_cache.rb"

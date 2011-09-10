@@ -1,7 +1,7 @@
 module SecEdgar
 
   class SummaryCache
-    SUMMARY_CACHE_FOLDER = '/Users/jimlindstrom/code/sec_edgar/summarycache/'
+    SUMMARY_CACHE_FOLDER = '~/.sec_edgar/summarycache/'
 
     def initialize
     end
@@ -11,6 +11,10 @@ module SecEdgar
     end
 
     def insert(key, value)
+      if ! FileTest.exists? SUMMARY_CACHE_FOLDER
+        recursive_mkdir SUMMARY_CACHE_FOLDER
+      end
+
       value.write_to_yaml(key_to_cache_filename(key))
     end
 
@@ -21,7 +25,7 @@ module SecEdgar
     end
 
     def key_to_cache_filename(key)
-      return SUMMARY_CACHE_FOLDER + Digest::SHA1.hexdigest(key) + ".yaml"
+      return SUMMARY_CACHE_FOLDER + "/" + Digest::SHA1.hexdigest(key) + ".yaml"
     end
 
   end

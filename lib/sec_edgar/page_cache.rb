@@ -1,7 +1,7 @@
 module SecEdgar
 
   class PageCache
-    PAGE_CACHE_FOLDER = '/Users/jimlindstrom/code/sec_edgar/pagecache/'
+    PAGE_CACHE_FOLDER = '~/.sec_edgar/pagecache/'
 
     def initialize
     end
@@ -11,6 +11,10 @@ module SecEdgar
     end
 
     def insert(key, value)
+      if ! FileTest.exists? PAGE_CACHE_FOLDER
+        recursive_mkdir PAGE_CACHE_FOLDER
+      end
+
       fh = File.open(key_to_cache_filename(key), "w")
       fh.write(value)
       fh.close
@@ -24,7 +28,7 @@ module SecEdgar
     end
 
     def key_to_cache_filename(key)
-      return PAGE_CACHE_FOLDER + Digest::SHA1.hexdigest(key) + ".html"
+      return PAGE_CACHE_FOLDER + "/" + Digest::SHA1.hexdigest(key) + ".html"
     end
 
   end
