@@ -1,3 +1,7 @@
+NOTE: I am no longer developping sec_edgar.  For a much cleaner (more comprehensive test suite, 
+better modeled) replacement, based on XBRL reports (rather than hand-parsing raw text submissions),
+check out <https://github.com/jimlindstrom/FinModeling>.
+
 ## Overview
 
 sec_edgar is a gem that can download financial statements from the SEC/Edgar 
